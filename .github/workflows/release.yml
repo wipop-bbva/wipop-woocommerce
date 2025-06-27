@@ -22,6 +22,11 @@ jobs:
       - name: Install dependencies and run tests
         working-directory: wipop
         run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+              npm ci
+            else
+              npm install
+            fi  
           npm ci
           npm test --if-present
 
