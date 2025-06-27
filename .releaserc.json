@@ -1,0 +1,21 @@
+{
+  "branches": ["main"],
+  "preset": "conventionalcommits",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "wipop/package.json"]
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": ["wipop.zip"]
+      }
+    ]
+  ]
+}

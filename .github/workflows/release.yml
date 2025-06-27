@@ -1,0 +1,42 @@
+# TODO cache?
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies and run tests
+        working-directory: wipop
+        run: |
+          npm ci
+          npm test --if-present
+
+      - name: Build plugin without tests and so
+        working-directory: wipop
+        run: |
+          npm run build
+          cd ..
+          zip -r wipop.zip wipop \
+            -x "wipop/src/*" \
+            -x "wipop/node_modules/*" \
+            -x "wipop/tests/*" \
+            -x "wipop/.*"
+
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release

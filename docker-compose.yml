@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6.5-php8.2-apache
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "1"
+    volumes:
+      - ./wipop:/var/www/html/wp-content/plugins/wipop 
+      - ./uploads:/var/www/html/wp-content/uploads
+
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - wordpress
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    command: bash
+
+volumes:
+  db_data:
