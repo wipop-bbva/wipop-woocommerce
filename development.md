@@ -33,3 +33,25 @@ npm run start
 
 ## 6. Activar el plugin
 En **Plugins → Wipop** activa el plugin.
+
+# Wipop WooCommerce plugin
+
+Para tener linting de WooCommerce en el IDE con Intelephense
+tenemos que instalar los *stubs* de WooCommerce como dependencia de desarrollo:
+
+## PHP Linting
+```bash
+cd wipop
+composer require --dev php-stubs/woocommerce-stubs
+```
+
+Después añadimos en el IDE la ruta al paquete en la configuración de Intelephense:
+
+```json
+
+  "intelephense.environment.includePaths": [
+    "${workspaceFolder}/vendor/php-stubs/woocommerce-stubs"
+  ]
+```
+
+Es posible que tengamos que subir el límite de max memory de la extensión para que pueda leer los stubs pues superan 1MB
