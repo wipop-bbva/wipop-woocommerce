@@ -8,6 +8,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: wipop
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,7 +23,6 @@ jobs:
           node-version: 18
 
       - name: Install dependencies and run tests
-        working-directory: wipop
         run: |
           if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
               npm ci
@@ -31,7 +33,6 @@ jobs:
           npm test --if-present
 
       - name: Build plugin without tests and so
-        working-directory: wipop
         run: |
           npm run build
           cd ..
