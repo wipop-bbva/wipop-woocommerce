@@ -30,6 +30,7 @@
 		"@woocommerce/eslint-plugin": "^2.2.0",
 		"@wordpress/prettier-config": "^4.26.0",
 		"@wordpress/scripts": "^24.6.0",
+		"conventional-changelog-conventionalcommits": "^9.0.0",
 		"semantic-release": "^24.2.6"
 	}
 }
