@@ -1,6 +1,7 @@
 {
   "branches": ["main"],
   "preset": "conventionalcommits",
+  "npmPublish": false,
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
@@ -19,3 +20,4 @@
     ]
   ]
 }
+  
