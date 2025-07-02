@@ -42,6 +42,10 @@ jobs:
             -x "wipop/tests/*" \
             -x "wipop/.*"
 
+      - name: Switch to Node 20 for Semantic Release
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
