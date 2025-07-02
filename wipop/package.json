@@ -1,7 +1,8 @@
 {
 	"name": "wipop",
 	"version": "0.1.0",
-	"author": "The WordPress Contributors",
+	"private": true,
+	"author": "Secture Labs S.L.",
 	"license": "GPL-3.0+",
 	"main": "build/index.js",
 	"scripts": {
