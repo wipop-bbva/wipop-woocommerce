@@ -61,5 +61,7 @@ Es posible que tengamos que subir el límite de max memory de la extensión para
 
 ### Actualizar POT
 * vendor/bin/wp i18n make-pot . languages/wipop.pot --domain=wipop --allow-root
+### Compilar los .PO a .MO
+* vendor/bin/wp i18n make-mo languages
 ### Actualizar mapa de clases
 * composer dump-autoload
