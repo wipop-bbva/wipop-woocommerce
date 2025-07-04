@@ -4,6 +4,10 @@ namespace Wipop\Core;
 
 defined('ABSPATH') || exit;
 
+/**
+ * Webhook handler for Wipop payment gateways.
+ * https://woocommercesite.com/?wc-api=wipop_bbva
+ */
 class Webhook
 {
   public static function init()
