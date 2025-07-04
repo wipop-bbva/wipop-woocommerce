@@ -17,6 +17,7 @@ if ( ! defined( 'WIPOP_PLUGIN_FILE' ) ) {
 
 require_once WIPOP_PLUGIN_PATH . 'core/logger.php';
 require_once WIPOP_PLUGIN_PATH . 'core/loader.php';
+require_once WIPOP_PLUGIN_PATH . 'core/webhook.php';
 require_once WIPOP_PLUGIN_PATH . 'admin/admin.php';
 
 
@@ -37,6 +38,7 @@ function wipop_init() {
 
     Wipop\Core\Loader::init();
     new Wipop\Admin\Admin();
+    Wipop\Core\Webhook::init();
 }
 
 add_action( 'plugins_loaded', 'wipop_init' );
