@@ -3,7 +3,7 @@
 	"description": "WooCommerce plugin",
 	"autoload": {
 		"psr-4": {
-			"Wipop\\": "includes/"
+			"Wipop\\": ""
 		}
 	},
 	"require-dev": {
