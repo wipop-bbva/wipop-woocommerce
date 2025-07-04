@@ -1,0 +1,128 @@
+# Copyright (C) 2025 Secture Labs S.L.
+# This file is distributed under the same license as the Wipop plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Wipop 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wipop\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-07-04T11:00:14+00:00\n"
+"PO-Revision-Date: 2025-07-04T11:00:14+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: wipop\n"
+"Language: ca\n"
+
+#. Plugin Name of the plugin
+#: wipop.php build/index.js:1 src/index.js:69
+msgid "Wipop"
+msgstr ""
+
+#. Description of the plugin
+#: wipop.php
+msgid "Pasarelas de pago BBVA (Bizum, Tarjeta y Google Pay) para WooCommerce."
+msgstr ""
+
+#. Author of the plugin
+#: wipop.php
+msgid "Secture Labs S.L."
+msgstr ""
+
+#: gateways/bizum/bizum.php:17
+msgid "Bizum"
+msgstr ""
+
+#: gateways/bizum/bizum.php:18
+msgid "Paga con Bizum"
+msgstr ""
+
+#: gateways/bizum/bizum.php:32
+msgid "Enable Bizum"
+msgstr ""
+
+#: gateways/bizum/bizum.php:34
+msgid "Enable Bizum payments"
+msgstr ""
+
+#: gateways/bizum/templates/payment.php:1
+msgid "Pay securely using Bizum."
+msgstr ""
+
+#: gateways/card/card.php:17
+msgid "Card"
+msgstr ""
+
+#: gateways/card/card.php:18
+msgid "Paga con Card"
+msgstr ""
+
+#: gateways/card/card.php:32
+msgid "Enable Card"
+msgstr ""
+
+#: gateways/card/card.php:34
+msgid "Enable Card payments"
+msgstr ""
+
+#: gateways/card/templates/payment.php:1
+msgid "Pay securely using Card."
+msgstr ""
+
+#: gateways/googlepay/gpay.php:17
+msgid "GPay"
+msgstr ""
+
+#: gateways/googlepay/gpay.php:18
+msgid "Paga con GPay"
+msgstr ""
+
+#: gateways/googlepay/gpay.php:32
+msgid "Enable GPay"
+msgstr ""
+
+#: gateways/googlepay/gpay.php:34
+msgid "Enable GPay payments"
+msgstr ""
+
+#: gateways/googlepay/templates/payment.php:1
+msgid "Pay securely using GPay."
+msgstr ""
+
+#: wipop.php:23
+msgid "Wipop requires WooCommerce to be installed and active."
+msgstr ""
+
+#: build/index.js:1 src/index.js:18
+msgid "Search"
+msgstr ""
+
+#: build/index.js:1 src/index.js:29
+msgid "Dropdown"
+msgstr ""
+
+#: build/index.js:1 src/index.js:43
+msgid "Pill shaped container"
+msgstr ""
+
+#: build/index.js:1 src/index.js:45
+msgid "Pill Shape Container"
+msgstr ""
+
+#: build/index.js:1 src/index.js:50
+msgid "Spinner"
+msgstr ""
+
+#: build/index.js:1 src/index.js:56
+msgid "Datepicker"
+msgstr ""
+
+#: build/index.js:1 src/index.js:58
+msgid "I am a datepicker!"
+msgstr ""
+
+#: block.json
+msgctxt "block title"
+msgid "Wipop"
+msgstr ""
