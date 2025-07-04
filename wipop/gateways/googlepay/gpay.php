@@ -1,6 +1,6 @@
 <?php
 
-namespace Wipop\Gateways\GPay;
+namespace Wipop\Gateways\Googlepay;
 
 use WC_Payment_Gateway;
 use Wipop\Core\Logger;
