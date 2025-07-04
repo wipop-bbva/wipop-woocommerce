@@ -107,7 +107,7 @@ class Admin {
                 'type'        => 'select',
                 'class'       => 'Wipop-environment',
                 'placeholder' => 'Entorno de pruebas o producción',
-                'description' => __( 'Introduce tu Merchant ID del BBVA.', 'Wipop' ),
+                'description' => __( 'Elige el entorno de pagos.', 'Wipop' ),
                 'options'     => array(
                     'sandbox'    => __( 'Sandbox', 'Wipop' ),
                     'production' => __( 'Producción', 'Wipop' ),

@@ -15,6 +15,7 @@ if ( ! defined( 'WIPOP_PLUGIN_FILE' ) ) {
     define( 'WIPOP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 }
 
+require_once WIPOP_PLUGIN_PATH . 'core/logger.php';
 require_once WIPOP_PLUGIN_PATH . 'core/loader.php';
 require_once WIPOP_PLUGIN_PATH . 'admin/admin.php';
 
