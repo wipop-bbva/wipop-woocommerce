@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-04T11:00:14+00:00\n"
-"PO-Revision-Date: 2025-07-04T11:00:14+00:00\n"
+"POT-Creation-Date: 2025-07-04T17:05:20+00:00\n"
+"PO-Revision-Date: 2025-07-04T17:05:20+00:00\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wipop\n"
 "Language: eu\n"
 
 #. Plugin Name of the plugin
-#: wipop.php build/index.js:1 src/index.js:69
+#: wipop.php build/index.js:225 src/index.js:69 build/index.js:126
 msgid "Wipop"
 msgstr ""
 
@@ -28,6 +28,50 @@ msgstr ""
 #. Author of the plugin
 #: wipop.php
 msgid "Secture Labs S.L."
+msgstr ""
+
+#: admin/admin.php:83 admin/admin.php:94
+msgid "Wipop Settings"
+msgstr ""
+
+#: admin/admin.php:106
+msgid "Merchant ID"
+msgstr ""
+
+#: admin/admin.php:110
+msgid "Introduce tu Merchant ID del BBVA."
+msgstr ""
+
+#: admin/admin.php:114
+msgid "Entorno"
+msgstr ""
+
+#: admin/admin.php:118
+msgid "Elige el entorno de pagos."
+msgstr ""
+
+#: admin/admin.php:120
+msgid "Sandbox"
+msgstr ""
+
+#: admin/admin.php:121
+msgid "Producción"
+msgstr ""
+
+#: admin/admin.php:126
+msgid "Public Key"
+msgstr ""
+
+#: admin/admin.php:130
+msgid "Introduce tu Public Key del BBVA."
+msgstr ""
+
+#: admin/admin.php:134
+msgid "Private Key"
+msgstr ""
+
+#: admin/admin.php:138
+msgid "Introduce tu Private Key del BBVA."
 msgstr ""
 
 #: gateways/bizum/bizum.php:17
@@ -90,35 +134,35 @@ msgstr ""
 msgid "Pay securely using GPay."
 msgstr ""
 
-#: wipop.php:23
+#: wipop.php:25
 msgid "Wipop requires WooCommerce to be installed and active."
 msgstr ""
 
-#: build/index.js:1 src/index.js:18
+#: build/index.js:182 src/index.js:18 build/index.js:75
 msgid "Search"
 msgstr ""
 
-#: build/index.js:1 src/index.js:29
+#: build/index.js:192 src/index.js:29 build/index.js:86
 msgid "Dropdown"
 msgstr ""
 
-#: build/index.js:1 src/index.js:43
+#: build/index.js:206 src/index.js:43 build/index.js:100
 msgid "Pill shaped container"
 msgstr ""
 
-#: build/index.js:1 src/index.js:45
+#: build/index.js:209 src/index.js:45 build/index.js:102
 msgid "Pill Shape Container"
 msgstr ""
 
-#: build/index.js:1 src/index.js:50
+#: build/index.js:212 src/index.js:50 build/index.js:107
 msgid "Spinner"
 msgstr ""
 
-#: build/index.js:1 src/index.js:56
+#: build/index.js:216 src/index.js:56 build/index.js:113
 msgid "Datepicker"
 msgstr ""
 
-#: build/index.js:1 src/index.js:58
+#: build/index.js:218 src/index.js:58 build/index.js:115
 msgid "I am a datepicker!"
 msgstr ""
 

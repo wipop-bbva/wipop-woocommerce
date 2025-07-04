@@ -24,7 +24,7 @@ class Admin {
      */
     public function register_settings() {
         register_setting( 'Wipop_group', $this->option_name );
-        add_settings_section( 'Wipop_main', '', '__return_false', 'Wipop' );
+        add_settings_section( 'Wipop_main', '', '__return_false', 'wipop' );
 
         foreach ( $this->get_fields() as $key => $field ) {
             add_settings_field(
@@ -74,7 +74,7 @@ class Admin {
     public function add_menu() {
         add_submenu_page(
             'woocommerce',
-            __( 'Wipop Settings', 'Wipop' ),
+            __( 'Wipop Settings', 'wipop' ),
             'Wipop',
             'manage_options',
             'Wipop',
@@ -84,7 +84,7 @@ class Admin {
 
     public function settings_page() {
         echo '<div class="wrap">';
-        echo '<h1>' . esc_html__( 'Wipop Settings', 'Wipop' ) . '</h1>';
+        echo '<h1>' . esc_html__( 'Wipop Settings', 'wipop' ) . '</h1>';
         echo '<form method="post" action="options.php">';
         settings_fields( 'Wipop_group' );
         do_settings_sections( 'Wipop' );
@@ -95,39 +95,39 @@ class Admin {
     private function get_fields() {
         return array(
             'merchant_id' => array(
-                'title'       => __( 'Merchant ID', 'Wipop' ),
+                'title'       => __( 'Merchant ID', 'wipop' ),
                 'type'        => 'text',
                 'class'       => 'Wipop-merchant-id',
                 'placeholder' => 'Tu Merchant ID',
-                'description' => __( 'Introduce tu Merchant ID del BBVA.', 'Wipop' ),
+                'description' => __( 'Introduce tu Merchant ID del BBVA.', 'wipop' ),
                 'default'     => '',
             ),
             'environment' => array(
-                'title'       => __( 'Entorno', 'Wipop' ),
+                'title'       => __( 'Entorno', 'wipop' ),
                 'type'        => 'select',
                 'class'       => 'Wipop-environment',
                 'placeholder' => 'Entorno de pruebas o producción',
-                'description' => __( 'Elige el entorno de pagos.', 'Wipop' ),
+                'description' => __( 'Elige el entorno de pagos.', 'wipop' ),
                 'options'     => array(
-                    'sandbox'    => __( 'Sandbox', 'Wipop' ),
-                    'production' => __( 'Producción', 'Wipop' ),
+                    'sandbox'    => __( 'Sandbox', 'wipop' ),
+                    'production' => __( 'Producción', 'wipop' ),
                 ),
                 'default'     => 'sandbox',
             ),
             'public_key' => array(
-                'title'       => __( 'Public Key', 'Wipop' ),
+                'title'       => __( 'Public Key', 'wipop' ),
                 'type'        => 'text',
                 'class'       => 'Wipop-public-key',
                 'placeholder' => 'Tu Clave Pública',
-                'description' => __( 'Introduce tu Public Key del BBVA.', 'Wipop' ),
+                'description' => __( 'Introduce tu Public Key del BBVA.', 'wipop' ),
                 'default'     => '',
             ),
             'private_key' => array(
-                'title'       => __( 'Private Key', 'Wipop' ),
+                'title'       => __( 'Private Key', 'wipop' ),
                 'type'        => 'text',
                 'class'       => 'Wipop-private-key',
                 'placeholder' => 'Tu Clave Privada',
-                'description' => __( 'Introduce tu Private Key del BBVA.', 'Wipop' ),
+                'description' => __( 'Introduce tu Private Key del BBVA.', 'wipop' ),
                 'default'     => '',
             ),
         );

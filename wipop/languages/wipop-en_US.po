@@ -9,15 +9,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-04T11:00:14+00:00\n"
-"PO-Revision-Date: 2025-07-04T11:00:14+00:00\n"
+"POT-Creation-Date: 2025-07-04T17:05:20+00:00\n"
+"PO-Revision-Date: 2025-07-04T17:05:20+00:00\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wipop\n"
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Plugin Name of the plugin
-#: wipop.php build/index.js:1 src/index.js:69
+#: wipop.php build/index.js:225 src/index.js:69 build/index.js:126
 msgid "Wipop"
 msgstr "Wipop"
 
@@ -30,6 +30,50 @@ msgstr "Pasarelas de pago BBVA (Bizum, Tarjeta y Google Pay) para WooCommerce."
 #: wipop.php
 msgid "Secture Labs S.L."
 msgstr "Secture Labs S.L."
+
+#: admin/admin.php:83 admin/admin.php:94
+msgid "Wipop Settings"
+msgstr "Wipop Settings"
+
+#: admin/admin.php:106
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+#: admin/admin.php:110
+msgid "Introduce tu Merchant ID del BBVA."
+msgstr "Introduce tu Merchant ID del BBVA."
+
+#: admin/admin.php:114
+msgid "Entorno"
+msgstr "Entorno"
+
+#: admin/admin.php:118
+msgid "Elige el entorno de pagos."
+msgstr "Elige el entorno de pagos."
+
+#: admin/admin.php:120
+msgid "Sandbox"
+msgstr "Sandbox"
+
+#: admin/admin.php:121
+msgid "Producción"
+msgstr "Producción"
+
+#: admin/admin.php:126
+msgid "Public Key"
+msgstr "Public Key"
+
+#: admin/admin.php:130
+msgid "Introduce tu Public Key del BBVA."
+msgstr "Introduce tu Public Key del BBVA."
+
+#: admin/admin.php:134
+msgid "Private Key"
+msgstr "Private Key"
+
+#: admin/admin.php:138
+msgid "Introduce tu Private Key del BBVA."
+msgstr "Introduce tu Private Key del BBVA."
 
 #: gateways/bizum/bizum.php:17
 msgid "Bizum"
@@ -91,35 +135,35 @@ msgstr "Enable GPay payments"
 msgid "Pay securely using GPay."
 msgstr "Pay securely using GPay."
 
-#: wipop.php:23
+#: wipop.php:25
 msgid "Wipop requires WooCommerce to be installed and active."
 msgstr "Wipop requires WooCommerce to be installed and active."
 
-#: build/index.js:1 src/index.js:18
+#: build/index.js:182 src/index.js:18 build/index.js:75
 msgid "Search"
 msgstr "Search"
 
-#: build/index.js:1 src/index.js:29
+#: build/index.js:192 src/index.js:29 build/index.js:86
 msgid "Dropdown"
 msgstr "Dropdown"
 
-#: build/index.js:1 src/index.js:43
+#: build/index.js:206 src/index.js:43 build/index.js:100
 msgid "Pill shaped container"
 msgstr "Pill shaped container"
 
-#: build/index.js:1 src/index.js:45
+#: build/index.js:209 src/index.js:45 build/index.js:102
 msgid "Pill Shape Container"
 msgstr "Pill Shape Container"
 
-#: build/index.js:1 src/index.js:50
+#: build/index.js:212 src/index.js:50 build/index.js:107
 msgid "Spinner"
 msgstr "Spinner"
 
-#: build/index.js:1 src/index.js:56
+#: build/index.js:216 src/index.js:56 build/index.js:113
 msgid "Datepicker"
 msgstr "Datepicker"
 
-#: build/index.js:1 src/index.js:58
+#: build/index.js:218 src/index.js:58 build/index.js:115
 msgid "I am a datepicker!"
 msgstr "I am a datepicker!"
 

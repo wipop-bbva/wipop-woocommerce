@@ -59,8 +59,14 @@ Es posible que tengamos que subir el límite de max memory de la extensión para
 
 ## Comandos útiles
 
-### Actualizar POT
+### Actualizar .POT
 * vendor/bin/wp i18n make-pot . languages/wipop.pot --domain=wipop --allow-root
+### Crear los .PO del .POT
+ msginit --no-translator --input=languages/wipop.pot --locale=ca     --output-file=languages/wipop-ca.po
+ msginit --no-translator --input=languages/wipop.pot --locale=eu     --output-file=languages/wipop-eu.po
+ msginit --no-translator --input=languages/wipop.pot --locale=gl_ES --output-file=languages/wipop-gl_ES.po
+ msginit --no-translator --input=languages/wipop.pot --locale=en_US --output-file=languages/wipop-en_US.po
+ msginit --no-translator --input=languages/wipop.pot --locale=es_ES --output-file=languages/wipop-es_ES.po
 ### Compilar los .PO a .MO
 * vendor/bin/wp i18n make-mo languages
 ### Actualizar mapa de clases
