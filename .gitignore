@@ -5,11 +5,10 @@ Thumbs.db
 
 # IDE files
 .idea
-.vscode/*
 project.xml
 project.properties
 .project
-.settings*
+
 *.sublime-project
 *.sublime-workspace
 .sublimelinterrc
@@ -72,11 +71,10 @@ Thumbs.db
 
 # IDE files
 .idea
-.vscode/*
+
 project.xml
 project.properties
 .project
-.settings*
 *.sublime-project
 *.sublime-workspace
 .sublimelinterrc
@@ -128,3 +126,4 @@ lib/vendor/
 contributors.md
 contributors.html
 
+wipop/.php-cs-fixer.cache

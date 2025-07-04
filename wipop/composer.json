@@ -11,7 +11,8 @@
 		"automattic/jetpack-autoloader": "^2",
 		"php-stubs/woocommerce-stubs": "^9.9",
 		"wp-cli/wp-cli-bundle": "^2.12",
-		"wp-cli/i18n-command": "^2.6"
+		"wp-cli/i18n-command": "^2.6",
+		"friendsofphp/php-cs-fixer": "^3.76"
 	},
 	"config": {
 		"allow-plugins": {
