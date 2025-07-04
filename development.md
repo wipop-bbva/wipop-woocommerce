@@ -55,3 +55,11 @@ Después añadimos en el IDE la ruta al paquete en la configuración de Inteleph
 ```
 
 Es posible que tengamos que subir el límite de max memory de la extensión para que pueda leer los stubs pues superan 1MB
+
+
+## Comandos útiles
+
+### Actualizar POT
+* vendor/bin/wp i18n make-pot . languages/wipop.pot --domain=wipop --allow-root
+### Actualizar mapa de clases
+* composer dump-autoload
