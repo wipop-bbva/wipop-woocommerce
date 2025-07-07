@@ -127,3 +127,6 @@ contributors.md
 contributors.html
 
 wipop/.php-cs-fixer.cache
+
+# release file
+wipop.zip
