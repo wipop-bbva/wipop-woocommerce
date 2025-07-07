@@ -19,6 +19,7 @@ class Gateway extends WC_Payment_Gateway {
         $this->init_settings();
 
         $this->enabled = $this->get_option('enabled');
+        $this->title   = $this->get_option('title');
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
     }
@@ -31,6 +32,13 @@ class Gateway extends WC_Payment_Gateway {
             'label'   => __('Enable Card payments', 'wipop'),
             'default' => 'no',
           ),
+          'title' => array(
+            'title'       => __('Checkout title', 'wipop'),
+            'type'        => 'text',
+            'description' => __('Title that the customer will see at payment.', 'wipop'),
+            'default'     => __('Pay with Card', 'wipop'),
+            'desc_tip'    => true,
+          )
         );
     }
 

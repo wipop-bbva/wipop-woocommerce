@@ -106,6 +106,7 @@ dist/
 # Project files
 node_modules/
 vendor/
+uploads/
 
 # TypeScript files
 tsconfig.tsbuildinfo

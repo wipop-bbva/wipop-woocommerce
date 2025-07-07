@@ -18,19 +18,27 @@ class Gateway extends WC_Payment_Gateway {
         $this->init_form_fields();
         $this->init_settings();
 
-        $this->enabled = $this->get_option('enabled');
+        $this->enabled     = $this->get_option('enabled');
+        $this->title       = $this->get_option('title');
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
     }
 
     public function init_form_fields() {
         $this->form_fields = array(
-          'enabled' => array(
-            'title'   => __('Enable Bizum', 'wipop'),
-            'type'    => 'checkbox',
-            'label'   => __('Enable Bizum payments', 'wipop'),
-            'default' => 'no',
-          ),
+            'enabled' => array(
+                'title'   => __('Enable Bizum', 'wipop'),
+                'type'    => 'checkbox',
+                'label'   => __('Enable Bizum payments', 'wipop'),
+                'default' => 'no',
+            ),
+            'title' => array(
+                'title'       => __('Checkout title', 'wipop'),
+                'type'        => 'text',
+                'description' => __('Title that the customer will see at payment.', 'wipop'),
+                'default'     => __('Pay with Bizum', 'wipop'),
+                'desc_tip'    => true,
+            )
         );
     }
 
