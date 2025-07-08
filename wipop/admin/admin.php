@@ -13,64 +13,33 @@ class Admin {
      *
      * @var string
      */
-    private $option_name = 'Wipop_settings';
-
-    public function __construct() {
-        add_action('admin_menu', array( $this, 'add_menu' ));
-        add_action('admin_init', array( $this, 'register_settings' ));
-    }
+    private $option_name = 'wipop_settings';
 
     /**
-     * Register settings fields.
+     * Page slug for settings page.
+     *
+     * @var string
      */
-    public function register_settings() {
-        register_setting('Wipop_group', $this->option_name);
-        add_settings_section('Wipop_main', '', '__return_false', 'wipop');
+    private $page_slug = 'wipop';
 
-        foreach ($this->get_fields() as $key => $field) {
-            add_settings_field(
-                $key,
-                $field['title'],
-                array( $this, 'render_field' ),
-                'Wipop',
-                'Wipop_main',
-                array( 'key' => $key, 'field' => $field )
-            );
-        }
+    /**
+     * Settings group slug.
+     *
+     * @var string
+     */
+    private $group_slug = 'wipop_group';
+
+    /**
+     * Settings section slug.
+     *
+     * @var string
+     */
+    private $section_slug = 'wipop_main';
+
+    public function __construct() {
+        add_action('admin_menu', [ $this, 'add_menu' ]);
+        add_action('admin_init', [ $this, 'register_settings' ]);
     }
-
-
-    public function render_field($args) {
-        $options = (array) get_option($this->option_name);
-        $key     = $args['key'];
-        $field   = $args['field'];
-        $value   = isset($options[ $key ]) ? $options[ $key ] : $field['default'];
-
-        switch ($field['type']) {
-            case 'text':
-                printf(
-                    '<input type="text" class="%s" name="%s[%s]" value="%s" placeholder="%s"/>',
-                    esc_attr($field['class']),
-                    esc_attr($this->option_name),
-                    esc_attr($key),
-                    esc_attr($value),
-                    esc_attr($field['placeholder'])
-                );
-                break;
-            case 'select':
-                printf('<select class="%s" name="%s[%s]">', esc_attr($field['class']), esc_attr($this->option_name), esc_attr($key));
-                foreach ($field['options'] as $id => $label) {
-                    printf('<option value="%s" %s>%s</option>', esc_attr($id), selected($value, $id, false), esc_html($label));
-                }
-                echo '</select>';
-                break;
-        }
-
-        if (! empty($field['description'])) {
-            printf('<p class="description">%s</p>', esc_html($field['description']));
-        }
-    }
-
 
     public function add_menu() {
         add_submenu_page(
@@ -78,59 +47,130 @@ class Admin {
             __('Wipop Settings', 'wipop'),
             'Wipop',
             'manage_options',
-            'Wipop',
-            array( $this, 'settings_page' )
+            $this->page_slug,
+            [ $this, 'settings_page' ]
         );
+    }
+
+    public function register_settings() {
+        register_setting($this->group_slug, $this->option_name);
+
+        add_settings_section(
+            $this->section_slug,
+            '',
+            '__return_false',
+            $this->page_slug
+        );
+
+        foreach ($this->get_fields() as $key => $field) {
+            add_settings_field(
+                $key,
+                $field['title'],
+                [ $this, 'render_field' ],
+                $this->page_slug,
+                $this->section_slug,
+                [ 'key' => $key, 'field' => $field ]
+            );
+        }
+    }
+
+    public function render_field($args) {
+        $options = (array) get_option($this->option_name);
+        $key     = $args['key'];
+        $field   = $args['field'];
+        $value   = $options[ $key ] ?? $field['default'];
+
+        switch ($field['type']) {
+            case 'text':
+                printf(
+                    '<input type="text" class="%1$s" name="%2$s[%3$s]" value="%4$s" placeholder="%5$s" />',
+                    esc_attr($field['class']),
+                    esc_attr($this->option_name),
+                    esc_attr($key),
+                    esc_attr($value),
+                    esc_attr($field['placeholder'])
+                );
+                break;
+
+            case 'select':
+                printf(
+                    '<select class="%1$s" name="%2$s[%3$s]">',
+                    esc_attr($field['class']),
+                    esc_attr($this->option_name),
+                    esc_attr($key)
+                );
+                foreach ($field['options'] as $opt_value => $opt_label) {
+                    printf(
+                        '<option value="%1$s"%2$s>%3$s</option>',
+                        esc_attr($opt_value),
+                        selected($value, $opt_value, false),
+                        esc_html($opt_label)
+                    );
+                }
+                echo '</select>';
+                break;
+        }
+
+        if (! empty($field['description'])) {
+            printf(
+                '<p class="description">%s</p>',
+                esc_html($field['description'])
+            );
+        }
     }
 
     public function settings_page() {
-        echo '<div class="wrap">';
-        echo '<h1>' . esc_html__('Wipop Settings', 'wipop') . '</h1>';
-        echo '<form method="post" action="options.php">';
-        settings_fields('Wipop_group');
-        do_settings_sections('Wipop');
+        ?>
+        <div class="wrap">
+            <h1><?php esc_html_e('Wipop Settings', 'wipop'); ?></h1>
+            <form method="post" action="options.php">
+                <?php
+                    settings_fields($this->group_slug);
+        do_settings_sections($this->page_slug);
         submit_button();
-        echo '</form></div>';
+        ?>
+            </form>
+        </div>
+        <?php
     }
 
     private function get_fields() {
-        return array(
-            'merchant_id' => array(
+        return [
+            'merchant_id' => [
                 'title'       => __('Merchant ID', 'wipop'),
                 'type'        => 'text',
-                'class'       => 'Wipop-merchant-id',
-                'placeholder' => 'Tu Merchant ID',
+                'class'       => 'wipop-merchant-id',
+                'placeholder' => __('Tu Merchant ID', 'wipop'),
                 'description' => __('Introduce tu Merchant ID del BBVA.', 'wipop'),
                 'default'     => '',
-            ),
-            'environment' => array(
+            ],
+            'environment' => [
                 'title'       => __('Entorno', 'wipop'),
                 'type'        => 'select',
-                'class'       => 'Wipop-environment',
-                'placeholder' => 'Entorno de pruebas o producción',
-                'description' => __('Elige el entorno de pagos.', 'wipop'),
-                'options'     => array(
+                'class'       => 'wipop-environment',
+                'options'     => [
                     'sandbox'    => __('Sandbox', 'wipop'),
                     'production' => __('Producción', 'wipop'),
-                ),
+                ],
+                'description' => __('Elige el entorno de pagos.', 'wipop'),
                 'default'     => 'sandbox',
-            ),
-            'public_key' => array(
+            ],
+            'public_key'  => [
                 'title'       => __('Public Key', 'wipop'),
                 'type'        => 'text',
-                'class'       => 'Wipop-public-key',
-                'placeholder' => 'Tu Clave Pública',
+                'class'       => 'wipop-public-key',
+                'placeholder' => __('Tu Clave Pública', 'wipop'),
                 'description' => __('Introduce tu Public Key del BBVA.', 'wipop'),
                 'default'     => '',
-            ),
-            'private_key' => array(
+            ],
+            'private_key' => [
                 'title'       => __('Private Key', 'wipop'),
                 'type'        => 'text',
-                'class'       => 'Wipop-private-key',
-                'placeholder' => 'Tu Clave Privada',
+                'class'       => 'wipop-private-key',
+                'placeholder' => __('Tu Clave Privada', 'wipop'),
                 'description' => __('Introduce tu Private Key del BBVA.', 'wipop'),
                 'default'     => '',
-            ),
-        );
+            ],
+        ];
     }
 }
