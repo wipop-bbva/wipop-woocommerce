@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/secture/wipop-woocommerce/compare/v1.0.0...v1.0.1) (2025-07-08)
+
+### Bug Fixes
+
+* **admin:** unify slugs for settings page to display form fields ([#6](https://github.com/secture/wipop-woocommerce/issues/6)) ([1f059cc](https://github.com/secture/wipop-woocommerce/commit/1f059cc8a389949797ba133eeaeb605e79105d5f))
+
 ## 1.0.0 (2025-07-04)
 
 ### Features
