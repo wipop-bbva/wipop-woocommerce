@@ -34,13 +34,12 @@ jobs:
       - name: Build plugin without tests and so
         run: |
           npm run build
-          cd ..
-          zip -r wipop.zip wipop \
-            -x "wipop/src/*" \
-            -x "wipop/node_modules/*" \
-            -x "wipop/tests/*" \
-            -x "wipop/.*"
-          mv wipop.zip wipop/
+     
+          zip -r wipop.zip . \
+            -x "src/*" \
+            -x "node_modules/*" \
+            -x "tests/*" \
+            -x ".*"
 
       - name: Switch to Node 20 for Semantic Release
         uses: actions/setup-node@v4
