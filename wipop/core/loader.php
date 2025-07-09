@@ -10,6 +10,9 @@ defined('ABSPATH') || exit;
 class Loader {
     public static function init() {
         add_filter('woocommerce_payment_gateways', array( __CLASS__, 'register_gateways' ));
+
+        require_once WIPOP_PLUGIN_PATH . 'admin/Product/RecurringPaymentSettings.php';
+        \Wipop\Admin\Product\RecurringPaymentSettings::init();
     }
 
     public static function register_gateways($gateways) {
