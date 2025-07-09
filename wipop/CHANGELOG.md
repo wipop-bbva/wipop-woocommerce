@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/secture/wipop-woocommerce/compare/v1.0.1...v1.0.2) (2025-07-09)
+
+### Bug Fixes
+
+* **release:** package zip without root directory ([#8](https://github.com/secture/wipop-woocommerce/issues/8)) ([04e86a0](https://github.com/secture/wipop-woocommerce/commit/04e86a07824b3580d6c2e5ceec5d309b1bf0bbc2))
+
 ## [1.0.1](https://github.com/secture/wipop-woocommerce/compare/v1.0.0...v1.0.1) (2025-07-08)
 
 ### Bug Fixes
