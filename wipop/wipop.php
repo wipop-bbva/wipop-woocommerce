@@ -43,3 +43,9 @@ function wipop_init() {
 }
 
 add_action('plugins_loaded', 'wipop_init');
+
+function wipop_activate() {
+    \Wipop\Core\Logger::log('Wipop plugin activated', 'info');
+}
+
+register_activation_hook(WIPOP_PLUGIN_FILE, 'wipop_activate');

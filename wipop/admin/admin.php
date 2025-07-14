@@ -2,6 +2,8 @@
 
 namespace Wipop\Admin;
 
+use Wipop\Core\Logger;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -39,6 +41,12 @@ class Admin {
     public function __construct() {
         add_action('admin_menu', [ $this, 'add_menu' ]);
         add_action('admin_init', [ $this, 'register_settings' ]);
+        add_action(
+            'update_option_' . $this->option_name,
+            [ __CLASS__, 'log_settings_update' ],
+            10,
+            3
+        );
     }
 
     public function add_menu() {
@@ -172,5 +180,9 @@ class Admin {
                 'default'     => '',
             ],
         ];
+    }
+
+    public static function log_settings_update($old_value, $new_value, $option_name) {
+        Logger::log('Wipop settings updated.', 'info');
     }
 }
