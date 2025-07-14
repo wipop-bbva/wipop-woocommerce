@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/secture/wipop-woocommerce/compare/v1.0.2...v1.1.0) (2025-07-14)
+
+### Features
+
+* **admin:** enforce minimum length of 6 characters on text fields ([#11](https://github.com/secture/wipop-woocommerce/issues/11)) ([c89d304](https://github.com/secture/wipop-woocommerce/commit/c89d3040b69c576ed65f7bd9ad83027ef6ead709))
+
 ## [1.0.2](https://github.com/secture/wipop-woocommerce/compare/v1.0.1...v1.0.2) (2025-07-09)
 
 ### Bug Fixes
