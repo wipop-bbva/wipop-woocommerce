@@ -61,7 +61,11 @@ class Admin {
     }
 
     public function register_settings() {
-        register_setting($this->group_slug, $this->option_name);
+        register_setting(
+            $this->group_slug,
+            $this->option_name,
+            [ $this, 'fields_validator' ]
+        );
 
         add_settings_section(
             $this->section_slug,
@@ -82,11 +86,37 @@ class Admin {
         }
     }
 
+    public function fields_validator($input) {
+        $valid = [];
+        $old   = (array) get_option($this->option_name, []);
+
+        foreach ($this->get_fields() as $key => $field) {
+            $value = trim((string) ($input[$key] ?? ''));
+
+            if ($field['type'] === 'text' && strlen($value) < 6) {
+                add_settings_error(
+                    $this->option_name,
+                    $key,
+                    sprintf(
+                        __('%s must have at least 6 characters.', 'wipop'),
+                        $field['title']
+                    ),
+                    'error'
+                );
+                $value = $old[$key] ?? '';
+            }
+
+            $valid[$key] = sanitize_text_field($value);
+        }
+
+        return $valid;
+    }
+
     public function render_field($args) {
-        $options = (array) get_option($this->option_name);
+        $options = (array) get_option($this->option_name, []);
         $key     = $args['key'];
         $field   = $args['field'];
-        $value   = $options[ $key ] ?? $field['default'];
+        $value   = $options[$key] ?? $field['default'];
 
         switch ($field['type']) {
             case 'text':
@@ -131,6 +161,7 @@ class Admin {
         ?>
         <div class="wrap">
             <h1><?php esc_html_e('Wipop Settings', 'wipop'); ?></h1>
+            <?php settings_errors($this->option_name); ?>
             <form method="post" action="options.php">
                 <?php
                     settings_fields($this->group_slug);
@@ -163,7 +194,7 @@ class Admin {
                 'description' => __('Elige el entorno de pagos.', 'wipop'),
                 'default'     => 'sandbox',
             ],
-            'public_key'  => [
+            'public_key' => [
                 'title'       => __('Public Key', 'wipop'),
                 'type'        => 'text',
                 'class'       => 'wipop-public-key',
