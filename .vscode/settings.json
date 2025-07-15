@@ -10,7 +10,7 @@
     "editor.formatOnSave": true
   },
 
-  "php-cs-fixer.executablePath": "vendor/bin/php-cs-fixer",
+  "php-cs-fixer.executablePath": "${workspaceFolder}/wipop/vendor/bin/php-cs-fixer",
   "php-cs-fixer.config": "wipop/.php-cs-fixer.dist.php",
   "php-cs-fixer.onsave": true,
   "php-cs-fixer.useCache": true
