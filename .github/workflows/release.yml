@@ -38,6 +38,7 @@ jobs:
           zip -r wipop.zip . \
             -x "src/*" \
             -x "node_modules/*" \
+            -x "vendor/*" \
             -x "tests/*" \
             -x ".*"
 
