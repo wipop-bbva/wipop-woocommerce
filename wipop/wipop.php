@@ -21,7 +21,6 @@ require_once WIPOP_PLUGIN_PATH . 'core/loader.php';
 require_once WIPOP_PLUGIN_PATH . 'core/webhook.php';
 require_once WIPOP_PLUGIN_PATH . 'admin/admin.php';
 
-
 function wipop_missing_wc_notice() {
     echo '<div class="error"><p><strong>' . esc_html__('Wipop requires WooCommerce to be installed and active.', 'wipop') . '</strong></p></div>';
 }
@@ -49,3 +48,21 @@ function wipop_activate() {
 }
 
 register_activation_hook(WIPOP_PLUGIN_FILE, 'wipop_activate');
+
+/**
+ * Enqueue gateway‐specific styles (only on checkout).
+ */
+function wipop_enqueue_gateway_styles() {
+    if (function_exists('is_checkout') && is_checkout()) {
+        $css_path = plugin_dir_path(WIPOP_PLUGIN_FILE) . 'assets/css/gateways.css';
+        $css_url  = plugins_url('assets/css/gateways.css', WIPOP_PLUGIN_FILE);
+
+        wp_enqueue_style(
+            'wipop-gateways',
+            $css_url,
+            [],
+            filemtime($css_path)
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'wipop_enqueue_gateway_styles');
