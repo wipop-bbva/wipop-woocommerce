@@ -1,0 +1,53 @@
+name: Auto Update POT
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  update-pot:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: update-pot
+      cancel-in-progress: true
+
+    if: github.actor != 'github-actions[bot]'
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-ansi --quiet
+
+      - name: Generate .pot file
+        run: vendor/bin/wp i18n make-pot . languages/wipop.pot --domain=wipop --allow-root
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if ! git diff --quiet languages/wipop.pot; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Warn if translations are outdated
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          echo "::warning file=languages/wipop.pot::Traducciones desactualizadas. Por favor regenera el archivo .pot."
+          
