@@ -25,6 +25,7 @@ class Gateway extends WC_Payment_Gateway {
 
         $this->enabled = $this->get_option('enabled');
         $this->title   = $this->get_option('title');
+        $this->description = '';
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_filter(
