@@ -33,14 +33,16 @@ jobs:
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-ansi --quiet
+        working-directory: wipop
 
       - name: Generate .pot file
         run: vendor/bin/wp i18n make-pot . languages/wipop.pot --domain=wipop --allow-root
+        working-directory: wipop
 
       - name: Check for changes
         id: check_changes
         run: |
-          if ! git diff --quiet languages/wipop.pot; then
+          if ! git diff --quiet wipop/languages/wipop.pot; then
             echo "changes=true" >> $GITHUB_OUTPUT
           else
             echo "changes=false" >> $GITHUB_OUTPUT
@@ -49,5 +51,5 @@ jobs:
       - name: Warn if translations are outdated
         if: steps.check_changes.outputs.changes == 'true'
         run: |
-          echo "::warning file=languages/wipop.pot::Traducciones desactualizadas. Por favor regenera el archivo .pot."
+          echo "::warning file=wipop/languages/wipop.pot::Traducciones desactualizadas. Por favor regenera el archivo .pot."
           
