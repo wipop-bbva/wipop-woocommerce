@@ -8,8 +8,6 @@ use Wipop\Core\Logger;
 defined('ABSPATH') || exit;
 
 class Gateway extends WC_Payment_Gateway {
-    use Logger;
-
     public function __construct() {
         $this->id                 = 'wipop_bizum_gateway';
         $this->method_title       = __('Bizum', 'wipop');
@@ -100,7 +98,7 @@ class Gateway extends WC_Payment_Gateway {
      * TODO
      */
     public function process_payment($order_id) {
-        $this->log('Processing Bizum payment for order ' . $order_id);
+        Logger::log('Processing Bizum payment for order ' . $order_id);
         return array('result' => 'success');
     }
 }
