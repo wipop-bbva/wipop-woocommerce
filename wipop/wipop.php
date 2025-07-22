@@ -66,3 +66,13 @@ function wipop_enqueue_gateway_styles() {
     }
 }
 add_action('wp_enqueue_scripts', 'wipop_enqueue_gateway_styles');
+
+function wipop_checkout_secure_notice() {
+    $lock_svg = plugins_url('assets/img/lock-filled-svgrepo-com.svg', WIPOP_PLUGIN_FILE);
+
+    echo '<div class="checkout-security-message">';
+    echo '  <img src="' . esc_url($lock_svg) . '" alt="Secure payment icon" class="checkout-lock-icon" />';
+    echo '  <span class="checkout-security-text">Secured by Wipöp - BBVA</span>';
+    echo '</div>';
+}
+add_action('woocommerce_review_order_after_submit', 'wipop_checkout_secure_notice');
