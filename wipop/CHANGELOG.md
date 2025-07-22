@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/secture/wipop-woocommerce/compare/v1.1.0...v1.1.1) (2025-07-22)
+
+### Bug Fixes
+
+* **gateway:** set description field to empty string to prevent PHP deprecated warning ([#18](https://github.com/secture/wipop-woocommerce/issues/18)) ([42e36fe](https://github.com/secture/wipop-woocommerce/commit/42e36fea7b2ff8bfb45da6db73e86c9d38e84c20))
+
 ## [1.1.0](https://github.com/secture/wipop-woocommerce/compare/v1.0.2...v1.1.0) (2025-07-14)
 
 ### Features
