@@ -45,6 +45,8 @@ class Loader {
 
         require_once WIPOP_PLUGIN_PATH . 'admin/Product/RecurringPaymentSettings.php';
         \Wipop\Admin\Product\RecurringPaymentSettings::init();
+
+        add_action('admin_enqueue_scripts', [ __CLASS__, 'enqueue_admin_assets' ]);
     }
 
     public static function setup_available_gateways(): void {
@@ -116,5 +118,15 @@ class Loader {
         $action = $isOn ? 'activated' : 'deactivated';
 
         Logger::log("Gateway {$label} {$action}", 'info');
+    }
+
+    public static function enqueue_admin_assets($hook): void {
+        wp_enqueue_script(
+            'wipop-recurring-settings',
+            plugin_dir_url(WIPOP_PLUGIN_FILE) . 'assets/js/recurring-settings.js',
+            ['jquery'],
+            filemtime(WIPOP_PLUGIN_PATH . 'assets/js/recurring-settings.js'),
+            true
+        );
     }
 }

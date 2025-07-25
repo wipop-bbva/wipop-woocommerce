@@ -32,6 +32,7 @@ class RecurringPaymentSettings {
             'id'      => '_wipop_recurring_period',
             'label'   => __('Periodicidad', 'wipop'),
             'options' => [
+                ''       => __('Seleccione una opción...', 'wipop'),
                 'monthly' => __('Mensual', 'wipop'),
                 'yearly'  => __('Anual', 'wipop'),
             ],
@@ -40,16 +41,21 @@ class RecurringPaymentSettings {
     }
 
     public static function save_recurring_fields($post_id) {
+        $period = isset($_POST['_wipop_recurring_period'])
+            ? trim(sanitize_text_field($_POST['_wipop_recurring_period']))
+            : '';
 
-        $enabled = ! empty($_POST['_wipop_recurring_enabled']) ? 'yes' : 'no';
+        $enabled = ! empty($_POST['_wipop_recurring_enabled']) && in_array($period, ['monthly', 'yearly'], true)
+            ? 'yes'
+            : 'no';
+
         update_post_meta($post_id, '_wipop_recurring_enabled', $enabled);
 
-        if (isset($_POST['_wipop_recurring_period'])) {
-            update_post_meta(
-                $post_id,
-                '_wipop_recurring_period',
-                sanitize_text_field($_POST['_wipop_recurring_period'])
-            );
+        if ($enabled === 'yes') {
+            update_post_meta($post_id, '_wipop_recurring_period', $period);
+        } else {
+            delete_post_meta($post_id, '_wipop_recurring_period');
         }
     }
+
 }
