@@ -1,0 +1,27 @@
+#wipop_bizum_gateway a.components-button.is-secondary[href*="section=wipop_bizum_gateway"],
+#wipop_bizum_gateway a.components-button.is-primary[href*="section=wipop_bizum_gateway"],
+#wipop_card_gateway a.components-button.is-primary[href*="section=wipop_card_gateway"],
+#wipop_card_gateway a.components-button.is-secondary[href*="section=wipop_card_gateway"],
+#wipop_gpay_gateway a.components-button.is-primary[href*="section=wipop_gpay_gateway"],
+#wipop_gpay_gateway a.components-button.is-secondary[href*="section=wipop_gpay_gateway"]  {
+    display: none;
+  }
+  
+
+a.wipop-toggle-button {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+a.wipop-toggle-button.wipop-danger {
+    background-color: #fff;
+    border: 1px solid #d63638; 
+    color: #d63638;
+  }
+  
+  a.wipop-toggle-button.wipop-danger:hover {
+    background-color: #d63638;
+    border: 1px solid #d63638;
+    color: #fff;
+  }
+  

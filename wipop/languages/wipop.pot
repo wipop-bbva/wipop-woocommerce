@@ -187,3 +187,19 @@ msgstr ""
 msgctxt "block title"
 msgid "Wipop"
 msgstr ""
+
+#: assets/js/toggle-btn-gateways.js
+msgid "Desactivar"
+msgstr ""
+
+#: assets/js/toggle-btn-gateways.js
+msgid "Activar"
+msgstr ""
+
+#: assets/js/toggle-btn-gateways.js
+msgid "¿Estás segura de que quieres desactivar %s?"
+msgstr ""
+
+#: assets/js/toggle-btn-gateways.js
+msgid "este método de pago"
+msgstr ""
