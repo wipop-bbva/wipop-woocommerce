@@ -41,6 +41,7 @@ class Admin {
     public function __construct() {
         add_action('admin_menu', [ $this, 'add_menu' ]);
         add_action('admin_init', [ $this, 'register_settings' ]);
+        add_action('admin_enqueue_scripts', [ $this, 'enqueue_assets' ]);
         add_action(
             'update_option_' . $this->option_name,
             [ __CLASS__, 'log_settings_update' ],
@@ -118,6 +119,15 @@ class Admin {
         $field   = $args['field'];
         $value   = $options[$key] ?? $field['default'];
 
+        echo '<div class="wipop-field-wrapper">';
+
+        if (!empty($field['description'])) {
+            printf(
+                '<span class="wipop-tooltip dashicons dashicons-editor-help" title="%s"></span>',
+                esc_attr($field['description'])
+            );
+        }
+
         switch ($field['type']) {
             case 'text':
                 printf(
@@ -147,19 +157,30 @@ class Admin {
                 }
                 echo '</select>';
                 break;
-        }
 
-        if (! empty($field['description'])) {
-            printf(
-                '<p class="description">%s</p>',
-                esc_html($field['description'])
-            );
+            case 'password':
+                echo '<div class="wipop-password-inner">';
+                printf(
+                    '<input type="password" id="%1$s" class="%2$s wipop-password-field" name="%3$s[%1$s]" value="%4$s" placeholder="%5$s" />',
+                    esc_attr($key),
+                    esc_attr($field['class']),
+                    esc_attr($this->option_name),
+                    esc_attr($value),
+                    esc_attr($field['placeholder'])
+                );
+                printf(
+                    '<span class="wipop-toggle-password dashicons dashicons-visibility" data-target="%s"></span>',
+                    esc_attr($key)
+                );
+                echo '</div>';
+                break;
         }
+        echo '</div>';
     }
 
     public function settings_page() {
         ?>
-        <div class="wrap">
+        <div class="wrap admin-page-wipop-settings">
             <h1><?php esc_html_e('Wipop Settings', 'wipop'); ?></h1>
             <?php settings_errors($this->option_name); ?>
             <form method="post" action="options.php">
@@ -196,7 +217,7 @@ class Admin {
             ],
             'public_key' => [
                 'title'       => __('Public Key', 'wipop'),
-                'type'        => 'text',
+                'type'        => 'password',
                 'class'       => 'wipop-public-key',
                 'placeholder' => __('Tu Clave Pública', 'wipop'),
                 'description' => __('Introduce tu Public Key del BBVA.', 'wipop'),
@@ -204,7 +225,7 @@ class Admin {
             ],
             'private_key' => [
                 'title'       => __('Private Key', 'wipop'),
-                'type'        => 'text',
+                'type'        => 'password',
                 'class'       => 'wipop-private-key',
                 'placeholder' => __('Tu Clave Privada', 'wipop'),
                 'description' => __('Introduce tu Private Key del BBVA.', 'wipop'),
@@ -215,5 +236,28 @@ class Admin {
 
     public static function log_settings_update($old_value, $new_value, $option_name) {
         Logger::log('Wipop settings updated.', 'info');
+    }
+
+    public function enqueue_assets() {
+        if (is_admin() && isset($_GET['page']) && $_GET['page'] === $this->page_slug) {
+            $css_path = plugin_dir_path(__FILE__) . '../assets/css/admin-settings-menu.css';
+
+            wp_enqueue_style(
+                'wipop-admin-style',
+                plugin_dir_url(__FILE__) . '../assets/css/admin-settings-menu.css',
+                [],
+                filemtime($css_path)
+            );
+
+            $js_path = plugin_dir_path(__FILE__) . '../assets/js/wipop-toggle-password.js';
+
+            wp_enqueue_script(
+                'wipop-toggle-password',
+                plugin_dir_url(__FILE__) . '../assets/js/wipop-toggle-password.js',
+                [],
+                filemtime($js_path),
+                true
+            );
+        }
     }
 }

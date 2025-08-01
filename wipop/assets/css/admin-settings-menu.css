@@ -1,0 +1,41 @@
+.wipop-field-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 1em;
+    max-width: 250px;
+    width: 100%;
+}
+
+.wipop-tooltip {
+    font-size: 20px;
+    color: #555;
+    cursor: help;
+    vertical-align: middle;
+}
+
+.wipop-field-wrapper input,
+.wipop-field-wrapper select {
+    flex: 1;
+    font-size: 16px;
+    width: 100%;
+}
+
+.wipop-password-inner {
+    position: relative;
+    width: 100%;
+}
+
+.wipop-password-inner input {
+    padding-right: 30px;
+}
+
+.wipop-toggle-password {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
+}
