@@ -71,6 +71,7 @@ Thumbs.db
 
 # IDE files
 .idea
+.vscode/
 
 project.xml
 project.properties
