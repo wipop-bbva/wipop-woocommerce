@@ -140,22 +140,33 @@ class Loader {
         if (!isset($_GET['tab']) || $_GET['tab'] !== 'checkout') {
             return;
         }
+        wp_enqueue_script(
+            'wipop-confirm-modal',
+            plugin_dir_url(WIPOP_PLUGIN_FILE) . 'assets/js/confirm-modal.js',
+            [],
+            filemtime(WIPOP_PLUGIN_PATH . 'assets/js/confirm-modal.js'),
+            true
+        );
 
         wp_enqueue_script(
             'wipop-admin-toggle',
             plugin_dir_url(WIPOP_PLUGIN_FILE) . 'assets/js/toggle-btn-gateways.js',
-            [ 'wp-i18n' ],
+            ['wipop-confirm-modal', 'wp-i18n'],
             filemtime(WIPOP_PLUGIN_PATH . 'assets/js/toggle-btn-gateways.js'),
             true
         );
 
         wp_localize_script('wipop-admin-toggle', 'wipopToggle', [
             'nonce' => wp_create_nonce('wipop_toggle_button'),
+            'modalTemplateUrl' => plugin_dir_url(WIPOP_PLUGIN_FILE) . 'assets/templates/confirmation-modal.html',
             'i18n'  => [
                 'activate'   => __('Activar', 'wipop'),
                 'deactivate' => __('Desactivar', 'wipop'),
-                'confirm_deactivate' => __('¿Estás segura de que quieres desactivar %s?', 'wipop'),
+                'confirm_deactivate' => __('¿Estás seguro de que quieres desactivar %s?', 'wipop'),
                 'default_label'     => __('este método de pago', 'wipop'),
+                'confirm' => __('Confirmar', 'wipop'),
+                'cancel' => __('Cancelar', 'wipop'),
+                'error_message' => __('Ups… no pudimos mostrar la ventana de confirmación. Puedes desactivar la pasarela desde el botón ⋮', 'wipop'),
             ],
         ]);
 
@@ -164,6 +175,13 @@ class Loader {
             plugin_dir_url(WIPOP_PLUGIN_FILE) . 'assets/css/admin-gateways.css',
             [],
             filemtime(WIPOP_PLUGIN_PATH . 'assets/css/admin-gateways.css')
+        );
+
+        wp_enqueue_style(
+            'wipop-modal-style',
+            plugin_dir_url(WIPOP_PLUGIN_FILE) . 'assets/css/confirmation-modal.css',
+            [],
+            filemtime(WIPOP_PLUGIN_PATH . 'assets/css/confirmation-modal.css')
         );
     }
 

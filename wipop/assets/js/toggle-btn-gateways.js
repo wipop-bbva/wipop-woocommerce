@@ -11,8 +11,8 @@
 
   const gateways = [
     { id: 'wipop_bizum_gateway', action: 'wipop_toggle_bizum' },
-    { id: 'wipop_card_gateway',  action: 'wipop_toggle_card' },
-    { id: 'wipop_gpay_gateway',  action: 'wipop_toggle_gpay' }
+    { id: 'wipop_card_gateway', action: 'wipop_toggle_card' },
+    { id: 'wipop_gpay_gateway', action: 'wipop_toggle_gpay' }
   ];
   const gatewayMap = Object.fromEntries(gateways.map(cfg => [cfg.id, cfg]));
 
@@ -41,19 +41,24 @@
     btn.href = `/wp-admin/admin-post.php?${params.toString()}`;
     btn.textContent = isActive
       ? (wipopToggle.i18n.deactivate || 'Deactivate')
-      : (wipopToggle.i18n.activate   || 'Activate');
+      : (wipopToggle.i18n.activate || 'Activate');
 
     if (isActive) {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const gatewayLabel = gatewayNames[wrapper.id] || wipopToggle.i18n.default_label;
         const message = sprintf(wipopToggle.i18n.confirm_deactivate, gatewayLabel);
-
-        if (confirm(message)) {
-          window.location.href = btn.href;
-        } else {
-          btn.blur();
-        }
+        
+        showConfirmationModal(message, {
+          confirmText: wipopToggle.i18n.confirm,
+          cancelText: wipopToggle.i18n.cancel,
+          onConfirm: () => {
+            window.location.href = btn.href;
+          },
+          onCancel: () => {
+            btn.blur();
+          }
+        });
       });
     }
 

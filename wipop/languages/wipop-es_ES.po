@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wipop 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wipop\n"
+"POT-Creation-Date: 2025-07-31T13:41:11+00:00\n"
+"PO-Revision-Date: 2025-07-04T17:05:20+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-04T17:05:20+00:00\n"
-"PO-Revision-Date: 2025-07-04T17:05:20+00:00\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wipop\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Plugin Name of the plugin
@@ -31,104 +31,192 @@ msgstr ""
 msgid "Secture Labs S.L."
 msgstr ""
 
-#: admin/admin.php:83 admin/admin.php:94
+#: admin/admin.php:55 admin/admin.php:163
 msgid "Wipop Settings"
 msgstr ""
 
-#: admin/admin.php:106
+#: admin/admin.php:101
+#, php-format
+msgid "%s must have at least 6 characters."
+msgstr ""
+
+#: admin/admin.php:179
 msgid "Merchant ID"
 msgstr ""
 
-#: admin/admin.php:110
+#: admin/admin.php:182
+msgid "Tu Merchant ID"
+msgstr ""
+
+#: admin/admin.php:183
 msgid "Introduce tu Merchant ID del BBVA."
 msgstr ""
 
-#: admin/admin.php:114
+#: admin/admin.php:187
 msgid "Entorno"
 msgstr ""
 
-#: admin/admin.php:118
-msgid "Elige el entorno de pagos."
-msgstr ""
-
-#: admin/admin.php:120
+#: admin/admin.php:191
 msgid "Sandbox"
 msgstr ""
 
-#: admin/admin.php:121
+#: admin/admin.php:192
 msgid "Producción"
 msgstr ""
 
-#: admin/admin.php:126
+#: admin/admin.php:194
+msgid "Elige el entorno de pagos."
+msgstr ""
+
+#: admin/admin.php:198
 msgid "Public Key"
 msgstr ""
 
-#: admin/admin.php:130
+#: admin/admin.php:201
+msgid "Tu Clave Pública"
+msgstr ""
+
+#: admin/admin.php:202
 msgid "Introduce tu Public Key del BBVA."
 msgstr ""
 
-#: admin/admin.php:134
+#: admin/admin.php:206
 msgid "Private Key"
 msgstr ""
 
-#: admin/admin.php:138
+#: admin/admin.php:209
+msgid "Tu Clave Privada"
+msgstr ""
+
+#: admin/admin.php:210
 msgid "Introduce tu Private Key del BBVA."
 msgstr ""
 
-#: gateways/bizum/bizum.php:17
+#: admin/Product/RecurringPaymentSettings.php:16
+msgid "Pago recurrente"
+msgstr ""
+
+#: admin/Product/RecurringPaymentSettings.php:28
+msgid "Habilitar pago recurrente"
+msgstr ""
+
+#: admin/Product/RecurringPaymentSettings.php:33
+msgid "Periodicidad"
+msgstr ""
+
+#: admin/Product/RecurringPaymentSettings.php:35
+msgid "Seleccione una opción..."
+msgstr ""
+
+#: admin/Product/RecurringPaymentSettings.php:36
+msgid "Mensual"
+msgstr ""
+
+#: admin/Product/RecurringPaymentSettings.php:37
+msgid "Anual"
+msgstr ""
+
+#: core/loader.php:163
+msgid "Activar"
+msgstr ""
+
+#: core/loader.php:164
+msgid "Desactivar"
+msgstr ""
+
+#: core/loader.php:165
+#, php-format
+msgid "¿Estás segura de que quieres desactivar %s?"
+msgstr ""
+
+#: core/loader.php:166
+msgid "este método de pago"
+msgstr ""
+
+#: core/loader.php:167
+msgid "Confirmar"
+msgstr ""
+
+#: core/loader.php:168
+msgid "Cancelar"
+msgstr ""
+
+#: gateways/bizum/bizum.php:13
 msgid "Bizum"
 msgstr ""
 
-#: gateways/bizum/bizum.php:18
+#: gateways/bizum/bizum.php:14
 msgid "Paga con Bizum"
 msgstr ""
 
-#: gateways/bizum/bizum.php:32
+#: gateways/bizum/bizum.php:47
 msgid "Enable Bizum"
 msgstr ""
 
-#: gateways/bizum/bizum.php:34
+#: gateways/bizum/bizum.php:49
 msgid "Enable Bizum payments"
+msgstr ""
+
+#: gateways/bizum/bizum.php:53 gateways/card/card.php:54
+#: gateways/googlepay/gpay.php:53
+msgid "Checkout title"
+msgstr ""
+
+#: gateways/bizum/bizum.php:55 gateways/card/card.php:56
+#: gateways/googlepay/gpay.php:55
+msgid "Title that the customer will see at payment."
+msgstr ""
+
+#: gateways/bizum/bizum.php:56
+msgid "Pay with Bizum"
 msgstr ""
 
 #: gateways/bizum/templates/payment.php:1
 msgid "Pay securely using Bizum."
 msgstr ""
 
-#: gateways/card/card.php:17
+#: gateways/card/card.php:13
 msgid "Card"
 msgstr ""
 
-#: gateways/card/card.php:18
+#: gateways/card/card.php:14
 msgid "Paga con Card"
 msgstr ""
 
-#: gateways/card/card.php:32
+#: gateways/card/card.php:48
 msgid "Enable Card"
 msgstr ""
 
-#: gateways/card/card.php:34
+#: gateways/card/card.php:50
 msgid "Enable Card payments"
 msgstr ""
+
+#: gateways/card/card.php:57
+msgid "Pay with Card"
+msgstr "Paga con Tarjeta"
 
 #: gateways/card/templates/payment.php:1
 msgid "Pay securely using Card."
 msgstr ""
 
-#: gateways/googlepay/gpay.php:17
+#: gateways/googlepay/gpay.php:13
 msgid "GPay"
 msgstr ""
 
-#: gateways/googlepay/gpay.php:18
+#: gateways/googlepay/gpay.php:14
 msgid "Paga con GPay"
 msgstr ""
 
-#: gateways/googlepay/gpay.php:32
+#: gateways/googlepay/gpay.php:47
 msgid "Enable GPay"
 msgstr ""
 
-#: gateways/googlepay/gpay.php:34
+#: gateways/googlepay/gpay.php:49
 msgid "Enable GPay payments"
+msgstr ""
+
+#: gateways/googlepay/gpay.php:56
+msgid "Pay with GPay"
 msgstr ""
 
 #: gateways/googlepay/templates/payment.php:1
