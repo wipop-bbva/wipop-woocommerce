@@ -76,3 +76,12 @@ function wipop_checkout_secure_notice() {
     echo '</div>';
 }
 add_action('woocommerce_review_order_after_submit', 'wipop_checkout_secure_notice');
+
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'wipop_add_settings_link');
+
+function wipop_add_settings_link($links) {
+    $settings_url = admin_url('admin.php?page=wipop');
+    $settings_link = sprintf("<a href=\"%s\">%s</a>", $settings_url,  __('Ajustes', 'wipop'));
+    array_unshift($links, $settings_link);
+    return $links;
+}
