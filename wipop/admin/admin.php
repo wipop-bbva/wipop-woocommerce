@@ -187,8 +187,15 @@ class Admin {
                 <?php
                     settings_fields($this->group_slug);
         do_settings_sections($this->page_slug);
-        submit_button();
         ?>
+                <div class="wipop-button-group">
+                    <button type="submit" class="button button-primary" id="wipop-admin-save-button" disabled>
+                        <?php esc_html_e('Guardar', 'wipop'); ?>
+                    </button>
+                    <button type="button" class="button button-secondary" id="wipop-admin-verify-button">
+                        <?php esc_html_e('Verificar datos', 'wipop'); ?>
+                    </button>
+                </div>
             </form>
         </div>
         <?php
@@ -249,11 +256,11 @@ class Admin {
                 filemtime($css_path)
             );
 
-            $js_path = plugin_dir_path(__FILE__) . '../assets/js/wipop-toggle-password.js';
+            $js_path = plugin_dir_path(__FILE__) . '../assets/js/admin-settings-menu.js';
 
             wp_enqueue_script(
-                'wipop-toggle-password',
-                plugin_dir_url(__FILE__) . '../assets/js/wipop-toggle-password.js',
+                'admin-settings-menu',
+                plugin_dir_url(__FILE__) . '../assets/js/admin-settings-menu.js',
                 [],
                 filemtime($js_path),
                 true

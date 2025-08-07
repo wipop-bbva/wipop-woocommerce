@@ -39,3 +39,11 @@
     color: #555;
     cursor: pointer;
 }
+
+.wipop-button-group {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+
