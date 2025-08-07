@@ -76,9 +76,20 @@ class Admin {
         );
 
         foreach ($this->get_fields() as $key => $field) {
+            $title = esc_html($field['title']);
+
+            if (!empty($field['description'])) {
+                $title .= sprintf(
+                    ' <span class="wipop-inline-tooltip help-tip" data-tip="%s" tabindex="0">'
+                  .   '<span class="dashicons dashicons-editor-help"></span>'
+                  . '</span>',
+                    esc_attr($field['description'])
+                );
+            }
+
             add_settings_field(
                 $key,
-                $field['title'],
+                $title,
                 [ $this, 'render_field' ],
                 $this->page_slug,
                 $this->section_slug,
@@ -123,7 +134,9 @@ class Admin {
 
         if (!empty($field['description'])) {
             printf(
-                '<span class="wipop-tooltip dashicons dashicons-editor-help" title="%s"></span>',
+                '<span class="wipop-tooltip help-tip" data-tip="%s" tabindex="0">'
+              .   '<span class="dashicons dashicons-editor-help"></span>'
+              . '</span>',
                 esc_attr($field['description'])
             );
         }
