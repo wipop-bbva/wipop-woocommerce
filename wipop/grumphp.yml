@@ -1,0 +1,13 @@
+parameters:
+  git_dir: .
+  bin_dir: vendor/bin
+  process_timeout: 600
+  tasks:
+    phpcsfixer:
+      config: .php-cs-fixer.dist.php
+      allow_risky: true
+      using_cache: true
+      triggered_by: [php]
+    phpstan:
+      configuration: phpstan.neon.dist
+      memory_limit: 1G

@@ -1,22 +1,43 @@
 {
 	"name": "extension/wipop",
 	"description": "WooCommerce plugin",
+	"require": {
+		"php": ">=8.1"
+	},
 	"autoload": {
 		"psr-4": {
 			"Wipop\\": ""
 		}
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^9.0",
+		"phpunit/phpunit": "^10.5",
+		"phpstan/phpstan": "^2.1",
+		"squizlabs/php_codesniffer": "^4.0",
+		"phpro/grumphp": "^2.15",
 		"automattic/jetpack-autoloader": "^2",
 		"php-stubs/woocommerce-stubs": "^9.9",
 		"wp-cli/wp-cli-bundle": "^2.12",
 		"wp-cli/i18n-command": "^2.6",
-		"friendsofphp/php-cs-fixer": "^3.76"
+		"friendsofphp/php-cs-fixer": "^3.87"
+	},
+	"scripts": {
+		"grumphp-init": [
+			"@php -r 'if (getenv(\"CI\")) { echo \"Skipping GrumPHP init on CI\".PHP_EOL; exit(0); } if (!file_exists(\"vendor/bin/grumphp\")) { echo \"Skipping GrumPHP init (binary missing: --no-dev)\".PHP_EOL; exit(0); } $command = escapeshellarg(PHP_BINARY) . \" \" . escapeshellarg(\"vendor/bin/grumphp\") . \" git:init\"; passthru($command, $exitCode); exit($exitCode);'"
+		],
+		"post-install-cmd": [
+			"@grumphp-init"
+		],
+		"post-update-cmd": [
+			"@grumphp-init"
+		],
+		"fix:php": "php-cs-fixer fix --allow-risky=yes",
+		"lint:phpcs": "phpcs",
+		"lint:phpstan": "phpstan analyse --memory-limit=1G"
 	},
 	"config": {
 		"allow-plugins": {
-			"automattic/jetpack-autoloader": true
+			"automattic/jetpack-autoloader": true,
+			"phpro/grumphp": true
 		}
 	}
 }

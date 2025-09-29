@@ -129,6 +129,8 @@ contributors.md
 contributors.html
 
 wipop/.php-cs-fixer.cache
+wipop/var/*
+!wipop/var/.gitkeep
 
 # release file
 wipop.zip
