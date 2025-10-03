@@ -34,6 +34,13 @@ npm run start
 ## 6. Activar el plugin
 En **Plugins → Wipop** activa el plugin.
 
+## 7. QA PHP y estilo de código
+
+- Ejecuta `composer install` dentro de `wipop/` para preparar las dependencias PHP: esto lanza `grumphp git:init`.
+- Usa los scripts para validar el código: `composer lint:phpstan`, `composer lint:phpcs` y `composer fix:php`.
+- La configuración de PHP-CS-Fixer fuerza indentación con **tabs** para respetar el estándar de WordPress.
+- GrumPHP ejecutará PHP-CS-Fixer y PHPStan en cada commit una vez inicializado.
+
 # Wipop WooCommerce plugin
 
 Para tener linting de WooCommerce en el IDE con Intelephense
