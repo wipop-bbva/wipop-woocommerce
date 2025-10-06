@@ -1,6 +1,13 @@
 <?php
 
-/**
+declare(strict_types=1);
+
+use Wipop\Admin\Admin;
+use Wipop\Core\Loader;
+use Wipop\Core\Logger;
+use Wipop\Core\Webhook;
+
+/*
  * Plugin Name: Wipop
  * Description: Pasarelas de pago BBVA (Bizum, Tarjeta y Google Pay) para WooCommerce.
  * Version: 0.1.0
@@ -11,9 +18,9 @@
 
 defined('ABSPATH') || exit;
 
-if (! defined('WIPOP_PLUGIN_FILE')) {
-    define('WIPOP_PLUGIN_FILE', __FILE__);
-    define('WIPOP_PLUGIN_PATH', plugin_dir_path(__FILE__));
+if (!defined('WIPOP_PLUGIN_FILE')) {
+	define('WIPOP_PLUGIN_FILE', __FILE__);
+	define('WIPOP_PLUGIN_PATH', plugin_dir_path(__FILE__));
 }
 
 require_once WIPOP_PLUGIN_PATH . 'core/logger.php';
@@ -21,30 +28,34 @@ require_once WIPOP_PLUGIN_PATH . 'core/loader.php';
 require_once WIPOP_PLUGIN_PATH . 'core/webhook.php';
 require_once WIPOP_PLUGIN_PATH . 'admin/admin.php';
 
-function wipop_missing_wc_notice() {
-    echo '<div class="error"><p><strong>' . esc_html__('Wipop requires WooCommerce to be installed and active.', 'wipop') . '</strong></p></div>';
+function wipop_missing_wc_notice()
+{
+	echo '<div class="error"><p><strong>' . esc_html__('Wipop requires WooCommerce to be installed and active.', 'wipop') . '</strong></p></div>';
 }
 
 /**
  * Initialize the plugin.
  */
-function wipop_init() {
-    load_plugin_textdomain('wipop', false, dirname(plugin_basename(__FILE__)) . '/languages');
+function wipop_init()
+{
+	load_plugin_textdomain('wipop', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
-    if (! class_exists('WooCommerce')) {
-        add_action('admin_notices', 'wipop_missing_wc_notice');
-        return;
-    }
+	if (!class_exists('WooCommerce')) {
+		add_action('admin_notices', 'wipop_missing_wc_notice');
 
-    Wipop\Core\Loader::init();
-    new Wipop\Admin\Admin();
-    Wipop\Core\Webhook::init();
+		return;
+	}
+
+	Loader::init();
+	new Admin();
+	Webhook::init();
 }
 
 add_action('plugins_loaded', 'wipop_init');
 
-function wipop_activate() {
-    \Wipop\Core\Logger::log('Wipop plugin activated', 'info');
+function wipop_activate()
+{
+	Logger::log('Wipop plugin activated', 'info');
 }
 
 register_activation_hook(WIPOP_PLUGIN_FILE, 'wipop_activate');
@@ -52,36 +63,40 @@ register_activation_hook(WIPOP_PLUGIN_FILE, 'wipop_activate');
 /**
  * Enqueue gateway‐specific styles (only on checkout).
  */
-function wipop_enqueue_gateway_styles() {
-    if (function_exists('is_checkout') && is_checkout()) {
-        $css_path = plugin_dir_path(WIPOP_PLUGIN_FILE) . 'assets/css/gateways.css';
-        $css_url  = plugins_url('assets/css/gateways.css', WIPOP_PLUGIN_FILE);
+function wipop_enqueue_gateway_styles()
+{
+	if (function_exists('is_checkout') && is_checkout()) {
+		$css_path = plugin_dir_path(WIPOP_PLUGIN_FILE) . 'assets/css/gateways.css';
+		$css_url = plugins_url('assets/css/gateways.css', WIPOP_PLUGIN_FILE);
 
-        wp_enqueue_style(
-            'wipop-gateways',
-            $css_url,
-            [],
-            filemtime($css_path)
-        );
-    }
+		wp_enqueue_style(
+			'wipop-gateways',
+			$css_url,
+			[],
+			filemtime($css_path)
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'wipop_enqueue_gateway_styles');
 
-function wipop_checkout_secure_notice() {
-    $lock_svg = plugins_url('assets/img/lock-filled-svgrepo-com.svg', WIPOP_PLUGIN_FILE);
+function wipop_checkout_secure_notice()
+{
+	$lock_svg = plugins_url('assets/img/lock-filled-svgrepo-com.svg', WIPOP_PLUGIN_FILE);
 
-    echo '<div class="checkout-security-message">';
-    echo '  <img src="' . esc_url($lock_svg) . '" alt="Secure payment icon" class="checkout-lock-icon" />';
-    echo '  <span class="checkout-security-text">Secured by Wipöp - BBVA</span>';
-    echo '</div>';
+	echo '<div class="checkout-security-message">';
+	echo '  <img src="' . esc_url($lock_svg) . '" alt="Secure payment icon" class="checkout-lock-icon" />';
+	echo '  <span class="checkout-security-text">Secured by Wipöp - BBVA</span>';
+	echo '</div>';
 }
 add_action('woocommerce_review_order_after_submit', 'wipop_checkout_secure_notice');
 
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'wipop_add_settings_link');
 
-function wipop_add_settings_link($links) {
-    $settings_url = admin_url('admin.php?page=wipop');
-    $settings_link = sprintf("<a href=\"%s\">%s</a>", $settings_url,  __('Ajustes', 'wipop'));
-    array_unshift($links, $settings_link);
-    return $links;
+function wipop_add_settings_link($links)
+{
+	$settings_url = admin_url('admin.php?page=wipop');
+	$settings_link = sprintf('<a href="%s">%s</a>', $settings_url, __('Ajustes', 'wipop'));
+	array_unshift($links, $settings_link);
+
+	return $links;
 }

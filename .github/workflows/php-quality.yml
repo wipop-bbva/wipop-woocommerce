@@ -1,0 +1,35 @@
+name: PHP Quality
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  php-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+        working-directory: wipop
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit --colors=always --testdox
+        working-directory: wipop
+
+      - name: Run PHPStan
+        run: composer lint:phpstan
+        working-directory: wipop
+
+      - name: Run PHPCS
+        run: vendor/bin/phpcs --standard=phpcs.xml
+        working-directory: wipop

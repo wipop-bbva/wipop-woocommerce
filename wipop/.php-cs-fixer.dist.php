@@ -49,11 +49,13 @@ return (new Config())
             'imports_order' => ['class', 'function', 'const'],
             'sort_algorithm' => 'alpha',
         ],
+        'concat_space' => ['spacing' => 'one'],
         'phpdoc_summary' => false,
         'single_line_empty_body' => false,
         'single_quote' => true,
         'yoda_style' => false,
         'indentation_type' => true,
+        'statement_indentation' => false,
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__ . '/var/.php-cs-fixer.cache');
