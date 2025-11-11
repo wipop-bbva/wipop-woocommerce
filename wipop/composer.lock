@@ -1685,7 +1685,7 @@
             "dist": {
                 "type": "zip",
                 "url": "../dist/wipop-payment.zip",
-                "shasum": "4e1b5671f99a68aed14fdfd066e0755c7f002444"
+            "shasum": "4d8666d0f12f3e8ccdefdad639d7947d46fda20b"
             },
             "require": {
                 "guzzlehttp/guzzle": "7.10",
