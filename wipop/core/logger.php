@@ -8,11 +8,17 @@ defined('ABSPATH') || exit;
 
 class Logger
 {
-	public static function log(string $message, string $level = 'info'): void
+	/**
+	 * @param array<string, mixed> $context
+	 */
+	public static function log(string $message, string $level = 'info', array $context = []): void
 	{
-		if (function_exists('wc_get_logger')) {
-			$logger = wc_get_logger();
-			$logger->log($level, $message, ['source' => 'wipop']);
+		if (!function_exists('wc_get_logger')) {
+			return;
 		}
+
+		$logger = wc_get_logger();
+		$context = array_merge(['source' => 'wipop'], $context);
+		$logger->log($level, $message, $context);
 	}
 }
