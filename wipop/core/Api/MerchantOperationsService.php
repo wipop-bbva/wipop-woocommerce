@@ -18,7 +18,7 @@ use function set_transient;
 class MerchantOperationsService
 {
 	private const TRANSIENT_PREFIX = 'wipop_gateways_';
-	private const CACHE_TTL = 1 * 60 * 60;
+	private const CACHE_TTL_IN_SECONDS = 1 * 60 * 60;
 	private const SUPPORTED_GATEWAYS = [ChargeMethod::CARD, ChargeMethod::BIZUM]; // add GOOGLE_PAY when available
 
 	/**
@@ -46,7 +46,7 @@ class MerchantOperationsService
 		);
 
 		$normalized = self::normalizeGateways($gateways);
-		set_transient($cacheKey, $normalized, self::CACHE_TTL);
+		set_transient($cacheKey, $normalized, self::CACHE_TTL_IN_SECONDS);
 
 		return $normalized;
 	}
