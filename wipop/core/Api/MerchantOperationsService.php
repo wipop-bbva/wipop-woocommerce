@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wipop\Core\Api;
 
+use Wipop\Charge\ChargeMethod;
 use Wipop\Utils\ProductType;
 use Wipop\Utils\Terminal;
 
@@ -18,7 +19,7 @@ class MerchantOperationsService
 {
 	private const TRANSIENT_PREFIX = 'wipop_gateways_';
 	private const CACHE_TTL = 1 * 60 * 60;
-	private const SUPPORTED_GATEWAYS = ['CARD', 'BIZUM', 'GOOGLE_PAY'];
+	private const SUPPORTED_GATEWAYS = [ChargeMethod::CARD, ChargeMethod::BIZUM]; // add GOOGLE_PAY when available
 
 	/**
 	 * @return string[]
