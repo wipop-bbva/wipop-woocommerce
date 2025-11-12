@@ -2,9 +2,6 @@
 
 namespace Wipop\Admin;
 
-use Wipop\Core\Api\Exception\ApiCallException;
-use Wipop\Core\Api\Exception\ClientConfigurationException;
-use Wipop\Core\Api\MerchantOperationsService;
 use Wipop\Core\Logger;
 
 defined('ABSPATH') || exit;
@@ -47,7 +44,6 @@ class Admin
 		add_action('admin_menu', [$this, 'add_menu']);
 		add_action('admin_init', [$this, 'register_settings']);
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
-		add_action('admin_post_wipop_verify_credentials', [__CLASS__, 'verify_credentials']);
 		add_action(
 			'update_option_' . $this->option_name,
 			[__CLASS__, 'log_settings_update'],
@@ -56,29 +52,7 @@ class Admin
 		);
 	}
 
-	public static function verify_credentials(): void
-	{
-		check_admin_referer('wipop_verify_credentials');
-
-		if (!current_user_can('manage_options')) {
-			wp_send_json_error(['message' => __('No tienes permisos suficientes.', 'wipop')], 403);
-		}
-
-		try {
-			$gateways = MerchantOperationsService::getAvailableGateways(true);
-
-			wp_send_json_success([
-				'gateways' => $gateways,
-				'message' => __('Credenciales verificadas correctamente.', 'wipop'),
-			]);
-		} catch (ApiCallException | ClientConfigurationException $exception) {
-			wp_send_json_error([
-				'message' => $exception->getMessage(),
-			]);
-		}
-	}
-
-	public function add_menu(): void
+	public function add_menu()
 	{
 		add_submenu_page(
 			'woocommerce',
@@ -90,7 +64,7 @@ class Admin
 		);
 	}
 
-	public function register_settings(): void
+	public function register_settings()
 	{
 		register_setting(
 			$this->group_slug,
@@ -128,13 +102,12 @@ class Admin
 		}
 	}
 
-	public function fields_validator(array $input): array
+	public function fields_validator($input)
 	{
 		$valid = [];
 		$old = (array) get_option($this->option_name, []);
 
 		foreach ($this->get_fields() as $key => $field) {
-			// @phpstan-ignore-next-line
 			$value = trim((string) ($input[$key] ?? ''));
 
 			if ($field['type'] === 'text' && strlen($value) < 6) {
@@ -156,9 +129,6 @@ class Admin
 		return $valid;
 	}
 
-	/**
-	 * @param mixed $args
-	 */
 	public function render_field($args)
 	{
 		$options = (array) get_option($this->option_name, []);
@@ -252,7 +222,7 @@ class Admin
 		Logger::log('Wipop settings updated.', 'info');
 	}
 
-	public function enqueue_assets(): void
+	public function enqueue_assets()
 	{
 		if (is_admin() && isset($_GET['page']) && $_GET['page'] === $this->page_slug) {
 			$css_path = plugin_dir_path(__FILE__) . '../assets/css/admin-settings-menu.css';
@@ -269,24 +239,14 @@ class Admin
 			wp_enqueue_script(
 				'admin-settings-menu',
 				plugin_dir_url(__FILE__) . '../assets/js/admin-settings-menu.js',
-				['jquery'],
+				[],
 				filemtime($js_path),
 				true
 			);
-
-			wp_localize_script('admin-settings-menu', 'wipopAdminVerify', [
-				'ajaxUrl' => admin_url('admin-post.php'),
-				'nonce' => wp_create_nonce('wipop_verify_credentials'),
-				'successMessage' => __('Tus credenciales son válidas.', 'wipop'),
-				'errorMessage' => __('No pudimos verificar las credenciales. Revisa los datos e inténtalo de nuevo.', 'wipop'),
-			]);
 		}
 	}
 
-	/**
-	 * @return array<string, array<string, mixed>>
-	 */
-	private function get_fields(): array
+	private function get_fields()
 	{
 		return [
 			'merchant_id' => [
