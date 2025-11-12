@@ -9,8 +9,6 @@ use Wipop\Core\Api\Exception\ApiCallException;
 use Wipop\Core\Api\Exception\ClientConfigurationException;
 use Wipop\Core\Api\MerchantOperationsService;
 
-use function sprintf;
-
 defined('ABSPATH') || exit;
 
 /**
@@ -110,34 +108,26 @@ class Loader
 
 		foreach (array_diff($newList, $oldList) as $id) {
 			// @phpstan-ignore-next-line
-			$gatewayId = (string) $id;
-			Logger::log(sprintf('Gateway %s activated', $gatewayId), 'info');
+			Logger::log("Gateway {$id} activated", 'info');
 		}
 		foreach (array_diff($oldList, $newList) as $id) {
 			// @phpstan-ignore-next-line
-			$gatewayId = (string) $id;
-			Logger::log(sprintf('Gateway %s deactivated', $gatewayId), 'info');
+			Logger::log("Gateway {$id} deactivated", 'info');
 		}
 	}
 
-	/**
-	 * @param mixed  $old
-	 * @param mixed  $new
-	 * @param string $option_name
-	 */
-	public static function on_settings_change($old, $new, $option_name): void
+	public static function on_settings_change($old, $new, $option_name)
 	{
-		$oldSettings = is_array($old) ? $old : (array) $old;
-		$newSettings = is_array($new) ? $new : (array) $new;
-
-		$wasOn = !empty($oldSettings['enabled']) && $oldSettings['enabled'] === 'yes';
-		$isOn = !empty($newSettings['enabled']) && $newSettings['enabled'] === 'yes';
+		// @phpstan-ignore-next-line
+		$wasOn = !empty($old['enabled']) && $old['enabled'] === 'yes';
+		// @phpstan-ignore-next-line
+		$isOn = !empty($new['enabled']) && $new['enabled'] === 'yes';
 
 		if ($wasOn === $isOn) {
 			return;
 		}
 
-		$gateway_id = str_replace('_settings', '', (string) $option_name);
+		$gateway_id = str_replace('_settings', '', $option_name);
 		$label = ucwords(str_replace(
 			['wipop_', '_gateway', '_'],
 			['', '', ' '],
