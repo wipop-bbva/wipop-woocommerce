@@ -36,6 +36,7 @@ build-module/
 build-style/
 build-types/
 dist/
+!dist/wipop-payment.zip
 
 # Project files
 node_modules/

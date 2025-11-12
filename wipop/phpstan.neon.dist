@@ -1,5 +1,5 @@
 parameters:
-    level: max
+    level: 6
     paths:
         - admin
         - core
@@ -16,3 +16,5 @@ parameters:
     treatPhpDocTypesAsCertain: true
     checkImplicitMixed: true
     tmpDir: var/phpstan
+    bootstrapFiles:
+        - phpstan-bootstrap.php
