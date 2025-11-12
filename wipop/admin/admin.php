@@ -71,7 +71,7 @@ class Admin
 				'gateways' => $gateways,
 				'message' => __('Credenciales verificadas correctamente.', 'wipop'),
 			]);
-		} catch (ApiCallException|ClientConfigurationException $exception) {
+		} catch (ApiCallException | ClientConfigurationException $exception) {
 			wp_send_json_error([
 				'message' => $exception->getMessage(),
 			]);

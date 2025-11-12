@@ -50,6 +50,7 @@ return (new Config())
             'sort_algorithm' => 'alpha',
         ],
         'concat_space' => ['spacing' => 'one'],
+        'types_spaces' => ['space' => 'single'],
         'phpdoc_summary' => false,
         'single_line_empty_body' => false,
         'single_quote' => true,

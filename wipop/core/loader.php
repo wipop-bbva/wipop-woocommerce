@@ -71,7 +71,7 @@ class Loader
 
 		try {
 			self::$available_gateways = MerchantOperationsService::getAvailableGateways();
-		} catch (ApiCallException|ClientConfigurationException $exception) {
+		} catch (ApiCallException | ClientConfigurationException $exception) {
 			Logger::log('Unable to fetch merchant gateways: ' . $exception->getMessage(), 'error');
 			self::$available_gateways = [];
 		}
