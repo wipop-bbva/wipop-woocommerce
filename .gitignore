@@ -28,15 +28,14 @@ npm-debug.log
 # Build files
 *.sql
 *.swp
-*.zip
+
 
 # Built packages
 build/
 build-module/
 build-style/
 build-types/
-dist/
-!dist/wipop-payment.zip
+
 
 # Project files
 node_modules/
@@ -96,14 +95,12 @@ npm-debug.log
 # Build files
 *.sql
 *.swp
-*.zip
 
 # Built packages
 build/
 build-module/
 build-style/
 build-types/
-dist/
 
 # Project files
 node_modules/
