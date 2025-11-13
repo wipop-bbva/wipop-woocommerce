@@ -7,10 +7,11 @@ namespace Wipop\Gateways\Support;
 use Throwable;
 use WC_Order;
 use Wipop\Core\Api\ClientFactory;
-use Wipop\Core\Api\Exception\ApiCallException;
-use Wipop\Core\Api\Exception\ClientConfigurationException;
 use Wipop\Core\Api\SdkCaller;
+use Wipop\Core\Exception\ApiCallException;
+use Wipop\Core\Exception\ClientConfigurationException;
 use Wipop\Core\Logger;
+use Wipop\Core\WooCommerce\WCOrderStatus;
 use Wipop\Domain\Charge;
 
 use function __;
@@ -131,7 +132,7 @@ trait PaymentsProcessor
 		$order->save();
 
 		$order->update_status(
-			'pending',
+			WCOrderStatus::PENDING,
 			__('Pago iniciado con Wipop. Esperando confirmación.', 'wipop')
 		);
 
