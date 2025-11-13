@@ -15,9 +15,11 @@ class Gateway extends WC_Payment_Gateway
 {
 	use PaymentsProcessor;
 
+	public const ID = 'wipop_bizum_gateway';
+
 	public function __construct()
 	{
-		$this->id = 'wipop_bizum_gateway';
+		$this->id = self::ID;
 		$this->method_title = __('Bizum', 'wipop');
 		$this->method_description = __('Paga con Bizum', 'wipop');
 

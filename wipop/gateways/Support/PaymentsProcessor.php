@@ -11,8 +11,11 @@ use Wipop\Core\Api\SdkCaller;
 use Wipop\Core\Exception\ApiCallException;
 use Wipop\Core\Exception\ClientConfigurationException;
 use Wipop\Core\Logger;
+use Wipop\Core\WooCommerce\PaymentMethodHelper;
+use Wipop\Core\WooCommerce\StatusHelper;
 use Wipop\Core\WooCommerce\WCOrderStatus;
 use Wipop\Domain\Charge;
+use Wipop\Domain\TransactionStatus;
 
 use function __;
 use function esc_url_raw;
@@ -129,12 +132,17 @@ trait PaymentsProcessor
 			$order->update_meta_data('_wipop_payment_status', $charge->status->value);
 		}
 
+		PaymentMethodHelper::syncOrderPaymentMethod($order, $charge->method ?? null);
+
 		$order->save();
 
-		$order->update_status(
-			WCOrderStatus::PENDING,
+		$statusValue = $charge->status->value ?? TransactionStatus::CHARGE_PENDING->value;
+		$statusDescription = StatusHelper::format(
+			$statusValue,
 			__('Pago iniciado con Wipop. Esperando confirmación.', 'wipop')
 		);
+
+		$order->update_status(WCOrderStatus::PENDING, $statusDescription);
 
 		wc_reduce_stock_levels($order);
 
