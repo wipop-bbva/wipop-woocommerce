@@ -6,9 +6,9 @@ namespace Wipop\Core;
 
 use Wipop\Admin\Product\RecurringPaymentSettings;
 use Wipop\Charge\ChargeMethod;
-use Wipop\Core\Api\Exception\ApiCallException;
-use Wipop\Core\Api\Exception\ClientConfigurationException;
 use Wipop\Core\Api\MerchantOperationsService;
+use Wipop\Core\Exception\ApiCallException;
+use Wipop\Core\Exception\ClientConfigurationException;
 
 defined('ABSPATH') || exit;
 

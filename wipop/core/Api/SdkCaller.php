@@ -6,7 +6,7 @@ namespace Wipop\Core\Api;
 
 use Throwable;
 use Wipop\Client\Exception\WipopApiException;
-use Wipop\Core\Api\Exception\ApiCallException;
+use Wipop\Core\Exception\ApiCallException;
 use Wipop\Core\Logger;
 
 use function sprintf;
