@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core;
+namespace WipopWC\Core;
 
 defined('ABSPATH') || exit;
 

@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Gateways\Support;
+namespace WipopWC\Gateways\Support;
 
 use Throwable;
 use WC_Order;
 use WC_Payment_Token_CC;
 use WC_Payment_Tokens;
 use Wipop\Charge\ChargeMethod;
-use Wipop\Core\Api\ClientFactory;
-use Wipop\Core\Api\SdkCaller;
-use Wipop\Core\Exception\ApiCallException;
-use Wipop\Core\Exception\ClientConfigurationException;
-use Wipop\Core\Logger;
-use Wipop\Core\WooCommerce\PaymentMethodHelper;
-use Wipop\Core\WooCommerce\StatusHelper;
-use Wipop\Core\WooCommerce\WCOrderStatus;
 use Wipop\Domain\Charge;
 use Wipop\Domain\TransactionStatus;
-use Wipop\Gateways\Card\Gateway as CardGateway;
+use WipopWC\Core\Api\ClientFactory;
+use WipopWC\Core\Api\SdkCaller;
+use WipopWC\Core\Exception\ApiCallException;
+use WipopWC\Core\Exception\ClientConfigurationException;
+use WipopWC\Core\Logger;
+use WipopWC\Core\WooCommerce\PaymentMethodHelper;
+use WipopWC\Core\WooCommerce\StatusHelper;
+use WipopWC\Core\WooCommerce\WCOrderStatus;
+use WipopWC\Gateways\Card\Gateway as CardGateway;
 
 use function __;
 use function esc_url_raw;

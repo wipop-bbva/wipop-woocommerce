@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Gateways\Support;
+namespace WipopWC\Gateways\Support;
 
 use InvalidArgumentException;
 use WC_Order;

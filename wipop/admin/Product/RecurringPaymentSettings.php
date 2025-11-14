@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Admin\Product;
+namespace WipopWC\Admin\Product;
 
 defined('ABSPATH') || exit;
 

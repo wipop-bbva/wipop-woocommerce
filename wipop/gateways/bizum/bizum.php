@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Gateways\Bizum;
+namespace WipopWC\Gateways\Bizum;
 
 use WC_Payment_Gateway;
 use Wipop\Charge\ChargeMethod;
-use Wipop\Core\Logger;
-use Wipop\Gateways\Support\PaymentsProcessor;
+use WipopWC\Core\Logger;
+use WipopWC\Gateways\Support\PaymentsProcessor;
 
 defined('ABSPATH') || exit;
 

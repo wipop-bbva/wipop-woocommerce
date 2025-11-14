@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\WooCommerce;
+namespace WipopWC\Core\WooCommerce;
 
 use function __;
 use function sprintf;

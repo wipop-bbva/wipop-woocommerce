@@ -1,11 +1,11 @@
 <?php
 
-namespace Wipop\Admin;
+namespace WipopWC\Admin;
 
-use Wipop\Core\Api\MerchantOperationsService;
-use Wipop\Core\Exception\ApiCallException;
-use Wipop\Core\Exception\ClientConfigurationException;
-use Wipop\Core\Logger;
+use WipopWC\Core\Api\MerchantOperationsService;
+use WipopWC\Core\Exception\ApiCallException;
+use WipopWC\Core\Exception\ClientConfigurationException;
+use WipopWC\Core\Logger;
 
 defined('ABSPATH') || exit;
 

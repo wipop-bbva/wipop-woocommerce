@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Wipop\Admin\Admin;
-use Wipop\Core\Loader;
-use Wipop\Core\Logger;
-use Wipop\Core\Webhook;
+use WipopWC\Admin\Admin;
+use WipopWC\Core\Loader;
+use WipopWC\Core\Logger;
+use WipopWC\Core\Webhook;
 
 /*
  * Plugin Name: Wipop

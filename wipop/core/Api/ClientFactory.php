@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\Api;
+namespace WipopWC\Core\Api;
 
 use Wipop\Client\ClientConfiguration;
 use Wipop\Client\Environment;
 use Wipop\Client\WipopClient;
-use Wipop\Core\Exception\ClientConfigurationException;
+use WipopWC\Core\Exception\ClientConfigurationException;
 
 use function array_key_exists;
 use function get_option;

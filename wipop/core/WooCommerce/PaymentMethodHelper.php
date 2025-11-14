@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\WooCommerce;
+namespace WipopWC\Core\WooCommerce;
 
 use WC_Data_Exception;
 use WC_Order;
-use Wipop\Core\Logger;
-use Wipop\Gateways\Bizum\Gateway as BizumGateway;
-use Wipop\Gateways\Card\Gateway as CardGateway;
-use Wipop\Gateways\Googlepay\Gateway as GooglePayGateway;
+use WipopWC\Core\Logger;
+use WipopWC\Gateways\Bizum\Gateway as BizumGateway;
+use WipopWC\Gateways\Card\Gateway as CardGateway;
+use WipopWC\Gateways\Googlepay\Gateway as GooglePayGateway;
 
 use function __;
 use function strtoupper;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\Api;
+namespace WipopWC\Core\Api;
 
 use Wipop\Charge\ChargeMethod;
 use Wipop\Utils\ProductType;

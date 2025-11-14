@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Wipop\Gateways\Support\OrderIdFactory;
+use WipopWC\Gateways\Support\OrderIdFactory;
 
 require_once dirname(__DIR__, 3) . '/gateways/Support/OrderIdFactory.php';
 
 /**
- * @covers \Wipop\Gateways\Support\OrderIdFactory
+ * @covers \WipopWC\Gateways\Support\OrderIdFactory
  *
  * @internal
  */
