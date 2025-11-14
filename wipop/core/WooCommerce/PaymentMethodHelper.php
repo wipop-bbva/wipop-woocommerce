@@ -75,7 +75,7 @@ final class PaymentMethodHelper
 			$order->set_payment_method_title($title);
 		} catch (WC_Data_Exception $exception) {
 			Logger::log(
-				'Unable to set WooCommerce payment method title: ' . $exception->getMessage(),
+				'No pudimos actualizar el tíulo del método de pago: ' . $exception->getMessage(),
 				'warning'
 			);
 		}
