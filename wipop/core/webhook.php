@@ -10,6 +10,7 @@ use WC_Order;
 use Wipop\Core\Exception\WebhookException;
 use Wipop\Core\WooCommerce\PaymentMethodHelper;
 use Wipop\Core\WooCommerce\StatusHelper;
+use Wipop\Core\WooCommerce\TokenManager;
 use Wipop\Core\WooCommerce\WCOrderStatus;
 use Wipop\Domain\Transaction;
 use Wipop\Domain\TransactionStatus;
@@ -243,6 +244,8 @@ class Webhook
 		}
 
 		$order->save();
+
+		TokenManager::tryStoreCardToken($order, $transaction);
 	}
 
 	private static function syncOrderStatus(WC_Order $order, Transaction $transaction): void
