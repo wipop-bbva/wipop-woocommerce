@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Wipop\Gateways\Bizum;
 
 use WC_Payment_Gateway;
+use Wipop\Charge\ChargeMethod;
 use Wipop\Core\Logger;
+use Wipop\Gateways\Support\PaymentsProcessor;
 
 defined('ABSPATH') || exit;
 
 class Gateway extends WC_Payment_Gateway
 {
+	use PaymentsProcessor;
+
 	public function __construct()
 	{
 		$this->id = 'wipop_bizum_gateway';
@@ -102,15 +106,10 @@ class Gateway extends WC_Payment_Gateway
 		return wp_kses_post($html);
 	}
 
-	/**
-	 * TODO
-	 *
-	 * @param mixed $order_id
-	 */
 	public function process_payment($order_id)
 	{
 		Logger::log('Processing Bizum payment for order ' . $order_id);
 
-		return ['result' => 'success'];
+		return $this->processGatewayPayment($order_id, ChargeMethod::BIZUM);
 	}
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wipop\Core\Api;
 
+use Wipop\Charge\ChargeMethod;
 use Wipop\Utils\ProductType;
 use Wipop\Utils\Terminal;
 
@@ -17,8 +18,8 @@ use function set_transient;
 class MerchantOperationsService
 {
 	private const TRANSIENT_PREFIX = 'wipop_gateways_';
-	private const CACHE_TTL = 1 * 60 * 60;
-	private const SUPPORTED_GATEWAYS = ['CARD', 'BIZUM', 'GOOGLE_PAY'];
+	private const CACHE_TTL_IN_SECONDS = 1 * 60 * 60;
+	private const SUPPORTED_GATEWAYS = [ChargeMethod::CARD, ChargeMethod::BIZUM]; // add GOOGLE_PAY when available
 
 	/**
 	 * @return string[]
@@ -45,7 +46,7 @@ class MerchantOperationsService
 		);
 
 		$normalized = self::normalizeGateways($gateways);
-		set_transient($cacheKey, $normalized, self::CACHE_TTL);
+		set_transient($cacheKey, $normalized, self::CACHE_TTL_IN_SECONDS);
 
 		return $normalized;
 	}

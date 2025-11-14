@@ -1684,8 +1684,8 @@
             "version": "1.0.0",
             "dist": {
                 "type": "zip",
-                "url": "../dist/wipop-payment.zip",
-            "shasum": "4d8666d0f12f3e8ccdefdad639d7947d46fda20b"
+                "url": "../dist/wipop-php-client-0.6.0.zip",
+                "shasum": "24695b9f6bcfe76224f64fc0a5b9c195a7688952"
             },
             "require": {
                 "guzzlehttp/guzzle": "7.10",
