@@ -52,7 +52,7 @@ class Webhook
 			self::ensurePostRequest();
 			$transaction = self::hydrateTransaction($body);
 
-			Logger::log('Webhook recibido', 'info', [
+			Logger::log('Webhook received', 'info', [
 				'transaction_id' => $transaction->id,
 				'order_id' => $transaction->orderId,
 				'status' => $transaction->status?->value,
@@ -68,7 +68,7 @@ class Webhook
 			}
 
 			self::applyTransactionToOrder($order, $transaction);
-			Logger::log('Pedido actualizado desde webhook', 'info', [
+			Logger::log('Order updated via webhook', 'info', [
 				'transaction_id' => $transaction->id,
 				'order_id' => $transaction->orderId,
 				'wc_order_id' => $order->get_id(),
