@@ -6,21 +6,28 @@ namespace Wipop\Gateways\Support;
 
 use Throwable;
 use WC_Order;
+use WC_Payment_Token_CC;
+use WC_Payment_Tokens;
+use Wipop\Charge\ChargeMethod;
 use Wipop\Core\Api\ClientFactory;
-use Wipop\Core\Api\Exception\ApiCallException;
-use Wipop\Core\Api\Exception\ClientConfigurationException;
 use Wipop\Core\Api\SdkCaller;
+use Wipop\Core\Exception\ApiCallException;
+use Wipop\Core\Exception\ClientConfigurationException;
 use Wipop\Core\Logger;
+use Wipop\Core\WooCommerce\PaymentMethodHelper;
+use Wipop\Core\WooCommerce\StatusHelper;
+use Wipop\Core\WooCommerce\WCOrderStatus;
 use Wipop\Domain\Charge;
+use Wipop\Domain\TransactionStatus;
+use Wipop\Gateways\Card\Gateway as CardGateway;
 
 use function __;
 use function esc_url_raw;
-use function function_exists;
 use function is_object;
-use function method_exists;
 use function sprintf;
 use function WC;
 use function wc_add_notice;
+use function wc_clean;
 use function wc_get_order;
 use function wc_reduce_stock_levels;
 
@@ -42,6 +49,11 @@ trait PaymentsProcessor
 			return ['result' => 'failure'];
 		}
 
+		$selectedToken = null;
+		if ($method === ChargeMethod::CARD) {
+			$selectedToken = $this->resolveSelectedPaymentToken($order);
+		}
+
 		try {
 			$client = ClientFactory::create();
 			$params = ChargeRequestFactory::build(
@@ -49,6 +61,18 @@ trait PaymentsProcessor
 				$method,
 				$this->get_return_url($order)
 			);
+
+			if ($selectedToken instanceof WC_Payment_Token_CC) {
+				$params
+					->sourceId($selectedToken->get_token())
+					->useCof(true)
+				;
+
+				Logger::log(sprintf(
+					'Usamos token COF en pedido %s',
+					$order->get_id()
+				));
+			}
 
 			$charge = SdkCaller::call(
 				'charge.create',
@@ -128,12 +152,17 @@ trait PaymentsProcessor
 			$order->update_meta_data('_wipop_payment_status', $charge->status->value);
 		}
 
+		PaymentMethodHelper::syncOrderPaymentMethod($order, $charge->method ?? null);
+
 		$order->save();
 
-		$order->update_status(
-			'pending',
+		$statusValue = $charge->status->value ?? TransactionStatus::CHARGE_PENDING->value;
+		$statusDescription = StatusHelper::format(
+			$statusValue,
 			__('Pago iniciado con Wipop. Esperando confirmación.', 'wipop')
 		);
+
+		$order->update_status(WCOrderStatus::PENDING, $statusDescription);
 
 		wc_reduce_stock_levels($order);
 
@@ -170,5 +199,34 @@ trait PaymentsProcessor
 			'result' => 'success',
 			'redirect' => $redirectUrl,
 		];
+	}
+
+	private function resolveSelectedPaymentToken(WC_Order $order): ?WC_Payment_Token_CC
+	{
+		$gatewayId = CardGateway::ID;
+
+		$fieldName = 'wc-' . $gatewayId . '-payment-token';
+		if (empty($_POST[$fieldName])) {
+			return null;
+		}
+
+		$raw = wc_clean($_POST[$fieldName]);
+
+		$tokenId = (int) $raw;
+		if ($tokenId <= 0) {
+			return null;
+		}
+
+		$token = WC_Payment_Tokens::get($tokenId);
+		if (!$token instanceof WC_Payment_Token_CC) {
+			return null;
+		}
+
+		$userId = $order->get_user_id();
+		if ($userId <= 0 || $token->get_user_id() !== $userId) {
+			return null;
+		}
+
+		return $token;
 	}
 }

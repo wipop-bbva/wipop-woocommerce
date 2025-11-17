@@ -15,11 +15,14 @@ class Gateway extends WC_Payment_Gateway
 {
 	use PaymentsProcessor;
 
+	public const ID = 'wipop_card_gateway';
+
 	public function __construct()
 	{
-		$this->id = 'wipop_card_gateway';
+		$this->id = self::ID;
 		$this->method_title = __('Card', 'wipop');
 		$this->method_description = __('Paga con Card', 'wipop');
+		$this->supports = array_unique(array_merge($this->supports, ['tokenization']));
 
 		$this->icon = plugins_url(
 			'gateways/card/assets/img/credit-card-svgrepo-com.svg',

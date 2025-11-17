@@ -2,9 +2,9 @@
 
 namespace Wipop\Admin;
 
-use Wipop\Core\Api\Exception\ApiCallException;
-use Wipop\Core\Api\Exception\ClientConfigurationException;
 use Wipop\Core\Api\MerchantOperationsService;
+use Wipop\Core\Exception\ApiCallException;
+use Wipop\Core\Exception\ClientConfigurationException;
 use Wipop\Core\Logger;
 
 defined('ABSPATH') || exit;

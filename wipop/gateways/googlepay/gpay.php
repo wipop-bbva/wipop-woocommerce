@@ -11,9 +11,11 @@ defined('ABSPATH') || exit;
 
 class Gateway extends WC_Payment_Gateway
 {
+	public const ID = 'wipop_gpay_gateway';
+
 	public function __construct()
 	{
-		$this->id = 'wipop_gpay_gateway';
+		$this->id = self::ID;
 		$this->method_title = __('GPay', 'wipop');
 		$this->method_description = __('Paga con GPay', 'wipop');
 
