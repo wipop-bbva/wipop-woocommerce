@@ -13,8 +13,4 @@ final class WCOrderStatus
 	public const PENDING = 'wc-pending';
 	public const ON_HOLD = 'wc-on-hold';
 	public const FAILED = 'wc-failed';
-
-	private function __construct()
-	{
-	}
 }
