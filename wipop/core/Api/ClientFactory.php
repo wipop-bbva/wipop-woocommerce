@@ -9,14 +9,14 @@ use Wipop\Client\Environment;
 use Wipop\Client\WipopClient;
 use WipopWC\Core\Exception\ClientConfigurationException;
 
+use function __;
 use function array_key_exists;
 use function get_option;
+use function is_numeric;
 use function trim;
 
 class ClientFactory
 {
-	private const DEFAULT_TERMINAL_ID = 1;
-
 	/**
 	 * @throws ClientConfigurationException when mandatory settings are missing
 	 */
@@ -44,7 +44,16 @@ class ClientFactory
 
 	public static function getTerminalId(): int
 	{
-		return self::DEFAULT_TERMINAL_ID;
+		$settings = (array) get_option('wipop_settings', []);
+		$value = self::stringSetting($settings, 'terminal_id');
+
+		if (!is_numeric($value)) {
+			throw new ClientConfigurationException(
+				__('Configura tu Terminal ID para utilizar Wipop.', 'wipop')
+			);
+		}
+
+		return (int) $value;
 	}
 
 	private static function resolveEnvironment(string $environment): string
