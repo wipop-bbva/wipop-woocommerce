@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core;
+namespace WipopWC\Core;
 
 use JsonException;
 use Throwable;
 use WC_Order;
-use Wipop\Core\Exception\WebhookException;
-use Wipop\Core\WooCommerce\PaymentMethodHelper;
-use Wipop\Core\WooCommerce\StatusHelper;
-use Wipop\Core\WooCommerce\TokenManager;
-use Wipop\Core\WooCommerce\WCOrderStatus;
 use Wipop\Domain\Transaction;
 use Wipop\Domain\TransactionStatus;
 use Wipop\Serializer\Hydrator;
+use WipopWC\Core\Exception\WebhookException;
+use WipopWC\Core\WooCommerce\PaymentMethodHelper;
+use WipopWC\Core\WooCommerce\StatusHelper;
+use WipopWC\Core\WooCommerce\TokenManager;
+use WipopWC\Core\WooCommerce\WCOrderStatus;
 
 use function __;
 use function add_action;

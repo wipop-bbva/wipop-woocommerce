@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\WooCommerce;
+namespace WipopWC\Core\WooCommerce;
 
 /**
  * Mirror of WooCommerce order statuses so we can reference them as constants.

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Gateways\Support;
+namespace WipopWC\Gateways\Support;
 
 use WC_Order;
 use Wipop\Charge\ChargeParams;
-use Wipop\Core\Api\ClientFactory;
 use Wipop\Customer\Address;
 use Wipop\Customer\Customer;
 use Wipop\Utils\Language;
 use Wipop\Utils\ProductType;
 use Wipop\Utils\Terminal;
+use WipopWC\Core\Api\ClientFactory;
 
 use function __;
 use function array_filter;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\WooCommerce;
+namespace WipopWC\Core\WooCommerce;
 
 use WC_Order;
 use WC_Payment_Token_CC;
@@ -10,7 +10,7 @@ use WC_Payment_Tokens;
 use Wipop\Charge\ChargeMethod;
 use Wipop\Domain\Card;
 use Wipop\Domain\Transaction;
-use Wipop\Gateways\Card\Gateway as CardGateway;
+use WipopWC\Gateways\Card\Gateway as CardGateway;
 
 use function strtolower;
 use function substr;

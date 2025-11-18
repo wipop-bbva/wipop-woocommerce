@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Gateways\Googlepay;
+namespace WipopWC\Gateways\Googlepay;
 
 use WC_Payment_Gateway;
-use Wipop\Core\Logger;
+use WipopWC\Core\Logger;
 
 defined('ABSPATH') || exit;
 

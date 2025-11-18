@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\Exception;
+namespace WipopWC\Core\Exception;
 
 use RuntimeException;
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core;
+namespace WipopWC\Core;
 
-use Wipop\Admin\Product\RecurringPaymentSettings;
 use Wipop\Charge\ChargeMethod;
-use Wipop\Core\Api\MerchantOperationsService;
-use Wipop\Core\Exception\ApiCallException;
-use Wipop\Core\Exception\ClientConfigurationException;
+use WipopWC\Admin\Product\RecurringPaymentSettings;
+use WipopWC\Core\Api\MerchantOperationsService;
+use WipopWC\Core\Exception\ApiCallException;
+use WipopWC\Core\Exception\ClientConfigurationException;
 
 defined('ABSPATH') || exit;
 
@@ -88,15 +88,15 @@ class Loader
 	{
 		if (in_array(ChargeMethod::CARD, self::$available_gateways, true)) {
 			require_once WIPOP_PLUGIN_PATH . 'gateways/card/card.php';
-			$gateways[] = 'Wipop\Gateways\Card\Gateway';
+			$gateways[] = 'WipopWC\Gateways\Card\Gateway';
 		}
 		if (in_array(ChargeMethod::BIZUM, self::$available_gateways, true)) {
 			require_once WIPOP_PLUGIN_PATH . 'gateways/bizum/bizum.php';
-			$gateways[] = 'Wipop\Gateways\Bizum\Gateway';
+			$gateways[] = 'WipopWC\Gateways\Bizum\Gateway';
 		}
 		if (in_array(ChargeMethod::GOOGLE_PAY, self::$available_gateways, true)) {
 			require_once WIPOP_PLUGIN_PATH . 'gateways/googlepay/gpay.php';
-			$gateways[] = 'Wipop\Gateways\Googlepay\Gateway';
+			$gateways[] = 'WipopWC\Gateways\Googlepay\Gateway';
 		}
 
 		return $gateways;

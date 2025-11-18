@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Wipop\Core\Api;
+namespace WipopWC\Core\Api;
 
 use Throwable;
 use Wipop\Client\Exception\WipopApiException;
-use Wipop\Core\Exception\ApiCallException;
-use Wipop\Core\Logger;
+use WipopWC\Core\Exception\ApiCallException;
+use WipopWC\Core\Logger;
 
 use function sprintf;
 
