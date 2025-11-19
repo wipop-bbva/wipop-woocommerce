@@ -36,6 +36,7 @@ defined('ABSPATH') || exit;
  */
 class Webhook
 {
+	private const TRANSACTION_TYPE_REFUND = 'REFUND';
 	private static ?Hydrator $hydrator = null;
 
 	public static function init(): void
@@ -258,7 +259,7 @@ class Webhook
 	{
 		$transactionType = strtoupper($transaction->transactionType ?? '');
 
-		if ($transactionType === 'REFUND') {
+		if ($transactionType === self::TRANSACTION_TYPE_REFUND) {
 			self::addRefundNote($order, $transaction);
 
 			return;
