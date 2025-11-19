@@ -6,6 +6,7 @@ use WipopWC\Core\Api\MerchantOperationsService;
 use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Exception\ClientConfigurationException;
 use WipopWC\Core\Logger;
+use WipopWC\Core\WooCommerce\ManualCaptureManager;
 
 defined('ABSPATH') || exit;
 
@@ -143,6 +144,9 @@ class Admin
 					break;
 				case 'text':
 					$value = $this->validateTextField($key, $field, $value, $old);
+					break;
+				case 'select':
+					$value = $this->validateSelectField($key, $field, $value, $old);
 					break;
 				default:
 					if ($value === '') {
@@ -355,6 +359,19 @@ class Admin
 
 	/**
 	 * @param array<string, mixed> $field
+	 * @param array<string, mixed> $old
+	 */
+	private function validateSelectField(string $key, array $field, string $value, array $old): string
+	{
+		if ($value !== '') {
+			return $value;
+		}
+
+		return (string) ($old[$key] ?? $field['default'] ?? '');
+	}
+
+	/**
+	 * @param array<string, mixed> $field
 	 */
 	private function addNumberFieldError(string $key, array $field, int $min, int $max): void
 	{
@@ -395,6 +412,20 @@ class Admin
 				],
 				'description' => __('Elige el entorno de pagos.', 'wipop'),
 				'default' => 'sandbox',
+			],
+			'manual_capture_mode' => [
+				'title' => __('Preautorizaciones', 'wipop'),
+				'type' => 'select',
+				'class' => 'wipop-manual-capture',
+				'options' => [
+					ManualCaptureManager::CAPTURE_MODE_AUTO => __('Cobrar automáticamente', 'wipop'),
+					ManualCaptureManager::CAPTURE_MODE_MANUAL => __('Solo preautorizar y capturar manualmente', 'wipop'),
+				],
+				'description' => __(
+					'Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas.',
+					'wipop'
+				),
+				'default' => ManualCaptureManager::CAPTURE_MODE_AUTO,
 			],
 			'terminal_id' => [
 				'title' => __('Terminal ID', 'wipop'),

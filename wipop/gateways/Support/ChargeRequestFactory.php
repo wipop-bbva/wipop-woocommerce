@@ -28,8 +28,12 @@ use function trim;
  */
 final class ChargeRequestFactory
 {
-	public static function build(WC_Order $order, string $method, string $redirectUrl): ChargeParams
-	{
+	public static function build(
+		WC_Order $order,
+		string $method,
+		string $redirectUrl,
+		bool $captureImmediately
+	): ChargeParams {
 		$params = (new ChargeParams())
 			->method($method)
 			->amount((float) $order->get_total())
@@ -40,6 +44,7 @@ final class ChargeRequestFactory
 			->productType(ProductType::PAYMENT_GATEWAY)
 			->language(self::resolveLanguage())
 			->terminal(new Terminal(ClientFactory::getTerminalId()))
+			->capture($captureImmediately)
 		;
 
 		$customer = self::buildCustomer($order);

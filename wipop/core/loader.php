@@ -9,6 +9,7 @@ use WipopWC\Admin\Product\RecurringPaymentSettings;
 use WipopWC\Core\Api\MerchantOperationsService;
 use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Exception\ClientConfigurationException;
+use WipopWC\Core\WooCommerce\ManualCaptureManager;
 
 defined('ABSPATH') || exit;
 
@@ -53,6 +54,7 @@ class Loader
 
 		require_once WIPOP_PLUGIN_PATH . 'admin/Product/RecurringPaymentSettings.php';
 		RecurringPaymentSettings::init();
+		ManualCaptureManager::init();
 
 		add_action('admin_post_wipop_toggle_bizum', [__CLASS__, 'handle_toggle_bizum']);
 		add_action('admin_post_wipop_toggle_card', [__CLASS__, 'handle_toggle_card']);
