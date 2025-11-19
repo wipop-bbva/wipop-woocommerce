@@ -20,7 +20,6 @@ use function __;
 use function add_action;
 use function add_filter;
 use function get_option;
-use function in_array;
 use function sprintf;
 use function strtoupper;
 use function wc_add_notice;
@@ -50,12 +49,6 @@ final class ManualCaptureManager
 	private const REVERSAL_REASON_DEFAULT = 'PRE_REVERSAL';
 	private const SDK_OPERATION_CAPTURE = 'charge.capture';
 	private const SDK_OPERATION_REVERSAL = 'charge.reversal';
-
-	private const VALID_STATUSES = [
-		self::STATUS_AUTHORIZED,
-		self::STATUS_CAPTURED,
-		self::STATUS_REVERSED,
-	];
 
 	public static function init(): void
 	{
@@ -214,10 +207,6 @@ final class ManualCaptureManager
 	public static function setStatus(WC_Order $order, string $status): void
 	{
 		if (!self::isEnabled($order)) {
-			return;
-		}
-
-		if (!in_array($status, self::VALID_STATUSES, true)) {
 			return;
 		}
 
