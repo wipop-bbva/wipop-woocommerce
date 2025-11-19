@@ -137,17 +137,18 @@ class Admin
 			// @phpstan-ignore-next-line
 			$value = trim((string) ($input[$key] ?? ''));
 
-			if ($field['type'] === 'text' && strlen($value) < 6) {
-				add_settings_error(
-					$this->option_name,
-					$key,
-					sprintf(
-						__('%s must have at least 6 characters.', 'wipop'),
-						$field['title']
-					),
-					'error'
-				);
-				$value = $old[$key] ?? '';
+			switch ($field['type']) {
+				case 'number':
+					$value = $this->validateNumberField($key, $field, $value, $old);
+					break;
+				case 'text':
+					$value = $this->validateTextField($key, $field, $value, $old);
+					break;
+				default:
+					if ($value === '') {
+						$value = (string) ($old[$key] ?? $field['default']);
+					}
+					break;
 			}
 
 			$valid[$key] = sanitize_text_field($value);
@@ -221,6 +222,23 @@ class Admin
 				);
 				echo '</div>';
 				break;
+			case 'number':
+				$min = isset($field['min']) ? (int) $field['min'] : 0;
+				$max = isset($field['max']) ? (int) $field['max'] : 99;
+				$step = isset($field['step']) ? (int) $field['step'] : 1;
+				$value = is_numeric($value) ? (int) $value : '';
+				printf(
+					'<input type="number" class="%1$s" name="%2$s[%3$s]" value="%4$u" placeholder="%5$s" min="%6$u" max="%7$u" step="%8$u" />',
+					esc_attr($field['class']),
+					esc_attr($this->option_name),
+					esc_attr($key),
+					$value,
+					esc_attr($field['placeholder']),
+					$min,
+					$max,
+					$step
+				);
+				break;
 		}
 		echo '</div>';
 	}
@@ -284,6 +302,76 @@ class Admin
 	}
 
 	/**
+	 * @param array<string, mixed> $field
+	 * @param array<string, mixed> $old
+	 */
+	private function validateNumberField(string $key, array $field, string $value, array $old): string
+	{
+		$min = isset($field['min']) ? (int) $field['min'] : 0;
+		$max = isset($field['max']) ? (int) $field['max'] : 99;
+
+		if (!is_numeric($value)) {
+			$this->addNumberFieldError($key, $field, $min, $max);
+
+			return (string) ($old[$key] ?? $field['default']);
+		}
+
+		$number = (int) $value;
+		if ($number < $min || $number > $max) {
+			$this->addNumberFieldError($key, $field, $min, $max);
+
+			return (string) ($old[$key] ?? $field['default']);
+		}
+
+		return (string) $number;
+	}
+
+	/**
+	 * @param array<string, mixed> $field
+	 * @param array<string, mixed> $old
+	 */
+	private function validateTextField(string $key, array $field, string $value, array $old): string
+	{
+		if ($value === '') {
+			return (string) ($old[$key] ?? '');
+		}
+
+		if (strlen($value) >= 5) {
+			return $value;
+		}
+
+		add_settings_error(
+			$this->option_name,
+			$key,
+			sprintf(
+				__('%s must have at least 5 characters.', 'wipop'),
+				$field['title']
+			),
+			'error'
+		);
+
+		return (string) ($old[$key] ?? '');
+	}
+
+	/**
+	 * @param array<string, mixed> $field
+	 */
+	private function addNumberFieldError(string $key, array $field, int $min, int $max): void
+	{
+		add_settings_error(
+			$this->option_name,
+			$key,
+			sprintf(
+				__('%1$s must be a number between %2$d and %3$d.', 'wipop'),
+				$field['title'],
+				$min,
+				$max
+			),
+			'error'
+		);
+	}
+
+	/**
 	 * @return array<string, array<string, mixed>>
 	 */
 	private function get_fields(): array
@@ -307,6 +395,17 @@ class Admin
 				],
 				'description' => __('Elige el entorno de pagos.', 'wipop'),
 				'default' => 'sandbox',
+			],
+			'terminal_id' => [
+				'title' => __('Terminal ID', 'wipop'),
+				'type' => 'number',
+				'class' => 'wipop-terminal-id',
+				'placeholder' => __('Introduce un número entre 0 y 99', 'wipop'),
+				'description' => __('Identificador del terminal en Wipop.', 'wipop'),
+				'default' => '1',
+				'min' => 0,
+				'max' => 99,
+				'step' => 1,
 			],
 			'public_key' => [
 				'title' => __('Public Key', 'wipop'),
