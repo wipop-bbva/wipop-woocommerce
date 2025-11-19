@@ -28,6 +28,8 @@ class Gateway extends WC_Payment_Gateway
 			WIPOP_PLUGIN_FILE
 		);
 
+		$this->supports = array_unique(array_merge($this->supports, ['refunds']));
+
 		$this->init_form_fields();
 		$this->init_settings();
 
@@ -113,5 +115,12 @@ class Gateway extends WC_Payment_Gateway
 		Logger::log('Processing Bizum payment for order ' . $order_id);
 
 		return $this->processGatewayPayment($order_id, ChargeMethod::BIZUM);
+	}
+
+	public function process_refund($order_id, $amount = null, $reason = '')
+	{
+		Logger::log('Processing Bizum refund for order ' . $order_id);
+
+		return $this->processGatewayRefund($order_id, $amount, $reason);
 	}
 }

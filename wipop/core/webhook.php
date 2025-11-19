@@ -22,9 +22,11 @@ use function esc_html;
 use function file_get_contents;
 use function is_array;
 use function json_decode;
+use function sprintf;
 use function status_header;
 use function strtoupper;
 use function wc_get_orders;
+use function wc_price;
 
 defined('ABSPATH') || exit;
 
@@ -34,6 +36,7 @@ defined('ABSPATH') || exit;
  */
 class Webhook
 {
+	private const TRANSACTION_TYPE_REFUND = 'REFUND';
 	private static ?Hydrator $hydrator = null;
 
 	public static function init(): void
@@ -214,6 +217,10 @@ class Webhook
 			$order->update_meta_data('_wipop_payment_method', $transaction->method);
 		}
 
+		if (!empty($transaction->transactionType)) {
+			$order->update_meta_data('_wipop_transaction_type', $transaction->transactionType);
+		}
+
 		$card = $transaction->card;
 
 		if ($card !== null) {
@@ -250,6 +257,14 @@ class Webhook
 
 	private static function syncOrderStatus(WC_Order $order, Transaction $transaction): void
 	{
+		$transactionType = strtoupper($transaction->transactionType ?? '');
+
+		if ($transactionType === self::TRANSACTION_TYPE_REFUND) {
+			self::addRefundNote($order, $transaction);
+
+			return;
+		}
+
 		$status = $transaction->status;
 
 		if (!$status instanceof TransactionStatus) {
@@ -286,6 +301,26 @@ class Webhook
 			$transaction->status?->value,
 			$transaction->errorMessage
 		);
+	}
+
+	private static function addRefundNote(WC_Order $order, Transaction $transaction): void
+	{
+		$amount = $transaction->amount ?? 0.0;
+		$currency = $transaction->currency ?? $order->get_currency();
+
+		$formattedAmount = wc_price($amount, ['currency' => $currency]);
+
+		$note = sprintf(
+			__('Wipop: Reembolso de %1$s. Transacción: %2$s.', 'wipop'),
+			$formattedAmount,
+			$transaction->id ?? __('desconocida', 'wipop')
+		);
+
+		if (!empty($transaction->errorMessage)) {
+			$note .= ' ' . $transaction->errorMessage;
+		}
+
+		$order->add_order_note($note);
 	}
 
 	private static function respond(int $statusCode, string $message): void
