@@ -11,7 +11,8 @@ use Wipop\Domain\Transaction;
 use Wipop\Domain\TransactionStatus;
 use Wipop\Serializer\Hydrator;
 use WipopWC\Core\Exception\WebhookException;
-use WipopWC\Core\WooCommerce\PaymentMethodHelper;
+use WipopWC\Core\WooCommerce\ManualCaptureManager;
+use WipopWC\Core\WooCommerce\OrderMetaManager;
 use WipopWC\Core\WooCommerce\StatusHelper;
 use WipopWC\Core\WooCommerce\TokenManager;
 use WipopWC\Core\WooCommerce\WCOrderStatus;
@@ -157,7 +158,7 @@ class Webhook
 
 		if (!empty($transaction->id)) {
 			$candidates[] = [
-				'key' => '_wipop_transaction_id',
+				'key' => OrderMetaManager::META_TRANSACTION_ID,
 				'value' => $transaction->id,
 			];
 		}
@@ -194,32 +195,11 @@ class Webhook
 	{
 		self::syncOrderMeta($order, $transaction);
 		self::syncOrderStatus($order, $transaction);
-
-		PaymentMethodHelper::syncOrderPaymentMethod($order, $transaction->method);
 	}
 
 	private static function syncOrderMeta(WC_Order $order, Transaction $transaction): void
 	{
-		if (!empty($transaction->id)) {
-			$order->set_transaction_id($transaction->id);
-			$order->update_meta_data('_wipop_transaction_id', $transaction->id);
-		}
-
-		if (!empty($transaction->orderId)) {
-			$order->update_meta_data('_wipop_gateway_order_id', $transaction->orderId);
-		}
-
-		if ($transaction->status !== null) {
-			$order->update_meta_data('_wipop_payment_status', $transaction->status->value);
-		}
-
-		if (!empty($transaction->method)) {
-			$order->update_meta_data('_wipop_payment_method', $transaction->method);
-		}
-
-		if (!empty($transaction->transactionType)) {
-			$order->update_meta_data('_wipop_transaction_type', $transaction->transactionType);
-		}
+		OrderMetaManager::sync($order, $transaction);
 
 		$card = $transaction->card;
 
@@ -250,6 +230,8 @@ class Webhook
 			$order->update_meta_data('_wipop_error_message', $transaction->errorMessage);
 		}
 
+		ManualCaptureManager::trySyncFromWebhook($order, $transaction);
+
 		$order->save();
 
 		TokenManager::tryStoreCardToken($order, $transaction);
@@ -260,6 +242,7 @@ class Webhook
 		$transactionType = strtoupper($transaction->transactionType ?? '');
 
 		if ($transactionType === self::TRANSACTION_TYPE_REFUND) {
+			$order->update_status(WCOrderStatus::REFUNDED);
 			self::addRefundNote($order, $transaction);
 
 			return;

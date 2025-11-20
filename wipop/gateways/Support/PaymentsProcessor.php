@@ -17,15 +17,16 @@ use WipopWC\Core\Api\SdkCaller;
 use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Exception\ClientConfigurationException;
 use WipopWC\Core\Logger;
-use WipopWC\Core\WooCommerce\PaymentMethodHelper;
+use WipopWC\Core\WooCommerce\ManualCaptureManager;
+use WipopWC\Core\WooCommerce\OrderMetaManager;
 use WipopWC\Core\WooCommerce\StatusHelper;
 use WipopWC\Core\WooCommerce\WCOrderStatus;
 use WipopWC\Gateways\Card\Gateway as CardGateway;
 use WP_Error;
 
 use function __;
-use function esc_url_raw;
 use function is_object;
+use function method_exists;
 use function sanitize_text_field;
 use function sprintf;
 use function WC;
@@ -58,12 +59,15 @@ trait PaymentsProcessor
 			$selectedToken = $this->resolveSelectedPaymentToken($order);
 		}
 
+		$captureImmediately = $this->shouldCaptureImmediately($method);
+
 		try {
 			$client = ClientFactory::create();
 			$params = ChargeRequestFactory::build(
 				$order,
 				$method,
-				$this->get_return_url($order)
+				$this->get_return_url($order),
+				$captureImmediately
 			);
 
 			if ($selectedToken instanceof WC_Payment_Token_CC) {
@@ -92,7 +96,7 @@ trait PaymentsProcessor
 				'error'
 			);
 
-			wc_add_notice($exception->getMessage(), 'error');
+			wc_add_notice(__('No se pudo iniciar el pago con Wipop.', 'wipop'), 'error');
 
 			return ['result' => 'failure'];
 		} catch (Throwable $throwable) {
@@ -120,7 +124,7 @@ trait PaymentsProcessor
 			'info'
 		);
 
-		$this->syncOrderWithCharge($order, $charge);
+		$this->syncOrderWithCharge($order, $charge, !$captureImmediately);
 
 		return $this->buildProcessPaymentResponse($order, $charge);
 	}
@@ -224,38 +228,15 @@ trait PaymentsProcessor
 		return true;
 	}
 
-	private function syncOrderWithCharge(WC_Order $order, Charge $charge): void
+	private function syncOrderWithCharge(WC_Order $order, Charge $charge, bool $requiresManualCapture): void
 	{
-		$transactionId = $charge->id ?? '';
-		if ($transactionId !== '') {
-			$order->set_transaction_id($transactionId);
-			$order->update_meta_data('_wipop_transaction_id', $transactionId);
+		OrderMetaManager::sync($order, $charge);
+
+		if ($requiresManualCapture) {
+			ManualCaptureManager::markAuthorized($order);
+		} else {
+			ManualCaptureManager::disable($order);
 		}
-
-		$paymentMethod = $charge->paymentMethod;
-		if ($paymentMethod !== null) {
-			if (!empty($paymentMethod->url)) {
-				$order->update_meta_data('_wipop_payment_url', esc_url_raw($paymentMethod->url));
-			}
-
-			if ($paymentMethod->type !== null) {
-				$order->update_meta_data('_wipop_payment_flow', $paymentMethod->type->value);
-			}
-		}
-
-		if (!empty($charge->orderId)) {
-			$order->update_meta_data('_wipop_gateway_order_id', $charge->orderId);
-		}
-
-		if (!empty($charge->method)) {
-			$order->update_meta_data('_wipop_payment_method', $charge->method);
-		}
-
-		if ($charge->status !== null) {
-			$order->update_meta_data('_wipop_payment_status', $charge->status->value);
-		}
-
-		PaymentMethodHelper::syncOrderPaymentMethod($order, $charge->method ?? null);
 
 		$order->save();
 
@@ -265,7 +246,8 @@ trait PaymentsProcessor
 			__('Pago iniciado con Wipop. Esperando confirmación.', 'wipop')
 		);
 
-		$order->update_status(WCOrderStatus::PENDING, $statusDescription);
+		$statusToApply = $requiresManualCapture ? WCOrderStatus::ON_HOLD : WCOrderStatus::PENDING;
+		$order->update_status($statusToApply, $statusDescription);
 
 		wc_reduce_stock_levels($order);
 
@@ -281,10 +263,15 @@ trait PaymentsProcessor
 			}
 		}
 
+		$transactionId = $charge->id ?? '';
 		$order->add_order_note(sprintf(
 			__('Transacción Wipop creada. Transacción: %s', 'wipop'),
 			$transactionId !== '' ? $transactionId : __('sin ID', 'wipop')
 		));
+
+		if ($requiresManualCapture) {
+			$order->add_order_note(__('Pago preautorizado con Wipop. Captura o anula la autorización desde las acciones del pedido.', 'wipop'));
+		}
 	}
 
 	/**
@@ -306,7 +293,7 @@ trait PaymentsProcessor
 
 	private function resolveRefundTransactionId(WC_Order $order): string
 	{
-		$transactionId = (string) $order->get_meta('_wipop_transaction_id', true);
+		$transactionId = (string) $order->get_meta(OrderMetaManager::META_TRANSACTION_ID, true);
 
 		if ($transactionId !== '') {
 			return $transactionId;
@@ -342,5 +329,14 @@ trait PaymentsProcessor
 		}
 
 		return $token;
+	}
+
+	private function shouldCaptureImmediately(string $method): bool
+	{
+		if ($method !== ChargeMethod::CARD) {
+			return true;
+		}
+
+		return !ManualCaptureManager::isSiteManualCaptureEnabled();
 	}
 }
