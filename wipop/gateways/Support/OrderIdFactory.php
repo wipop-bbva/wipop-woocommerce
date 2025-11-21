@@ -11,6 +11,8 @@ use Wipop\Utils\OrderId;
 use function abs;
 use function hash;
 use function is_string;
+use function max;
+use function sprintf;
 use function str_pad;
 use function strtoupper;
 use function substr;
@@ -43,13 +45,27 @@ final class OrderIdFactory
 		return OrderId::fromString($orderId);
 	}
 
-	private static function buildOrderId(WC_Order $order): string
+	public static function forRecurring(WC_Order $order, string $period, int $sequence): OrderId
+	{
+		$orderKey = $order->get_order_key();
+
+		$seed = sprintf(
+			'%s|reccurrent|%s|%d',
+			$orderKey,
+			strtoupper($period),
+			max(1, $sequence)
+		);
+
+		return OrderId::fromString(self::buildOrderId($order, $seed));
+	}
+
+	private static function buildOrderId(WC_Order $order, ?string $seed = null): string
 	{
 		// Wipop order prefix is 4 digits
 		$numericId = abs((int) $order->get_id());
 		$prefix = str_pad((string) ($numericId % 10000), 4, '0', STR_PAD_LEFT);
 
-		$orderKey = $order->get_order_key();
+		$orderKey = $seed ?? $order->get_order_key();
 		if (strlen($orderKey) < 1) {
 			$orderKey = uniqid('wipop', true);
 		}
