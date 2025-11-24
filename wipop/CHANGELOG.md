@@ -1,3 +1,29 @@
+## [0.2.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.1.0...v0.2.0) (2025-11-24)
+
+### Features
+
+* add wipop SDK librery to the distribution ([8bec19f](https://github.com/wipop-bbva/wipop-woocommerce/commit/8bec19ffc7216b72422486a28f2d6b57486d2cea))
+* **bizum:** integrate PaymentsProcessor and update payment processing logic ([f6ae354](https://github.com/wipop-bbva/wipop-woocommerce/commit/f6ae35421ffe6d310451e273a478b46aecd61b1f))
+* **card:** add WC tokenization support for Wipop card gateway ([cd48ea4](https://github.com/wipop-bbva/wipop-woocommerce/commit/cd48ea41269899461d33401a68e3d9197aa604e8))
+* **card:** integrate PaymentsProcessor and update payment processing logic ([5b5326d](https://github.com/wipop-bbva/wipop-woocommerce/commit/5b5326dd3c1c4a57c0ac808f511322edca20515b))
+* **charges:** implement ChargeFactory and OrderIdFactory ([9ba238c](https://github.com/wipop-bbva/wipop-woocommerce/commit/9ba238cf02c105a8cd84448708ed4a5540d767bd))
+* integrate local Wipop SDK autoloader and client factory ([0bd480f](https://github.com/wipop-bbva/wipop-woocommerce/commit/0bd480f2307db9b5541c2d18451d9f0ba7cb47e9))
+* **merchant-gateways:** implement merchant operations service and credential verification with ttl cache ([e9af26b](https://github.com/wipop-bbva/wipop-woocommerce/commit/e9af26b2623c11d85a7f420d60855bc968cf8cb4))
+* **Order:** add support for refunds (total or partial) ([b3e365f](https://github.com/wipop-bbva/wipop-woocommerce/commit/b3e365fac312661836a94910d690a8c850e6af74))
+* **OrderStatus:** add WC Order status mirror constants ([c04d531](https://github.com/wipop-bbva/wipop-woocommerce/commit/c04d53122dce38bdbabd6f0015272de2bae5a86f))
+* **preauth:** add support for preauthorization operations ([9497489](https://github.com/wipop-bbva/wipop-woocommerce/commit/949748977532767782d2c0c01135f3aecfcea58d))
+* **recurrent:** add support for recurrent payments ([05c43c4](https://github.com/wipop-bbva/wipop-woocommerce/commit/05c43c40ae03a7eee0076e30a28f01e9a328914d))
+* **settings:** add support for terminal ID configuration in Wipop plugin ([d95970d](https://github.com/wipop-bbva/wipop-woocommerce/commit/d95970dd470a7b1646d49ee065761d5d47429ebf))
+* **webhook:** implement webhook logic and sync Orders (WC status and meta) ([f13b0a2](https://github.com/wipop-bbva/wipop-woocommerce/commit/f13b0a2994ae6e2adfdfdf40bac06ab0df81622f))
+
+### Bug Fixes
+
+* exclude wipop-payment.zip from gitignore ([66e8f8d](https://github.com/wipop-bbva/wipop-woocommerce/commit/66e8f8df8e73db5b06e5eb7ac180c09541ac22ef))
+* **release:** Fix github release permissions ([34eedb2](https://github.com/wipop-bbva/wipop-woocommerce/commit/34eedb2f1f63e859078dcd89045c2a33e0b2e60f))
+* remove zip file exclusions from .gitignore ([5d12067](https://github.com/wipop-bbva/wipop-woocommerce/commit/5d1206783eda4b9e09a1b1a6a83df3cb5faa4e05))
+* update Wipop library to 0.6.0 ([0068c16](https://github.com/wipop-bbva/wipop-woocommerce/commit/0068c16d264d7f59448ba05bbfbdc4f947ef15b3))
+* Wipop SDK checksum ([b29b73f](https://github.com/wipop-bbva/wipop-woocommerce/commit/b29b73f9f50e34057089434d8a68dfa7c9a2d98d))
+
 ## [1.1.1](https://github.com/secture/wipop-woocommerce/compare/v1.1.0...v1.1.1) (2025-07-22)
 
 ### Bug Fixes
