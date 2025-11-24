@@ -9,8 +9,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-04T17:05:20+00:00\n"
-"PO-Revision-Date: 2025-07-04T17:05:20+00:00\n"
+"POT-Creation-Date: 2025-11-24T12:51:53+00:00\n"
+"PO-Revision-Date: 2025-11-24T12:51:53+00:00\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wipop\n"
 "Language: ca\n"
@@ -18,155 +18,550 @@ msgstr ""
 #. Plugin Name of the plugin
 #: wipop.php build/index.js:225 src/index.js:69 build/index.js:126
 msgid "Wipop"
-msgstr ""
+msgstr "Wipop"
 
 #. Description of the plugin
 #: wipop.php
 msgid "Pasarelas de pago BBVA (Bizum, Tarjeta y Google Pay) para WooCommerce."
-msgstr ""
+msgstr "Passarel·les de pagament BBVA (Bizum, Targeta i Google Pay) per a WooCommerce."
 
 #. Author of the plugin
 #: wipop.php
 msgid "Secture Labs S.L."
-msgstr ""
+msgstr "Secture Labs S.L."
 
-#: admin/admin.php:83 admin/admin.php:94
+#: admin/admin.php:65
+msgid "No tienes permisos suficientes."
+msgstr "No tens permisos suficients."
+
+#: admin/admin.php:73
+msgid "Credenciales verificadas correctamente."
+msgstr "Credencials verificades correctament."
+
+#: admin/admin.php:86 admin/admin.php:254
 msgid "Wipop Settings"
-msgstr ""
+msgstr "Configuració de Wipop"
 
-#: admin/admin.php:106
+#: admin/admin.php:261
+msgid "Guardar"
+msgstr "Desa"
+
+#: admin/admin.php:264
+msgid "Verificar datos"
+msgstr "Verificar dades"
+
+#: admin/admin.php:302
+msgid "Tus credenciales son válidas."
+msgstr "Les teves credencials són vàlides."
+
+#: admin/admin.php:303
+msgid ""
+"No pudimos verificar las credenciales. Revisa los datos e inténtalo de nuevo."
+msgstr "No hem pogut verificar les credencials. Revisa les dades i torna-ho a provar."
+
+#: admin/admin.php:351
+#, php-format
+msgid "%s must have at least 5 characters."
+msgstr "%s ha de tenir almenys 5 caràcters."
+
+#: admin/admin.php:382
+#, php-format
+msgid "%1$s must be a number between %2$d and %3$d."
+msgstr "%1$s ha de ser un nombre entre %2$d i %3$d."
+
+#: admin/admin.php:398
 msgid "Merchant ID"
-msgstr ""
+msgstr "Merchant ID"
 
-#: admin/admin.php:110
+#: admin/admin.php:401
+msgid "Tu Merchant ID"
+msgstr "El teu Merchant ID"
+
+#: admin/admin.php:402
 msgid "Introduce tu Merchant ID del BBVA."
-msgstr ""
+msgstr "Introdueix el teu Merchant ID del BBVA."
 
-#: admin/admin.php:114
+#: admin/admin.php:406
 msgid "Entorno"
-msgstr ""
+msgstr "Entorn"
 
-#: admin/admin.php:118
-msgid "Elige el entorno de pagos."
-msgstr ""
-
-#: admin/admin.php:120
+#: admin/admin.php:410
 msgid "Sandbox"
-msgstr ""
+msgstr "Sandbox"
 
-#: admin/admin.php:121
+#: admin/admin.php:411
 msgid "Producción"
-msgstr ""
+msgstr "Producció"
 
-#: admin/admin.php:126
+#: admin/admin.php:413
+msgid "Elige el entorno de pagos."
+msgstr "Tria l'entorn de pagaments."
+
+#: admin/admin.php:417
+msgid "Preautorizaciones"
+msgstr "Preautoritzacions"
+
+#: admin/admin.php:421
+msgid "Cobrar automáticamente"
+msgstr "Cobrar automàticament"
+
+#: admin/admin.php:422
+msgid "Solo preautorizar y capturar manualmente"
+msgstr "Només preautoritzar i capturar manualment"
+
+#: admin/admin.php:424
+msgid ""
+"Si eliges preautorizar, tendrás que capturar o anular cada pago desde el "
+"pedido antes de una semana. Aplica a tarjetas."
+msgstr "Si tries preautoritzar, hauràs de capturar o anul·lar cada pagament des de la comanda abans d'una setmana. Aplica a targetes."
+
+#: admin/admin.php:431
+msgid "Terminal ID"
+msgstr "Terminal ID"
+
+#: admin/admin.php:434
+msgid "Introduce un número entre 0 y 99"
+msgstr "Introdueix un número entre 0 i 99"
+
+#: admin/admin.php:435
+msgid "Identificador del terminal en Wipop."
+msgstr "Identificador del terminal a Wipop."
+
+#: admin/admin.php:442
 msgid "Public Key"
-msgstr ""
+msgstr "Clau pública"
 
-#: admin/admin.php:130
+#: admin/admin.php:445
+msgid "Tu Clave Pública"
+msgstr "La teva clau pública"
+
+#: admin/admin.php:446
 msgid "Introduce tu Public Key del BBVA."
-msgstr ""
+msgstr "Introdueix la teva clau pública del BBVA."
 
-#: admin/admin.php:134
+#: admin/admin.php:450
 msgid "Private Key"
-msgstr ""
+msgstr "Clau privada"
 
-#: admin/admin.php:138
+#: admin/admin.php:453
+msgid "Tu Clave Privada"
+msgstr "La teva clau privada"
+
+#: admin/admin.php:454
 msgid "Introduce tu Private Key del BBVA."
-msgstr ""
+msgstr "Introdueix la teva clau privada del BBVA."
 
-#: gateways/bizum/bizum.php:17
+#: admin/Product/RecurringPaymentSettings.php:26
+msgid "Pago recurrente"
+msgstr "Pagament recurrent"
+
+#: admin/Product/RecurringPaymentSettings.php:40
+msgid "Habilitar pago recurrente"
+msgstr "Habilita el pagament recurrent"
+
+#: admin/Product/RecurringPaymentSettings.php:45
+msgid "Periodicidad"
+msgstr "Periodicitat"
+
+#: admin/Product/RecurringPaymentSettings.php:47
+msgid "Seleccione una opción..."
+msgstr "Selecciona una opció..."
+
+#: admin/Product/RecurringPaymentSettings.php:48
+msgid "Mensual"
+msgstr "Mensual"
+
+#: admin/Product/RecurringPaymentSettings.php:49
+msgid "Anual"
+msgstr "Anual"
+
+#: core/Api/ClientFactory.php:32
+msgid "Configura tu Merchant ID y Private Key para usar Wipop."
+msgstr "Configura el teu Merchant ID i la Private Key per utilitzar Wipop."
+
+#: core/Api/ClientFactory.php:52
+msgid "Configura tu Terminal ID para utilizar Wipop."
+msgstr "Configura el teu Terminal ID per utilitzar Wipop."
+
+#: core/Api/SdkCaller.php:49
+msgid "Ha ocurrido un error inesperado al comunicarse con Wipop."
+msgstr "S'ha produït un error inesperat en comunicar-se amb Wipop."
+
+#: core/Api/SdkCaller.php:59
+#, php-format
+msgid "No se pudo completar la operación con Wipop: %s"
+msgstr "No s'ha pogut completar l'operació amb Wipop: %s"
+
+#: core/loader.php:183
+msgid "Activar"
+msgstr "Activar"
+
+#: core/loader.php:184
+msgid "Desactivar"
+msgstr "Desactivar"
+
+#: core/loader.php:185
+#, php-format
+msgid "¿Estás seguro de que quieres desactivar %s?"
+msgstr "Segur que vols desactivar %s?"
+
+#: core/loader.php:186
+msgid "este método de pago"
+msgstr "aquest mètode de pagament"
+
+#: core/loader.php:187
+msgid "Confirmar"
+msgstr "Confirmar"
+
+#: core/loader.php:188
+msgid "Cancelar"
+msgstr "Cancel·lar"
+
+#: core/loader.php:189
+msgid ""
+"Ups… no pudimos mostrar la ventana de confirmación. Puedes desactivar la "
+"pasarela desde el botón ⋮"
+msgstr "Ups… no hem pogut mostrar la finestra de confirmació. Pots desactivar la passarel·la des del botó ⋮"
+
+#: core/webhook.php:69
+msgid "Could not find the order in the ecommerce."
+msgstr "No s'ha pogut trobar la comanda a l'ecommerce."
+
+#: core/webhook.php:93
+msgid "Error processing the webhook."
+msgstr "Error en processar el webhook."
+
+#: core/webhook.php:102
+msgid "Method not allowed"
+msgstr "Mètode no permès"
+
+#: core/webhook.php:112
+msgid "Could not decode the body payload"
+msgstr "No s'ha pogut decodificar el cos del payload"
+
+#: core/webhook.php:120
+msgid "Invalid body."
+msgstr "Cos invàlid."
+
+#: core/webhook.php:130
+msgid "Payload does not match the expected model."
+msgstr "El payload no coincideix amb el model esperat."
+
+#: core/webhook.php:297
+#, php-format
+msgid "Wipop: Reembolso de %1$s. Transacción: %2$s."
+msgstr "Wipop: Reemborsament de %1$s. Transacció: %2$s."
+
+#: core/webhook.php:299 gateways/Support/PaymentsProcessor.php:218
+msgid "desconocida"
+msgstr "desconeguda"
+
+#: core/WooCommerce/ManualCaptureManager.php:74
+msgid "Capturar preautorización con Wipop"
+msgstr "Capturar preautorització amb Wipop"
+
+#: core/WooCommerce/ManualCaptureManager.php:75
+msgid "Anular preautorización con Wipop"
+msgstr "Anul·lar preautorització amb Wipop"
+
+#: core/WooCommerce/ManualCaptureManager.php:89
+msgid "No encontramos la transacción en Wipop."
+msgstr "No hem trobat la transacció a Wipop."
+
+#: core/WooCommerce/ManualCaptureManager.php:110
+msgid "No hemos podido capturar la preautorización en Wipop"
+msgstr "No hem pogut capturar la preautorització a Wipop"
+
+#: core/WooCommerce/ManualCaptureManager.php:132
+#, php-format
+msgid "Wipop: Capturada preautorización de %1$s. Transacción: %2$s."
+msgstr "Wipop: Capturada preautorització de %1$s. Transacció: %2$s."
+
+#: core/WooCommerce/ManualCaptureManager.php:147
+msgid "No encontramos la transacción en Wipop"
+msgstr "No hem trobat la transacció a Wipop"
+
+#: core/WooCommerce/ManualCaptureManager.php:168
+msgid "No hemos podido cancelar la preautorización en Wipop."
+msgstr "No hem pogut cancel·lar la preautorització a Wipop."
+
+#: core/WooCommercemsgid/ManualCaptureManager.php:186
+msgid "Preautorización anulada manualmente en Wipop."
+msgstr "Preautorització anul·lada manualment a Wipop."
+
+#: core/WooCommerce/ManualCaptureManager.php:190
+#, php-format
+msgid "Wipop: Anulaste la preautorización. Transacción: %s."
+msgstr "Wipop: has anul·lat la preautorització. Transacció: %s."
+
+#: core/WooCommerce/RecurringPayments.php:121
+msgid ""
+"Wipop: no se programaron cobros recurrentes porque el cliente no tiene "
+"tarjeta guardada."
+msgstr "Wipop: no s'han programat cobraments recurrents perquè el client no té targeta desada."
+
+#: core/WooCommerce/RecurringPayments.php:173
+#, php-format
+msgid "Wipop: programados cobros recurrentes (%s)."
+msgstr "Wipop: programats cobraments recurrents (%s)."
+
+#: core/WooCommerce/RecurringPayments.php:201
+msgid ""
+"Wipop: detuvimos los cobros recurrentes porque el pedido ya no está activo."
+msgstr "Wipop: hem aturat els cobraments recurrents perquè la comanda ja no està activa."
+
+#: core/WooCommerce/RecurringPayments.php:214
+msgid ""
+"Wipop: detuvimos los cobros recurrentes porque el fallo en la programación."
+msgstr "Wipop: hem aturat els cobraments recurrents per un error en la programació."
+
+#: core/WooCommerce/RecurringPayments.php:246
+msgid ""
+"Wipop: no encontramos la tarjeta guardada del cliente para continuar con los "
+"cobros recurrentes."
+msgstr "Wipop: no hem trobat la targeta desada del client per continuar amb els cobraments recurrents."
+
+#: core/WooCommerce/RecurringPayments.php:257
+msgid ""
+"Wipop: detuvimos los cobros recurrentes porque el importe configurado es 0."
+msgstr "Wipop: hem aturat els cobraments recurrents perquè l'import configurat és 0."
+
+#: core/WooCommerce/RecurringPayments.php:317
+#, php-format
+msgid ""
+"Wipop: cargo recurrente %1$s #%2$d enviado. Transacción: %3$s. Importe: %4$s."
+msgstr "Wipop: càrrec recurrent %1$s #%2$d enviat. Transacció: %3$s. Import: %4$s."
+
+#: core/WooCommerce/RecurringPayments.php:344
+msgid ""
+"Wipop: cancelamos los cobros recurrentes porque el pedido cambió de estado."
+msgstr "Wipop: hem cancel·lat els cobraments recurrents perquè la comanda ha canviat d'estat."
+
+#: core/WooCommerce/RecurringPayments.php:462
+msgid "anual"
+msgstr "anual"
+
+#: core/WooCommerce/RecurringPayments.php:463
+msgid "mensual"
+msgstr "mensual"
+
+#: core/WooCommerce/RecurringPayments.php:464
+#: core/WooCommerce/StatusHelper.php:16
+msgid "desconocido"
+msgstr "desconegut"
+
+#: core/WooCommerce/RecurringPayments.php:574
+#, php-format
+msgid ""
+"Wipop: detuvimos los cobros recurrentes (%1$s) tras %2$d fallos. Último "
+"error: %3$s."
+msgstr "Wipop: hem aturat els cobraments recurrents (%1$s) després de %2$d errors. Últim error: %3$s."
+
+#: core/WooCommerce/RecurringPayments.php:587
+#, php-format
+msgid ""
+"Wipop: no pudimos cobrar la recurrencia (%1$s). Reintentaremos en 24 horas. "
+"Error: %2$s."
+msgstr "Wipop: no hem pogut cobrar la recurrència (%1$s). Ho tornarem a intentar en 24 hores. Error: %2$s."
+
+#: core/WooCommerce/StatusHelper.php:18
+#, php-format
+msgid "Estado de Wipop: %s."
+msgstr "Estat de Wipop: %s."
+
+#: gateways/bizum/bizum.php:23
 msgid "Bizum"
-msgstr ""
+msgstr "Bizum"
 
-#: gateways/bizum/bizum.php:18
+#: gateways/bizum/bizum.php:24
 msgid "Paga con Bizum"
-msgstr ""
+msgstr "Paga amb Bizum"
 
-#: gateways/bizum/bizum.php:32
+#: gateways/bizum/bizum.php:60
 msgid "Enable Bizum"
-msgstr ""
+msgstr "Activar Bizum"
 
-#: gateways/bizum/bizum.php:34
+#: gateways/bizum/bizum.php:62
 msgid "Enable Bizum payments"
-msgstr ""
+msgstr "Activar pagaments amb Bizum"
+
+#: gateways/bizum/bizum.php:66 gateways/card/card.php:66
+#: gateways/googlepay/gpay.php:60
+msgid "Checkout title"
+msgstr "Títol al checkout"
+
+#: gateways/bizum/bizum.php:68 gateways/card/card.php:68
+#: gateways/googlepay/gpay.php:62
+msgid "Title that the customer will see at payment."
+msgstr "Títol que veurà el client al pagar."
+
+#: gateways/bizum/bizum.php:69
+msgid "Pay with Bizum"
+msgstr "Paga amb Bizum"
 
 #: gateways/bizum/templates/payment.php:1
 msgid "Pay securely using Bizum."
-msgstr ""
+msgstr "Paga de forma segura amb Bizum."
 
-#: gateways/card/card.php:17
+#: gateways/card/card.php:23
 msgid "Card"
-msgstr ""
+msgstr "Targeta"
 
-#: gateways/card/card.php:18
+#: gateways/card/card.php:24
 msgid "Paga con Card"
-msgstr ""
+msgstr "Paga amb targeta"
 
-#: gateways/card/card.php:32
+#: gateways/card/card.php:60
 msgid "Enable Card"
-msgstr ""
+msgstr "Activar targeta"
 
-#: gateways/card/card.php:34
+#: gateways/card/card.php:62
 msgid "Enable Card payments"
-msgstr ""
+msgstr "Activar pagaments amb targeta"
+
+#: gateways/card/card.php:69
+msgid "Pay with Card"
+msgstr "Paga amb targeta"
 
 #: gateways/card/templates/payment.php:1
 msgid "Pay securely using Card."
-msgstr ""
+msgstr "Paga de forma segura amb targeta."
 
-#: gateways/googlepay/gpay.php:17
+#: gateways/googlepay/gpay.php:19
 msgid "GPay"
-msgstr ""
+msgstr "Google Pay"
 
-#: gateways/googlepay/gpay.php:18
+#: gateways/googlepay/gpay.php:20
 msgid "Paga con GPay"
-msgstr ""
+msgstr "Paga amb Google Pay"
 
-#: gateways/googlepay/gpay.php:32
+#: gateways/googlepay/gpay.php:54
 msgid "Enable GPay"
-msgstr ""
+msgstr "Activar Google Pay"
 
-#: gateways/googlepay/gpay.php:34
+#: gateways/googlepay/gpay.php:56
 msgid "Enable GPay payments"
-msgstr ""
+msgstr "Activar pagaments amb Google Pay"
+
+#: gateways/googlepay/gpay.php:63
+msgid "Pay with GPay"
+msgstr "Paga amb Google Pay"
 
 #: gateways/googlepay/templates/payment.php:1
 msgid "Pay securely using GPay."
-msgstr ""
+msgstr "Paga de forma segura amb Google Pay."
 
-#: wipop.php:25
+#: gateways/Support/ChargeRequestFactory.php:63
+#, php-format
+msgid "Pedido #%1$s en %2$s"
+msgstr "Comanda #%1$s a %2$s"
+
+#: gateways/Support/ChargeRequestFactory.php:80
+msgid "Cliente"
+msgstr "Client"
+
+#: gateways/Support/ChargeRequestFactory.php:84
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: gateways/Support/PaymentsProcessor.php:52
+msgid "No se pudo iniciar el pago: el pedido es inválido."
+msgstr "No s'ha pogut iniciar el pagament: la comanda és invàlida."
+
+#: gateways/Support/PaymentsProcessor.php:99
+msgid "No se pudo iniciar el pago con Wipop."
+msgstr "No s'ha pogut iniciar el pagament amb Wipop."
+
+#: gateways/Support/PaymentsProcessor.php:113
+msgid "No se pudo iniciar el pago con Wipop. Inténtalo de nuevo."
+msgstr "No s'ha pogut iniciar el pagament amb Wipop. Torna-ho a provar."
+
+#: gateways/Support/PaymentsProcessor.php:146
+msgid "No se pudo procesar el reembolso porque el pedido es inválido."
+msgstr "No s'ha pogut processar el reemborsament perquè la comanda és invàlida."
+
+#: gateways/Support/PaymentsProcessor.php:153
+msgid "El importe del reembolso tiene que ser mayor que cero."
+msgstr "L'import del reemborsament ha de ser superior a zero."
+
+#: gateways/Support/PaymentsProcessor.php:166
+msgid "No se encontró la transacción de Wipop para este pedido."
+msgstr "No s'ha trobat la transacció de Wipop per a aquesta comanda."
+
+#: gateways/Support/PaymentsProcessor.php:190
+msgid "No se pudo completar el reembolso. Error al comunicarse con Wipop"
+msgstr "No s'ha pogut completar el reemborsament. Error en comunicar amb Wipop"
+
+#: gateways/Support/PaymentsProcessor.php:205
+msgid "No se pudo completar el reembolso con Wipop. Inténtalo de nuevo."
+msgstr "No s'ha pogut completar el reemborsament amb Wipop. Torna-ho a provar."
+
+#: gateways/Support/PaymentsProcessor.php:216
+#, php-format
+msgid "Reembolso Wipop completado por %1$s. Transacción: %2$s."
+msgstr "Reemborsament Wipop completat per %1$s. Transacció: %2$s."
+
+#: gateways/Support/PaymentsProcessor.php:223
+#, php-format
+msgid "Motivo: %s"
+msgstr "Motiu: %s"
+
+#: gateways/Support/PaymentsProcessor.php:246
+msgid "Pago iniciado con Wipop. Esperando confirmación."
+msgstr "Pagament iniciat amb Wipop. Esperant confirmació."
+
+#: gateways/Support/PaymentsProcessor.php:268
+#, php-format
+msgid "Transacción Wipop creada. Transacción: %s"
+msgstr "Transacció Wipop creada. Transacció: %s"
+
+#: gateways/Support/PaymentsProcessor.php:269
+msgid "sin ID"
+msgstr "sense ID"
+
+#: gateways/Support/PaymentsProcessor.php:273
+msgid ""
+"Pago preautorizado con Wipop. Captura o anula la autorización desde las "
+"acciones del pedido."
+msgstr "Pagament preautoritzat amb Wipop. Captura o anul·la l'autorització des de les accions de la comanda."
+
+#: wipop.php:40
 msgid "Wipop requires WooCommerce to be installed and active."
-msgstr ""
+msgstr "Wipop requereix que WooCommerce estigui instal·lat i actiu."
+
+#: wipop.php:110
+msgid "Ajustes"
+msgstr "Configuració"
 
 #: build/index.js:182 src/index.js:18 build/index.js:75
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: build/index.js:192 src/index.js:29 build/index.js:86
 msgid "Dropdown"
-msgstr ""
+msgstr "Desplegable"
 
 #: build/index.js:206 src/index.js:43 build/index.js:100
 msgid "Pill shaped container"
-msgstr ""
+msgstr "Contenidor en forma de pastilla"
 
 #: build/index.js:209 src/index.js:45 build/index.js:102
 msgid "Pill Shape Container"
-msgstr ""
+msgstr "Contenidor en forma de pastilla"
 
 #: build/index.js:212 src/index.js:50 build/index.js:107
 msgid "Spinner"
-msgstr ""
+msgstr "Indicador de càrrega"
 
 #: build/index.js:216 src/index.js:56 build/index.js:113
 msgid "Datepicker"
-msgstr ""
+msgstr "Selector de data"
 
 #: build/index.js:218 src/index.js:58 build/index.js:115
 msgid "I am a datepicker!"
-msgstr ""
+msgstr "Sóc un selector de data!"
 
 #: block.json
 msgctxt "block title"
 msgid "Wipop"
-msgstr ""
+msgstr "Wipop"
