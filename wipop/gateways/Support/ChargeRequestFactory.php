@@ -9,6 +9,7 @@ use Wipop\Charge\ChargeParams;
 use Wipop\Customer\Address;
 use Wipop\Customer\Customer;
 use Wipop\Utils\Language;
+use Wipop\Utils\OrderId;
 use Wipop\Utils\ProductType;
 use Wipop\Utils\Terminal;
 use WipopWC\Core\Api\ClientFactory;
@@ -32,7 +33,8 @@ final class ChargeRequestFactory
 		WC_Order $order,
 		string $method,
 		string $redirectUrl,
-		bool $captureImmediately
+		bool $captureImmediately,
+		?OrderId $customOrderId = null
 	): ChargeParams {
 		$params = (new ChargeParams())
 			->method($method)
@@ -40,7 +42,7 @@ final class ChargeRequestFactory
 			->currency($order->get_currency())
 			->description(self::buildDescription($order))
 			->redirectUrl(esc_url_raw($redirectUrl))
-			->orderId(OrderIdFactory::fromOrder($order))
+			->orderId($customOrderId ?? OrderIdFactory::fromOrder($order))
 			->productType(ProductType::PAYMENT_GATEWAY)
 			->language(self::resolveLanguage())
 			->terminal(new Terminal(ClientFactory::getTerminalId()))

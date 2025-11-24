@@ -13,35 +13,35 @@ final class WCOrderStatus
 	/**
 	 * The order is pending payment.
 	 */
-	public const PENDING = 'wc-pending';
+	public const PENDING = 'pending';
 
 	/**
 	 * The order is processing.
 	 */
-	public const PROCESSING = 'wc-processing';
+	public const PROCESSING = 'processing';
 
 	/**
 	 * The order is on hold.
 	 */
-	public const ON_HOLD = 'wc-on-hold';
+	public const ON_HOLD = 'on-hold';
 
 	/**
 	 * The order is completed.
 	 */
-	public const COMPLETED = 'wc-completed';
+	public const COMPLETED = 'completed';
 
 	/**
 	 * The order is cancelled.
 	 */
-	public const CANCELLED = 'wc-cancelled';
+	public const CANCELLED = 'cancelled';
 
 	/**
 	 * The order is refunded.
 	 */
-	public const REFUNDED = 'wc-refunded';
+	public const REFUNDED = 'refunded';
 
 	/**
 	 * The order is failed.
 	 */
-	public const FAILED = 'wc-failed';
+	public const FAILED = 'failed';
 }
