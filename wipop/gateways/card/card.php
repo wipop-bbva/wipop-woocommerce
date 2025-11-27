@@ -32,11 +32,9 @@ class Gateway extends WC_Payment_Gateway
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->enabled = $this->get_option('enabled');
-		$this->title = $this->get_option('title');
+		$this->enabled = $this->get_option('enabled', 'no');
+		$this->title = __('Card (BBVA)', 'wipop');
 		$this->description = '';
-
-		add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
 
 		add_filter(
 			'woocommerce_gateway_title',
@@ -55,21 +53,13 @@ class Gateway extends WC_Payment_Gateway
 
 	public function init_form_fields()
 	{
-		$this->form_fields = [
-			'enabled' => [
-				'title' => __('Enable Card', 'wipop'),
-				'type' => 'checkbox',
-				'label' => __('Enable Card payments', 'wipop'),
-				'default' => 'no',
-			],
-			'title' => [
-				'title' => __('Checkout title', 'wipop'),
-				'type' => 'text',
-				'description' => __('Title that the customer will see at payment.', 'wipop'),
-				'default' => __('Pay with Card', 'wipop'),
-				'desc_tip' => true,
-			],
-		];
+		$this->form_fields = [];
+	}
+
+	public function admin_options()
+	{
+		echo '<h2>' . esc_html($this->get_method_title()) . '</h2>';
+		echo '<p>' . esc_html__('Gestiona este método desde WooCommerce > Wipop.', 'wipop') . '</p>';
 	}
 
 	public function filter_gateway_icon($icon, $gateway_id)

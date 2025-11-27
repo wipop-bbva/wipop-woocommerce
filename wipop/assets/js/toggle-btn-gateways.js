@@ -29,6 +29,11 @@
     if (!wrapper || wrapper.dataset.wipopInjected || wrapper.querySelector('.wipop-toggle-button')) return;
     wrapper.dataset.wipopInjected = '1';
 
+    const defaultActions = wrapper.querySelectorAll(
+      '.woocommerce-list__item-buttons__actions > a.components-button, .woocommerce-list__item-buttons__actions > button.components-button'
+    );
+    defaultActions.forEach((button) => button.remove());
+
     const isActive = !!wrapper.querySelector('.woocommerce-status-badge--success');
     const params = new URLSearchParams({
       action: cfg.action,
