@@ -257,7 +257,7 @@ class Admin
 			<?php settings_fields($this->group_slug); ?>
 			<?php do_settings_sections($this->page_slug); ?>
 			<div class="wipop-button-group">
-				<button type="submit" class="button button-primary" id="wipop-admin-save-button" disabled>
+				<button type="submit" class="button button-primary" id="wipop-admin-save-button">
 					<?php esc_html_e('Guardar', 'wipop'); ?>
 				</button>
 				<button type="button" class="button button-secondary" id="wipop-admin-verify-button">
