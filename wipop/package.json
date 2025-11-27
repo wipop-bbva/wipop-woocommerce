@@ -32,5 +32,20 @@
 		"@wordpress/scripts": "^24.6.0",
 		"conventional-changelog-conventionalcommits": "^9.0.0",
 		"semantic-release": "^24.2.6"
-	}
+	},
+	"files": [
+		"wipop.php",
+		"admin/",
+		"assets/",
+		"build/",
+		"core/",
+		"gateways/",
+		"languages/",
+		"vendor/",
+		"composer.json",
+		"composer.lock",
+		"README.md",
+		"CHANGELOG.md",
+		"block.json"
+	]
 }
