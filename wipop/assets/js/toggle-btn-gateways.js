@@ -16,12 +16,6 @@
   ];
   const gatewayMap = Object.fromEntries(gateways.map(cfg => [cfg.id, cfg]));
 
-  const gatewayNames = {
-    wipop_bizum_gateway: 'Bizum',
-    wipop_card_gateway: 'Credit Card',
-    wipop_gpay_gateway: 'Google Pay'
-  };
-
   const containerSelector = '#mainform';
   let observer = null;
 
@@ -33,6 +27,11 @@
       '.woocommerce-list__item-buttons__actions > a.components-button, .woocommerce-list__item-buttons__actions > button.components-button'
     );
     defaultActions.forEach((button) => button.remove());
+
+    const ellipsisMenu = wrapper.querySelector('.woocommerce-list__item-after');
+    if (ellipsisMenu) {
+      ellipsisMenu.remove();
+    }
 
     const isActive = !!wrapper.querySelector('.woocommerce-status-badge--success');
     const params = new URLSearchParams({
@@ -51,7 +50,7 @@
     if (isActive) {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        const gatewayLabel = gatewayNames[wrapper.id] || wipopToggle.i18n.default_label;
+        const gatewayLabel = extractGatewayLabel(wrapper) || wipopToggle.i18n.default_label;
         const message = sprintf(wipopToggle.i18n.confirm_deactivate, gatewayLabel);
         
         showConfirmationModal(message, {
@@ -135,3 +134,15 @@
     document.addEventListener('DOMContentLoaded', startObserver);
   }
 })();
+  function extractGatewayLabel(wrapper) {
+    const title = wrapper.querySelector('.woocommerce-list__item-title');
+    if (!title) {
+      return '';
+    }
+
+    return Array.from(title.childNodes)
+      .filter((node) => node.nodeType === Node.TEXT_NODE)
+      .map((node) => node.textContent || '')
+      .join('')
+      .trim();
+  }
