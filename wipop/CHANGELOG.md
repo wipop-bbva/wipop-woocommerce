@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.2.0...v0.2.1) (2025-12-01)
+
+### Bug Fixes
+
+* **localization:** recompile po files for updates translations ([0aff6f6](https://github.com/wipop-bbva/wipop-woocommerce/commit/0aff6f6bd4774d73967a08882455b37c00e374a0))
+* **local:** local development load of zip library ([d2f1c8a](https://github.com/wipop-bbva/wipop-woocommerce/commit/d2f1c8a02b8b58c0fd3d59e99d6a2f02e31661c5))
+* **release:** ensure release action packages all required files into the ZIP ([7209900](https://github.com/wipop-bbva/wipop-woocommerce/commit/7209900eab018b17a596c0b1c186c7597719b58d))
+* **settings:** simplify wipop data verification on settings ([bbe82c7](https://github.com/wipop-bbva/wipop-woocommerce/commit/bbe82c7b0388a125ed1816c8473f220b42c86672))
+
 ## [0.2.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.1.0...v0.2.0) (2025-11-24)
 
 ### Features
