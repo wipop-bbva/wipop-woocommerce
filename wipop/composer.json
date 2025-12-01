@@ -7,9 +7,11 @@
 
 	},
 	"autoload": {
-		"psr-4": {
-			"WipopWC\\": ""
-		}
+		"classmap": [
+			"admin/",
+			"core/",
+			"gateways/"
+		]
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^10.5",

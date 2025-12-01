@@ -19,6 +19,12 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -33,6 +39,9 @@ jobs:
             fi  
           npm test --if-present
 
+      - name: Install PHP dependencies
+        run: composer install --no-dev --optimize-autoloader
+
       - name: Build plugin without tests and so
         run: |
           npm run build
@@ -40,7 +49,6 @@ jobs:
           zip -r wipop.zip . \
             -x "src/*" \
             -x "node_modules/*" \
-            -x "vendor/*" \
             -x "tests/*" \
             -x ".*"
 
