@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace WipopWC\Core;
 
+use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Wipop\Charge\ChargeMethod;
 use WipopWC\Admin\Product\RecurringPaymentSettings;
 use WipopWC\Core\Api\MerchantOperationsService;
 use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Exception\ClientConfigurationException;
+use WipopWC\Core\WooCommerce\Blocks\BizumPaymentMethod;
+use WipopWC\Core\WooCommerce\Blocks\CardPaymentMethod;
 use WipopWC\Core\WooCommerce\ManualCaptureManager;
 use WipopWC\Core\WooCommerce\RecurringPayments;
 
@@ -24,7 +27,6 @@ class Loader
 	public static function init(): void
 	{
 		add_action('init', [__CLASS__, 'setup_available_gateways'], 5);
-
 		add_action(
 			'update_option_woocommerce_payment_gateways',
 			[__CLASS__, 'on_list_change'],
@@ -63,6 +65,13 @@ class Loader
 		add_action('admin_post_wipop_toggle_gpay', [__CLASS__, 'handle_toggle_gpay']);
 
 		add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets']);
+
+		add_action(
+			'woocommerce_blocks_payment_method_type_registration',
+			[__CLASS__, 'register_block_payment_methods'],
+			10,
+			1
+		);
 	}
 
 	public static function setup_available_gateways(): void
@@ -203,6 +212,16 @@ class Loader
 			[],
 			filemtime(WIPOP_PLUGIN_PATH . 'assets/css/confirmation-modal.css')
 		);
+	}
+
+	public static function register_block_payment_methods($payment_method_registry): void
+	{
+		if (!$payment_method_registry instanceof PaymentMethodRegistry) {
+			return;
+		}
+
+		$payment_method_registry->register(new CardPaymentMethod());
+		$payment_method_registry->register(new BizumPaymentMethod());
 	}
 
 	public static function handle_toggle_bizum(): void
