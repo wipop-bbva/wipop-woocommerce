@@ -1,3 +1,17 @@
+## [0.3.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.2.1...v0.3.0) (2025-12-02)
+
+### Features
+
+* **wp:** enable payment options within WooCommerce Blocks pages ([d6b88fa](https://github.com/wipop-bbva/wipop-woocommerce/commit/d6b88fa71922ab27acce7002d2bad4a6da76e1f2))
+
+### Bug Fixes
+
+* **release:** fix release pipeline permissions ([97bc9f4](https://github.com/wipop-bbva/wipop-woocommerce/commit/97bc9f4f30ef83e89953465b2ca948b120d6caee))
+
+### Reverts
+
+* **payment-methods:** roll back changes on local development file ([32756bb](https://github.com/wipop-bbva/wipop-woocommerce/commit/32756bb3e32bb4c5d536a9916e0c26ddda0b3883))
+
 ## [0.2.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.2.0...v0.2.1) (2025-12-01)
 
 ### Bug Fixes
