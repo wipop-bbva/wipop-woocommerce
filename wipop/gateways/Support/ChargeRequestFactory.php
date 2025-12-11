@@ -44,6 +44,7 @@ final class ChargeRequestFactory
 			->redirectUrl(esc_url_raw($redirectUrl))
 			->orderId($customOrderId ?? OrderIdFactory::fromOrder($order))
 			->productType(ProductType::PAYMENT_GATEWAY)
+			->originChannel('CHECKOUT')
 			->language(self::resolveLanguage())
 			->terminal(new Terminal(ClientFactory::getTerminalId()))
 			->capture($captureImmediately)
