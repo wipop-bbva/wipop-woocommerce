@@ -1,3 +1,18 @@
+## [0.4.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.3.0...v0.4.0) (2026-01-07)
+
+### Features
+
+* add display filters for recurring payment meta keys and values ([5bc97cf](https://github.com/wipop-bbva/wipop-woocommerce/commit/5bc97cf74a3832a96dd4177c95adde9e01f3e2db))
+* add originChannel parameter to ChargeParams in ChargeRequestFactory ([0baf07b](https://github.com/wipop-bbva/wipop-woocommerce/commit/0baf07be7db5b5fb56401f413eb5e7e0b5b429c5))
+
+### Bug Fixes
+
+* ensure customer ID is updated in user meta when syncing order ([1959e75](https://github.com/wipop-bbva/wipop-woocommerce/commit/1959e75943fecd16bc8cb73d910e15ed9c671262))
+* improve card token expiration handling in TokenManager ([6b89e93](https://github.com/wipop-bbva/wipop-woocommerce/commit/6b89e937abe22daf9b64216d10a19a4aa707be01))
+* improve gateway method rendering logic outside checkout ([0d2afe1](https://github.com/wipop-bbva/wipop-woocommerce/commit/0d2afe15ea2623ac87650f57587783eddcb16887))
+* update payment method type to PASARELA_PAGO in MerchantOperationsService ([c21ef23](https://github.com/wipop-bbva/wipop-woocommerce/commit/c21ef2325155ad140a7424975b50e3af5b623ff2))
+* update wipop-php-client version to 0.7.0 ([6fa31b2](https://github.com/wipop-bbva/wipop-woocommerce/commit/6fa31b24a288fd8e8acea96918ed83961e94e0d2))
+
 ## [0.3.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.2.1...v0.3.0) (2025-12-02)
 
 ### Features
