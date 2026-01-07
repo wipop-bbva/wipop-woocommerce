@@ -12,6 +12,8 @@ use Wipop\Domain\Card;
 use Wipop\Domain\Transaction;
 use WipopWC\Gateways\Card\Gateway as CardGateway;
 
+use function str_pad;
+use function strlen;
 use function strtolower;
 use function substr;
 use function trim;
@@ -73,6 +75,8 @@ final class TokenManager
 	{
 		if (!empty($card->brand)) {
 			$token->set_card_type(strtolower($card->brand));
+		} else {
+			$token->set_card_type('CC');
 		}
 
 		$masked = trim($card->cardNumber ?? $card->number ?? '');
@@ -81,11 +85,16 @@ final class TokenManager
 		}
 
 		if (!empty($card->expirationMonth)) {
-			$token->set_expiry_month($card->expirationMonth);
+			$month = str_pad($card->expirationMonth, 2, '0', STR_PAD_LEFT);
+			$token->set_expiry_month($month);
 		}
 
 		if (!empty($card->expirationYear)) {
-			$token->set_expiry_year($card->expirationYear);
+			$year = $card->expirationYear;
+			if (strlen($year) === 2) {
+				$year = '20' . $year;
+			}
+			$token->set_expiry_year($year);
 		}
 	}
 }

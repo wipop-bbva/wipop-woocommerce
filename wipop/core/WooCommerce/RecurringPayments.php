@@ -64,6 +64,8 @@ final class RecurringPayments
 		add_action('woocommerce_order_status_refunded', [__CLASS__, 'cancelOrderSchedulesOnStateChange']);
 		add_action('woocommerce_order_status_failed', [__CLASS__, 'cancelOrderSchedulesOnStateChange']);
 		add_action('before_delete_post', [__CLASS__, 'handleOrderDeletion']);
+		add_filter('woocommerce_order_item_display_meta_key', [__CLASS__, 'displayMetaKey'], 10, 3);
+		add_filter('woocommerce_order_item_display_meta_value', [__CLASS__, 'displayMetaValue'], 10, 3);
 	}
 
 	public static function markRecurringItem(
@@ -359,6 +361,43 @@ final class RecurringPayments
 		foreach (array_keys($schedules) as $period) {
 			self::unscheduleEvent($order->get_id(), (string) $period);
 		}
+	}
+
+	public static function displayMetaKey(string $displayKey, $meta, $item): string
+	{
+		$key = (is_object($meta) && isset($meta->key) && is_string($meta->key))
+			? $meta->key
+			: '';
+
+		return match ($key) {
+			self::META_ENABLED => __('Recurrencia', 'wipop'),
+			self::META_PERIOD => __('Recurrencia de pagos', 'wipop'),
+			default => $displayKey,
+		};
+	}
+
+	public static function displayMetaValue($displayValue, $meta, $item)
+	{
+		$key = (is_object($meta) && isset($meta->key) && is_string($meta->key))
+			? $meta->key
+			: '';
+		$value = (is_object($meta) && isset($meta->value) && is_string($meta->value))
+			? $meta->value
+			: '';
+
+		if ($key === self::META_ENABLED) {
+			return $value === self::META_ENABLED_YES ? __('Sí', 'wipop') : __('No', 'wipop');
+		}
+
+		if ($key === self::META_PERIOD) {
+			return match ($value) {
+				self::PERIOD_MONTHLY => __('mensual', 'wipop'),
+				self::PERIOD_YEARLY => __('anual', 'wipop'),
+				default => $displayValue,
+			};
+		}
+
+		return $displayValue;
 	}
 
 	/**

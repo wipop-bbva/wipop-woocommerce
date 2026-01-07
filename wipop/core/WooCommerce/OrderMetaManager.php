@@ -9,6 +9,7 @@ use Wipop\Domain\Charge;
 use Wipop\Domain\Transaction;
 
 use function esc_url_raw;
+use function update_user_meta;
 
 defined('ABSPATH') || exit;
 
@@ -30,6 +31,15 @@ final class OrderMetaManager
 
 		if ($transaction->status !== null) {
 			$order->update_meta_data('_wipop_payment_status', $transaction->status->value);
+		}
+
+		if (!empty($transaction->customerId)) {
+			$order->update_meta_data('_wipop_customer_id', $transaction->customerId);
+
+			$userId = $order->get_user_id();
+			if ($userId > 0) {
+				update_user_meta($userId, '_wipop_customer_id', $transaction->customerId);
+			}
 		}
 
 		if (!empty($transaction->method)) {

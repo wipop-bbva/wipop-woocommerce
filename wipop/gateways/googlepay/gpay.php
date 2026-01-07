@@ -7,6 +7,9 @@ namespace WipopWC\Gateways\Googlepay;
 use WC_Payment_Gateway;
 use WipopWC\Core\Logger;
 
+use function is_admin;
+use function is_checkout;
+
 defined('ABSPATH') || exit;
 
 class Gateway extends WC_Payment_Gateway
@@ -68,6 +71,11 @@ class Gateway extends WC_Payment_Gateway
 	public function prepend_icon_to_title($title, $gateway_id)
 	{
 		if ($gateway_id !== $this->id || 'yes' !== $this->enabled) {
+			return $title;
+		}
+
+		// Only render the custom label on checkout
+		if (is_admin() || !is_checkout()) {
 			return $title;
 		}
 

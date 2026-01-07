@@ -42,7 +42,7 @@ class MerchantOperationsService
 			'merchant.list_payment_methods',
 			static fn () => $client
 				->merchantOperation()
-				->listPaymentMethods(ProductType::PAYMENT_GATEWAY, $terminal)
+				->listPaymentMethods(ProductType::PASARELA_PAGO, $terminal)
 		);
 
 		$normalized = self::normalizeGateways($gateways);
