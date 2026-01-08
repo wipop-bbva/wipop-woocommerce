@@ -19,6 +19,7 @@ use function array_filter;
 use function esc_url_raw;
 use function get_bloginfo;
 use function get_locale;
+use function get_user_meta;
 use function implode;
 use function sprintf;
 use function str_replace;
@@ -85,22 +86,43 @@ final class ChargeRequestFactory
 			$lastName = __('WooCommerce', 'wipop');
 		}
 
+		$userId = (int) $order->get_user_id();
+		$wipopCustomerId = self::resolveWipopCustomerId($order, $userId);
+
 		return new Customer(
 			$firstName,
 			$lastName,
 			$email,
-			self::resolvePublicId($order),
-			(string) $order->get_id(),
+			$wipopCustomerId,
+			self::resolveExternalCustomerId($order, $userId, $email),
 			self::resolvePhone($order),
 			self::buildAddress($order)
 		);
 	}
 
-	private static function resolvePublicId(WC_Order $order): ?string
+	private static function resolveWipopCustomerId(WC_Order $order, int $userId): ?string
 	{
-		$customerId = $order->get_customer_id();
+		$fromUserMeta = $userId > 0 ? (string) get_user_meta($userId, '_wipop_customer_id', true) : '';
+		if ($fromUserMeta !== '') {
+			return $fromUserMeta;
+		}
 
-		return $customerId > 0 ? (string) $customerId : null;
+		$fromOrderMeta = (string) $order->get_meta('_wipop_customer_id', true);
+		if ($fromOrderMeta !== '') {
+			return $fromOrderMeta;
+		}
+
+		return null;
+	}
+
+	private static function resolveExternalCustomerId(WC_Order $order, int $userId, string $email): ?string
+	{
+		if ($userId > 0) {
+			return (string) $userId;
+		}
+
+		// Guesst checkout
+		return $email !== '' ? $email : null;
 	}
 
 	private static function resolvePhone(WC_Order $order): ?string
