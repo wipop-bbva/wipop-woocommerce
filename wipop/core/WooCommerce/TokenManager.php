@@ -7,9 +7,7 @@ namespace WipopWC\Core\WooCommerce;
 use WC_Order;
 use WC_Payment_Token_CC;
 use WC_Payment_Tokens;
-use Wipop\Charge\ChargeMethod;
 use Wipop\Domain\Card;
-use Wipop\Domain\Transaction;
 use WipopWC\Gateways\Card\Gateway as CardGateway;
 
 use function str_pad;
@@ -22,19 +20,14 @@ defined('ABSPATH') || exit;
 
 final class TokenManager
 {
-	public static function tryStoreCardToken(WC_Order $order, Transaction $transaction): void
+	public static function tryStoreCardToken(WC_Order $order, Card $card): void
 	{
 		$userId = $order->get_user_id();
 		if ($userId <= 0) {
 			return;
 		}
 
-		if (($transaction->method ?? '') !== ChargeMethod::CARD) {
-			return;
-		}
-
-		$card = $transaction->card;
-		if ($card === null || empty($card->id)) {
+		if (empty($card->id)) {
 			return;
 		}
 

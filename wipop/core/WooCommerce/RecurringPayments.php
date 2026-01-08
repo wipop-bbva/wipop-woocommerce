@@ -294,6 +294,9 @@ final class RecurringPayments
 			->postType(new PostType(PostTypeMode::RECURRENT))
 		;
 
+		$order->update_meta_data('_wipop_use_cof', 'yes');
+		$order->save();
+
 		try {
 			$charge = SdkCaller::call(
 				'charge.create',
