@@ -12,6 +12,7 @@ use Wipop\Charge\ChargeMethod;
 use Wipop\Charge\RefundParams;
 use Wipop\Domain\Charge;
 use Wipop\Domain\TransactionStatus;
+use Wipop\Utils\ProductType;
 use WipopWC\Core\Api\ClientFactory;
 use WipopWC\Core\Api\SdkCaller;
 use WipopWC\Core\Exception\ApiCallException;
@@ -25,6 +26,7 @@ use WipopWC\Gateways\Card\Gateway as CardGateway;
 use WP_Error;
 
 use function __;
+use function in_array;
 use function is_object;
 use function method_exists;
 use function sanitize_text_field;
@@ -33,8 +35,8 @@ use function WC;
 use function wc_add_notice;
 use function wc_clean;
 use function wc_get_order;
+use function wc_maybe_reduce_stock_levels;
 use function wc_price;
-use function wc_reduce_stock_levels;
 
 trait PaymentsProcessor
 {
@@ -70,16 +72,33 @@ trait PaymentsProcessor
 				$captureImmediately
 			);
 
+			$savePaymentMethod = $this->shouldSavePaymentMethod($order, $method, $selectedToken);
+			$useCof = false;
+
+			if ($savePaymentMethod) {
+				$params->useCof(true);
+				$useCof = true;
+			}
+
 			if ($selectedToken instanceof WC_Payment_Token_CC) {
 				$params
 					->sourceId($selectedToken->get_token())
 					->useCof(true)
+					->productType(ProductType::PAYMENT_GATEWAY)
+					->originChannel('CHECKOUT')
 				;
+				$useCof = true;
 
 				Logger::log(sprintf(
 					'Usamos token COF en pedido %s',
 					$order->get_id()
 				));
+			}
+
+			if ($method === ChargeMethod::CARD) {
+				$order->update_meta_data('_wipop_save_payment_method', $savePaymentMethod ? 'yes' : 'no');
+				$order->update_meta_data('_wipop_use_cof', $useCof ? 'yes' : 'no');
+				$order->save();
 			}
 
 			$charge = SdkCaller::call(
@@ -249,7 +268,8 @@ trait PaymentsProcessor
 		$statusToApply = $requiresManualCapture ? WCOrderStatus::ON_HOLD : WCOrderStatus::PENDING;
 		$order->update_status($statusToApply, $statusDescription);
 
-		wc_reduce_stock_levels($order);
+		// Avoid double stock reduction when WooCommerce has already reduced stock on order creation.
+		wc_maybe_reduce_stock_levels($order->get_id());
 
 		if (function_exists('WC')) {
 			/** @var mixed $woocommerce */
@@ -338,5 +358,28 @@ trait PaymentsProcessor
 		}
 
 		return !ManualCaptureManager::isSiteManualCaptureEnabled();
+	}
+
+	private function shouldSavePaymentMethod(
+		WC_Order $order,
+		string $method,
+		?WC_Payment_Token_CC $selectedToken
+	): bool {
+		if ($method !== ChargeMethod::CARD || $selectedToken instanceof WC_Payment_Token_CC) {
+			return false;
+		}
+
+		if ($order->get_user_id() <= 0) {
+			return false;
+		}
+
+		$fieldName = 'wc-' . CardGateway::ID . '-new-payment-method';
+		if (empty($_POST[$fieldName])) {
+			return false;
+		}
+
+		$raw = wc_clean($_POST[$fieldName]);
+
+		return in_array($raw, ['1', 'true', 'yes', 'on'], true);
 	}
 }

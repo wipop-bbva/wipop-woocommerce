@@ -18,7 +18,12 @@ class CardPaymentMethod extends AbstractBlockPaymentMethod
 			'woocommerce_' . Gateway::ID . '_settings',
 			__('Card (BBVA)', 'wipop'),
 			__('Paga con Card', 'wipop'),
-			'gateways/card/assets/img/credit-card-svgrepo-com.svg'
+			'gateways/card/assets/img/credit-card-svgrepo-com.svg',
+			['products', 'tokenization'],
+			[
+				'showSaveOption' => true,
+				'showSavedCards' => true,
+			]
 		);
 	}
 }

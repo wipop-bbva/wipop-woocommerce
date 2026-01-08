@@ -11,6 +11,7 @@ use WipopWC\Gateways\Support\PaymentsProcessor;
 
 use function is_admin;
 use function is_checkout;
+use function is_user_logged_in;
 
 defined('ABSPATH') || exit;
 
@@ -26,6 +27,7 @@ class Gateway extends WC_Payment_Gateway
 		$this->method_title = __('Card', 'wipop');
 		$this->method_description = __('Paga con Card', 'wipop');
 		$this->supports = array_unique(array_merge($this->supports, ['tokenization', 'refunds']));
+		$this->has_fields = true;
 
 		$this->icon = plugins_url(
 			'gateways/card/assets/img/credit-card-svgrepo-com.svg',
@@ -113,6 +115,16 @@ class Gateway extends WC_Payment_Gateway
 		Logger::log('Processing Card payment for order ' . $order_id);
 
 		return $this->processGatewayPayment($order_id, ChargeMethod::CARD);
+	}
+
+	public function payment_fields()
+	{
+		if (!is_user_logged_in()) {
+			return;
+		}
+
+		$this->saved_payment_methods();
+		$this->save_payment_method_checkbox();
 	}
 
 	public function process_refund($order_id, $amount = null, $reason = '')

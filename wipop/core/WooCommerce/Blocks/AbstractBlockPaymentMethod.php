@@ -20,19 +20,22 @@ abstract class AbstractBlockPaymentMethod extends AbstractPaymentMethodType
 	protected string $description = '';
 	protected string $icon_relative_path = '';
 	protected array $supported_features = [];
+	protected array $supported_flags = [];
 
 	public function __construct(
 		string $settings_option,
 		string $default_title,
 		string $description,
 		string $icon_relative_path,
-		array $supported_features = []
+		array $supported_features = [],
+		array $supported_flags = []
 	) {
 		$this->settings_option = $settings_option;
 		$this->default_title = $default_title;
 		$this->description = $description;
 		$this->icon_relative_path = $icon_relative_path;
 		$this->supported_features = $supported_features;
+		$this->supported_flags = $supported_flags;
 	}
 
 	public function initialize()
@@ -84,6 +87,7 @@ abstract class AbstractBlockPaymentMethod extends AbstractPaymentMethodType
 			'description' => $this->description,
 			'icon' => plugins_url($this->icon_relative_path, WIPOP_PLUGIN_FILE),
 			'supports' => $this->supported_features,
+			'supportsFlags' => $this->supported_flags,
 			'is_active' => (bool) $this->is_active(),
 		];
 	}
