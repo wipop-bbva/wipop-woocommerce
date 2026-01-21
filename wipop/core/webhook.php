@@ -19,6 +19,7 @@ use WipopWC\Core\WooCommerce\WCOrderStatus;
 
 use function __;
 use function add_action;
+use function array_key_exists;
 use function esc_html;
 use function file_get_contents;
 use function is_array;
@@ -54,7 +55,8 @@ class Webhook
 
 		try {
 			self::ensurePostRequest();
-			$transaction = self::hydrateTransaction($body);
+			$payload = self::decodePayload($body);
+			$transaction = self::hydrateTransaction($payload);
 
 			Logger::log('Webhook received', 'info', [
 				'transaction_id' => $transaction->id,
@@ -71,7 +73,7 @@ class Webhook
 				);
 			}
 
-			self::applyTransactionToOrder($order, $transaction);
+			self::applyTransactionToOrder($order, $transaction, $payload);
 			Logger::log('Order updated via webhook', 'info', [
 				'transaction_id' => $transaction->id,
 				'order_id' => $transaction->orderId,
@@ -103,7 +105,10 @@ class Webhook
 		}
 	}
 
-	private static function hydrateTransaction(string $payload): Transaction
+	/**
+	 * @return array<string, mixed>
+	 */
+	private static function decodePayload(string $payload): array
 	{
 		try {
 			$data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
@@ -122,6 +127,14 @@ class Webhook
 			);
 		}
 
+		return $data;
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 */
+	private static function hydrateTransaction(array $data): Transaction
+	{
 		try {
 			/** @var Transaction $transaction */
 			$transaction = self::hydrator()->hydrate(Transaction::class, $data);
@@ -191,20 +204,31 @@ class Webhook
 		return null;
 	}
 
-	private static function applyTransactionToOrder(WC_Order $order, Transaction $transaction): void
+	/**
+	 * @param array<string, mixed> $payload
+	 */
+	private static function applyTransactionToOrder(WC_Order $order, Transaction $transaction, array $payload): void
 	{
-		self::syncOrderMeta($order, $transaction);
+		self::syncOrderMeta($order, $transaction, $payload);
 		self::syncOrderStatus($order, $transaction);
 	}
 
-	private static function syncOrderMeta(WC_Order $order, Transaction $transaction): void
+	/**
+	 * @param array<string, mixed> $payload
+	 */
+	private static function syncOrderMeta(WC_Order $order, Transaction $transaction, array $payload): void
 	{
 		OrderMetaManager::sync($order, $transaction);
+
+		$useCof = self::resolveUseCofFromPayload($payload);
+		if ($useCof !== null) {
+			$order->update_meta_data('_wipop_use_cof', $useCof ? 'yes' : 'no');
+		}
 
 		$card = $transaction->card;
 
 		if ($card !== null) {
-			if (!empty($card->id)) {
+			if (!empty($card->id) && $useCof === true) {
 				$order->update_meta_data('_wipop_card_id', $card->id);
 			}
 
@@ -234,7 +258,25 @@ class Webhook
 
 		$order->save();
 
-		TokenManager::tryStoreCardToken($order, $transaction);
+		if ($useCof === true && $card !== null && !empty($card->id)) {
+			TokenManager::tryStoreCardToken($order, $card);
+		}
+	}
+
+	/**
+	 * @param array<string, mixed> $payload
+	 */
+	private static function resolveUseCofFromPayload(array $payload): ?bool
+	{
+		if (array_key_exists('use_cof', $payload)) {
+			return (bool) $payload['use_cof'];
+		}
+
+		if (array_key_exists('useCof', $payload)) {
+			return (bool) $payload['useCof'];
+		}
+
+		return null;
 	}
 
 	private static function syncOrderStatus(WC_Order $order, Transaction $transaction): void
