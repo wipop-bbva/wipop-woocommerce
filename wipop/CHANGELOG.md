@@ -1,3 +1,15 @@
+## [0.5.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.4.0...v0.5.0) (2026-01-21)
+
+### Features
+
+* **Card:** enable save-payment + blocks tokenization support ([9190b8f](https://github.com/wipop-bbva/wipop-woocommerce/commit/9190b8f96d25b7b8daa716c929130fc2862cf083))
+
+### Bug Fixes
+
+* **Card Tokenization:** Fix tokenization fetch from webhook ([011df6d](https://github.com/wipop-bbva/wipop-woocommerce/commit/011df6db0e9da45d669f7c56b999ef7f7fcf1583))
+* **Customer resolution:** enhance customer ID resolution from user and order metadata ([23ae3e2](https://github.com/wipop-bbva/wipop-woocommerce/commit/23ae3e24e3caf7caddc2ef7471b6d41fad73e328))
+* update product type for listing payment methods as requested by API managers ([0c9bce6](https://github.com/wipop-bbva/wipop-woocommerce/commit/0c9bce67d51805b018fa2a6129d7664d7659081f))
+
 ## [0.4.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.3.0...v0.4.0) (2026-01-07)
 
 ### Features
