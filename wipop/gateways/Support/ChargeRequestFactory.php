@@ -59,6 +59,21 @@ final class ChargeRequestFactory
 		return $params;
 	}
 
+	public static function resolveWipopCustomerId(WC_Order $order, int $userId): ?string
+	{
+		$fromUserMeta = $userId > 0 ? (string) get_user_meta($userId, '_wipop_customer_id', true) : '';
+		if ($fromUserMeta !== '') {
+			return $fromUserMeta;
+		}
+
+		$fromOrderMeta = (string) $order->get_meta('_wipop_customer_id', true);
+		if ($fromOrderMeta !== '') {
+			return $fromOrderMeta;
+		}
+
+		return null;
+	}
+
 	private static function buildDescription(WC_Order $order): string
 	{
 		return sprintf(
@@ -98,21 +113,6 @@ final class ChargeRequestFactory
 			self::resolvePhone($order),
 			self::buildAddress($order)
 		);
-	}
-
-	private static function resolveWipopCustomerId(WC_Order $order, int $userId): ?string
-	{
-		$fromUserMeta = $userId > 0 ? (string) get_user_meta($userId, '_wipop_customer_id', true) : '';
-		if ($fromUserMeta !== '') {
-			return $fromUserMeta;
-		}
-
-		$fromOrderMeta = (string) $order->get_meta('_wipop_customer_id', true);
-		if ($fromOrderMeta !== '') {
-			return $fromOrderMeta;
-		}
-
-		return null;
 	}
 
 	private static function resolveExternalCustomerId(WC_Order $order, int $userId, string $email): ?string
