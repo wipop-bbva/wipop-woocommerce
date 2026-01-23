@@ -1,3 +1,13 @@
+## [0.6.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.5.0...v0.6.0) (2026-01-23)
+
+### Features
+
+* **charges:** pass customerId for logged-in users ([db6f7c5](https://github.com/wipop-bbva/wipop-woocommerce/commit/db6f7c5ae8461e8a5fd852b8bc6ad9b8b5a3c5e5))
+
+### Bug Fixes
+
+* **refund:** cast amount to float ([73d7362](https://github.com/wipop-bbva/wipop-woocommerce/commit/73d736298635807568207bbcbe8ad6567676bb5d))
+
 ## [0.5.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.4.0...v0.5.0) (2026-01-21)
 
 ### Features
