@@ -119,6 +119,8 @@ class Gateway extends WC_Payment_Gateway
 	{
 		Logger::log('Processing Bizum refund for order ' . $order_id);
 
-		return $this->processGatewayRefund($order_id, $amount, $reason);
+		$numericAmount = is_numeric($amount) ? (float) $amount : null;
+
+		return $this->processGatewayRefund($order_id, $numericAmount, $reason);
 	}
 }

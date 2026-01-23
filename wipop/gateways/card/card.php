@@ -130,7 +130,8 @@ class Gateway extends WC_Payment_Gateway
 	public function process_refund($order_id, $amount = null, $reason = '')
 	{
 		Logger::log('Processing Card refund for order ' . $order_id);
+		$numericAmount = is_numeric($amount) ? (float) $amount : null;
 
-		return $this->processGatewayRefund($order_id, $amount, $reason);
+		return $this->processGatewayRefund($order_id, $numericAmount, $reason);
 	}
 }

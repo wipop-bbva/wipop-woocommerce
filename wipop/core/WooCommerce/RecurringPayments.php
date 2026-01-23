@@ -297,10 +297,12 @@ final class RecurringPayments
 		$order->update_meta_data('_wipop_use_cof', 'yes');
 		$order->save();
 
+		$customerId = ChargeRequestFactory::resolveWipopCustomerId($order, (int) $order->get_user_id());
+
 		try {
 			$charge = SdkCaller::call(
 				'charge.create',
-				static fn () => $client->chargeOperation()->create($params)
+				static fn () => $client->chargeOperation()->create($params, $customerId)
 			);
 		} catch (ApiCallException $exception) {
 			self::handleChargeFailure($order, $period, $periodSchedule, $exception->getMessage());

@@ -71,6 +71,7 @@ trait PaymentsProcessor
 				$this->get_return_url($order),
 				$captureImmediately
 			);
+			$customerId = ChargeRequestFactory::resolveWipopCustomerId($order, (int) $order->get_user_id());
 
 			$savePaymentMethod = $this->shouldSavePaymentMethod($order, $method, $selectedToken);
 			$useCof = false;
@@ -103,7 +104,7 @@ trait PaymentsProcessor
 
 			$charge = SdkCaller::call(
 				'charge.create',
-				static fn () => $client->chargeOperation()->create($params)
+				static fn () => $client->chargeOperation()->create($params, $customerId)
 			);
 		} catch (ApiCallException | ClientConfigurationException $exception) {
 			Logger::log(
@@ -189,7 +190,6 @@ trait PaymentsProcessor
 		try {
 			$client = ClientFactory::create();
 			$params = (new RefundParams())->amount((float) $amount);
-
 			$charge = SdkCaller::call(
 				'charge.refund',
 				static fn () => $client->chargeOperation()->refund($transactionId, $params)
