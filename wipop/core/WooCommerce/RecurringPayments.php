@@ -335,17 +335,17 @@ final class RecurringPayments
 		switch ($status) {
 			case TransactionStatus::COMPLETED:
 				self::handleRecurringWebhookSuccess($parentOrder, $period, $periodSchedule, $transaction);
-
-				return true;
+				break;
 			case TransactionStatus::FAILED:
 			case TransactionStatus::ERROR:
 				self::handleRecurringWebhookFailure($parentOrder, $period, $transaction);
-
-				return true;
+				break;
 			case TransactionStatus::IN_PROGRESS:
 			case TransactionStatus::CHARGE_PENDING:
-				return true;
+				break;
 		}
+
+		return true;
 	}
 
 	public static function maybeHandleRecurringWebhook(WC_Order $order, Transaction $transaction): bool
