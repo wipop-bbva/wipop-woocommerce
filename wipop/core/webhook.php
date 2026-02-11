@@ -198,9 +198,17 @@ class Webhook
 
 			$orders = wc_get_orders($args);
 
-			if (!empty($orders) && $orders[0] instanceof WC_Order) {
-				return $orders[0];
+			if (empty($orders)) {
+				continue;
 			}
+
+			$firstOrder = $orders[0] ?? null;
+
+			if (!$firstOrder instanceof WC_Order) {
+				continue;
+			}
+
+			return $firstOrder;
 		}
 
 		return null;
@@ -212,13 +220,21 @@ class Webhook
 	private static function applyTransactionToOrder(WC_Order $order, Transaction $transaction, array $payload): void
 	{
 		$parentId = (int) $order->get_meta(OrderMetaManager::META_RECURRING_PARENT_ORDER_ID, true);
-		if ($parentId > 0) {
-			$parentOrder = wc_get_order($parentId);
-			if ($parentOrder instanceof WC_Order) {
-				RecurringPayments::maybeHandleRecurringWebhookFromRenewalOrder($parentOrder, $order, $transaction);
+		if ($parentId <= 0) {
+			if (RecurringPayments::maybeHandleRecurringWebhook($order, $transaction)) {
+				return;
 			}
-		} elseif (RecurringPayments::maybeHandleRecurringWebhook($order, $transaction)) {
+
+			self::syncOrderMeta($order, $transaction, $payload);
+			self::syncOrderStatus($order, $transaction);
+
 			return;
+		}
+
+		$parentOrder = wc_get_order($parentId);
+
+		if ($parentOrder instanceof WC_Order) {
+			RecurringPayments::maybeHandleRecurringWebhookFromRenewalOrder($parentOrder, $order, $transaction);
 		}
 
 		self::syncOrderMeta($order, $transaction, $payload);
