@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace WipopWC\Core\Api;
 
-use Wipop\Client\ClientConfiguration;
 use Wipop\Client\Environment;
 use Wipop\Client\WipopClient;
+use Wipop\Client\WipopClientConfiguration;
 use WipopWC\Core\Exception\ClientConfigurationException;
 
 use function __;
@@ -33,7 +33,7 @@ class ClientFactory
 			);
 		}
 
-		$configuration = new ClientConfiguration(
+		$configuration = new WipopClientConfiguration(
 			$environment,
 			$merchantId,
 			$privateKey

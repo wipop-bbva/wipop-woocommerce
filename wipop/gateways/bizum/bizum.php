@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace WipopWC\Gateways\Bizum;
 
 use WC_Payment_Gateway;
-use Wipop\Charge\ChargeMethod;
+use Wipop\Domain\ChargeMethod;
 use WipopWC\Core\Logger;
 use WipopWC\Gateways\Support\PaymentsProcessor;
 

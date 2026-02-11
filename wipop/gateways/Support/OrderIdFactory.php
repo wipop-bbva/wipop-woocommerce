@@ -6,7 +6,7 @@ namespace WipopWC\Gateways\Support;
 
 use InvalidArgumentException;
 use WC_Order;
-use Wipop\Utils\OrderId;
+use Wipop\Domain\Value\OrderId;
 
 use function abs;
 use function hash;

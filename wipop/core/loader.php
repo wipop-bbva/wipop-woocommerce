@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace WipopWC\Core;
 
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
-use Wipop\Charge\ChargeMethod;
+use Wipop\Domain\ChargeMethod;
 use WipopWC\Admin\Product\RecurringPaymentSettings;
 use WipopWC\Core\Api\MerchantOperationsService;
 use WipopWC\Core\Exception\ApiCallException;
