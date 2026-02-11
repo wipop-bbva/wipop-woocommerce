@@ -1,3 +1,9 @@
+## [0.6.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.6.0...v0.6.1) (2026-02-11)
+
+### Bug Fixes
+
+* **recurring:** return bool on handling of renewal order ([b58aa34](https://github.com/wipop-bbva/wipop-woocommerce/commit/b58aa344ced9b18b86a7165339f928064df5b74c))
+
 ## [0.6.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.5.0...v0.6.0) (2026-01-23)
 
 ### Features
