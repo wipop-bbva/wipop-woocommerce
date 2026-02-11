@@ -13,6 +13,7 @@ use Wipop\Serializer\Hydrator;
 use WipopWC\Core\Exception\WebhookException;
 use WipopWC\Core\WooCommerce\ManualCaptureManager;
 use WipopWC\Core\WooCommerce\OrderMetaManager;
+use WipopWC\Core\WooCommerce\RecurringPayments;
 use WipopWC\Core\WooCommerce\StatusHelper;
 use WipopWC\Core\WooCommerce\TokenManager;
 use WipopWC\Core\WooCommerce\WCOrderStatus;
@@ -27,6 +28,7 @@ use function json_decode;
 use function sprintf;
 use function status_header;
 use function strtoupper;
+use function wc_get_order;
 use function wc_get_orders;
 use function wc_price;
 
@@ -164,7 +166,7 @@ class Webhook
 
 		if (!empty($transaction->orderId)) {
 			$candidates[] = [
-				'key' => '_wipop_gateway_order_id',
+				'key' => OrderMetaManager::META_GATEWAY_ORDER_ID,
 				'value' => $transaction->orderId,
 			];
 		}
@@ -209,6 +211,16 @@ class Webhook
 	 */
 	private static function applyTransactionToOrder(WC_Order $order, Transaction $transaction, array $payload): void
 	{
+		$parentId = (int) $order->get_meta(OrderMetaManager::META_RECURRING_PARENT_ORDER_ID, true);
+		if ($parentId > 0) {
+			$parentOrder = wc_get_order($parentId);
+			if ($parentOrder instanceof WC_Order) {
+				RecurringPayments::maybeHandleRecurringWebhookFromRenewalOrder($parentOrder, $order, $transaction);
+			}
+		} elseif (RecurringPayments::maybeHandleRecurringWebhook($order, $transaction)) {
+			return;
+		}
+
 		self::syncOrderMeta($order, $transaction, $payload);
 		self::syncOrderStatus($order, $transaction);
 	}

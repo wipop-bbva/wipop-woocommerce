@@ -13,11 +13,13 @@ use WC_Order_Item_Product;
 use WC_Payment_Token_CC;
 use WC_Payment_Tokens;
 use Wipop\Charge\ChargeMethod;
+use Wipop\Charge\OriginChannel;
 use Wipop\Charge\PostType;
 use Wipop\Charge\PostTypeMode;
+use Wipop\Domain\Transaction;
+use Wipop\Domain\TransactionStatus;
 use WipopWC\Core\Api\ClientFactory;
 use WipopWC\Core\Api\SdkCaller;
-use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Exception\ClientConfigurationException;
 use WipopWC\Core\Logger;
 use WipopWC\Gateways\Card\Gateway as CardGateway;
@@ -31,6 +33,7 @@ use function get_post_meta;
 use function home_url;
 use function implode;
 use function in_array;
+use function method_exists;
 use function reset;
 use function sprintf;
 use function time;
@@ -43,17 +46,15 @@ use function wp_unschedule_event;
 
 final class RecurringPayments
 {
-	private const META_ENABLED = '_wipop_recurring_enabled';
-	private const META_PERIOD = '_wipop_recurring_period';
-	private const META_ENABLED_YES = 'yes';
-	private const ORDER_META_SCHEDULE = '_wipop_recurring_schedule';
+	public const META_ENABLED = '_wipop_recurring_enabled';
+	public const META_PERIOD = '_wipop_recurring_period';
+	public const META_ENABLED_YES = 'yes';
+	public const ORDER_META_SCHEDULE = '_wipop_recurring_schedule';
+	public const ORDER_META_SEQUENCE = '_wipop_recurring_sequence';
+	public const PERIOD_MONTHLY = 'monthly';
+	public const PERIOD_YEARLY = 'yearly';
 	private const CRON_HOOK = 'wipop_process_recurring_payment';
-	private const PERIOD_MONTHLY = 'monthly';
-	private const PERIOD_YEARLY = 'yearly';
-	private const MAX_FAILURES = 5;
-	private const DAY_IN_SECONDS = 86400;
 	private const MINUTE_IN_SECONDS = 60;
-	private const RETRY_DELAY = self::DAY_IN_SECONDS;
 
 	public static function init(): void
 	{
@@ -88,6 +89,14 @@ final class RecurringPayments
 		$period = (string) get_post_meta($productId, self::META_PERIOD, true);
 
 		if ($enabled !== self::META_ENABLED_YES || !self::isValidPeriod($period)) {
+			$parentId = method_exists($product, 'get_parent_id') ? (int) $product->get_parent_id() : 0;
+			if ($parentId > 0) {
+				$enabled = get_post_meta($parentId, self::META_ENABLED, true);
+				$period = (string) get_post_meta($parentId, self::META_PERIOD, true);
+			}
+		}
+
+		if ($enabled !== self::META_ENABLED_YES || !self::isValidPeriod($period)) {
 			return;
 		}
 
@@ -105,7 +114,12 @@ final class RecurringPayments
 			return;
 		}
 
-		if ($order->get_payment_method() !== CardGateway::ID || $order->get_user_id() <= 0) {
+		if ($order->get_payment_method() !== CardGateway::ID) {
+			return;
+		}
+
+		// Avoid creating more schedules
+		if ((int) $order->get_meta(OrderMetaManager::META_RECURRING_PARENT_ORDER_ID, true) > 0) {
 			return;
 		}
 
@@ -119,18 +133,28 @@ final class RecurringPayments
 		}
 
 		$token = self::findRecurringToken($order);
-		if (!$token instanceof WC_Payment_Token_CC) {
+		$sourceId = '';
+		$tokenId = 0;
+
+		if ($token instanceof WC_Payment_Token_CC) {
+			$sourceId = $token->get_token();
+			$tokenId = $token->get_id();
+		} else {
+			$useCof = (string) $order->get_meta('_wipop_use_cof', true);
+			if ($useCof === 'yes') {
+				$sourceId = (string) $order->get_meta('_wipop_card_id', true);
+			}
+		}
+
+		if ($sourceId === '') {
 			$order->add_order_note(__('Wipop: no se programaron cobros recurrentes porque el cliente no tiene tarjeta guardada.', 'wipop'));
 			Logger::log(
-				sprintf('Recurring payments skipped on order %s: missing token', $order->get_id()),
+				sprintf('Recurring payments skipped on order %s: missing token or source id', $order->get_id()),
 				'warning'
 			);
 
 			return;
 		}
-
-		$sourceId = $token->get_token();
-		$tokenId = $token->get_id();
 
 		$schedules = [];
 		$paidAt = $order->get_date_paid();
@@ -262,71 +286,139 @@ final class RecurringPayments
 			return;
 		}
 
-		try {
-			$client = ClientFactory::create();
-		} catch (ClientConfigurationException $exception) {
-			Logger::log(
-				sprintf(
-					'Configuration error: recurring charge skipped on order %s: %s',
-					$order->get_id(),
-					$exception->getMessage()
-				),
-				'error'
-			);
-
-			self::handleChargeFailure($order, $period, $periodSchedule, $exception->getMessage());
-
-			return;
-		}
-
-		$params = ChargeRequestFactory::build(
+		self::startScheduledCharge(
 			$order,
-			ChargeMethod::CARD,
-			home_url('/'),
-			true,
-			OrderIdFactory::forRecurring($order, $period, $sequence)
+			$period,
+			$periodSchedule,
+			$sequence,
+			$sourceId,
+			$chargedAmount
 		);
+	}
 
-		$params
-			->amount($chargedAmount)
-			->sourceId($sourceId)
-			->useCof(true)
-			->postType(new PostType(PostTypeMode::RECURRENT))
-		;
-
-		$order->update_meta_data('_wipop_use_cof', 'yes');
-		$order->save();
-
-		$customerId = ChargeRequestFactory::resolveWipopCustomerId($order, (int) $order->get_user_id());
-
-		try {
-			$charge = SdkCaller::call(
-				'charge.create',
-				static fn () => $client->chargeOperation()->create($params, $customerId)
-			);
-		} catch (ApiCallException $exception) {
-			self::handleChargeFailure($order, $period, $periodSchedule, $exception->getMessage());
-
-			return;
-		} catch (Throwable $throwable) {
-			self::handleChargeFailure($order, $period, $periodSchedule, $throwable->getMessage());
-
-			return;
+	public static function maybeHandleRecurringWebhookFromRenewalOrder(
+		WC_Order $parentOrder,
+		WC_Order $renewalOrder,
+		Transaction $transaction
+	): bool {
+		$period = (string) $renewalOrder->get_meta(self::META_PERIOD, true);
+		if (!self::isValidPeriod($period)) {
+			return false;
 		}
 
-		$nextDue = self::calculateChargeTimestampFromPaymentDateAnchor($anchor, $period, $sequence + 1);
-		$periodSchedule = $periodSchedule->markSuccessfulCharge($nextDue, $now, $charge->id ?? '');
+		$sequence = (int) $renewalOrder->get_meta(self::ORDER_META_SEQUENCE, true);
+		if ($sequence <= 0) {
+			return false;
+		}
 
-		self::saveScheduleEntry($order, $period, $periodSchedule);
-		self::queueEvent($orderId, $period, $periodSchedule->nextAttemptTimestamp());
+		$schedules = self::getSchedules($parentOrder);
+		$periodSchedule = $schedules[$period] ?? null;
+		if (!$periodSchedule instanceof RecurringSchedule || !$periodSchedule->isActive()) {
+			return false;
+		}
 
-		$order->add_order_note(sprintf(
-			__('Wipop: cargo recurrente %1$s #%2$d enviado. Transacción: %3$s. Importe: %4$s.', 'wipop'),
-			self::formatPeriodLabel($period),
-			$sequence,
-			$charge->id ?? '',
-			wc_price($chargedAmount, ['currency' => $order->get_currency()])
-		));
+		// Ignore old/lost cycles
+		if ($periodSchedule->cycleNumber() !== $sequence) {
+			return true;
+		}
+
+		$status = $transaction->status;
+		if (!$status instanceof TransactionStatus) {
+			return true;
+		}
+		Logger::log(
+			sprintf(
+				'Webhook recurring status %s.',
+				$status->value
+			)
+		);
+		switch ($status) {
+			case TransactionStatus::COMPLETED:
+				self::handleRecurringWebhookSuccess($parentOrder, $period, $periodSchedule, $transaction);
+
+				return true;
+			case TransactionStatus::FAILED:
+			case TransactionStatus::ERROR:
+				self::handleRecurringWebhookFailure($parentOrder, $period, $transaction);
+
+				return true;
+			case TransactionStatus::IN_PROGRESS:
+			case TransactionStatus::CHARGE_PENDING:
+				return true;
+		}
+	}
+
+	public static function maybeHandleRecurringWebhook(WC_Order $order, Transaction $transaction): bool
+	{
+		$transactionId = (string) ($transaction->id ?? '');
+		$gatewayOrderId = (string) ($transaction->orderId ?? '');
+
+		if ($transactionId === '' && $gatewayOrderId === '') {
+			return false;
+		}
+
+		$schedules = self::getSchedules($order);
+		if (empty($schedules)) {
+			return false;
+		}
+
+		foreach ($schedules as $period => $periodSchedule) {
+			if (!$periodSchedule->isActive()) {
+				continue;
+			}
+
+			$matchesExpectedGatewayOrder = false;
+
+			if ($gatewayOrderId !== '') {
+				$expectedGatewayOrderId = (string) OrderIdFactory::forRecurring(
+					$order,
+					(string) $period,
+					$periodSchedule->cycleNumber()
+				);
+				$matchesExpectedGatewayOrder = $gatewayOrderId === $expectedGatewayOrderId;
+			}
+
+			if (!$matchesExpectedGatewayOrder) {
+				continue;
+			}
+
+			$status = $transaction->status;
+			if (!$status instanceof TransactionStatus) {
+				Logger::log(
+					sprintf(
+						'Recurring webhook received with unknown status for order %s',
+						$order->get_id()
+					),
+					'warning',
+					[
+						'wc_order_id' => $order->get_id(),
+						'period' => (string) $period,
+						'transaction_id' => $transactionId,
+						'gateway_order_id' => $gatewayOrderId,
+					]
+				);
+
+				return true;
+			}
+
+			switch ($status) {
+				case TransactionStatus::COMPLETED:
+					self::handleRecurringWebhookSuccess($order, (string) $period, $periodSchedule, $transaction);
+
+					return true;
+				case TransactionStatus::FAILED:
+				case TransactionStatus::ERROR:
+					self::handleRecurringWebhookFailure($order, (string) $period, $transaction);
+
+					return true;
+				case TransactionStatus::IN_PROGRESS:
+				case TransactionStatus::CHARGE_PENDING:
+					// Webhook should bring final states.
+					return true;
+			}
+		}
+
+		return false;
 	}
 
 	public static function cancelOrderSchedulesOnStateChange(int $orderId): void
@@ -405,6 +497,226 @@ final class RecurringPayments
 		return $displayValue;
 	}
 
+	private static function startScheduledCharge(
+		WC_Order $order,
+		string $period,
+		RecurringSchedule $periodSchedule,
+		int $sequence,
+		string $sourceId,
+		float $chargedAmount
+	): void {
+		try {
+			$client = ClientFactory::create();
+		} catch (ClientConfigurationException $exception) {
+			Logger::log(
+				sprintf(
+					'Configuration error: recurring charge cancelled on order %s: %s',
+					$order->get_id(),
+					$exception->getMessage()
+				),
+				'error'
+			);
+
+			self::handleChargeFailure($order, $period, $exception->getMessage());
+
+			return;
+		}
+
+		$wipopOrderId = OrderIdFactory::forRecurring($order, $period, $sequence);
+		$wipopGatewayOrderId = (string) $wipopOrderId;
+
+		$renewalOrder = RecurringRenewalOrderFactory::findOrCreate(
+			$order,
+			$periodSchedule,
+			$chargedAmount,
+			$period,
+			$sequence,
+			$wipopGatewayOrderId
+		);
+		if (!$renewalOrder instanceof WC_Order) {
+			self::handleChargeFailure($order, $period, __('No se pudo crear el pedido recurrente.', 'wipop'));
+
+			return;
+		}
+
+		$existingTransactionId = (string) $renewalOrder->get_meta(OrderMetaManager::META_TRANSACTION_ID, true);
+		if ($existingTransactionId !== '' && !$renewalOrder->has_status([WCOrderStatus::FAILED])) {
+			Logger::log(
+				sprintf(
+					'Recurring charge already started for order %s (%s #%d), waiting for webhook payment notice (transaction %s).',
+					$order->get_id(),
+					$period,
+					$sequence,
+					$existingTransactionId
+				),
+				'info',
+				[
+					'wc_order_id' => $order->get_id(),
+					'period' => $period,
+					'sequence' => $sequence,
+					'transaction_id' => $existingTransactionId,
+				]
+			);
+
+			return;
+		}
+
+		$params = ChargeRequestFactory::build(
+			$renewalOrder,
+			ChargeMethod::CARD,
+			home_url('/'),
+			true,
+			$wipopOrderId
+		);
+
+		$params
+			->amount($chargedAmount)
+			->originChannel(OriginChannel::API)
+			->sendEmail(false)
+			->sourceId($sourceId)
+			->useCof(true)
+			->postType(new PostType(PostTypeMode::RECURRENT))
+		;
+
+		$order->update_meta_data('_wipop_use_cof', 'yes');
+
+		$customerId = ChargeRequestFactory::resolveWipopCustomerId($renewalOrder, (int) $renewalOrder->get_user_id());
+
+		try {
+			$charge = SdkCaller::call(
+				'charge.create',
+				static fn () => $client->chargeOperation()->create($params, $customerId)
+			);
+		} catch (Throwable $throwable) {
+			self::failScheduledCharge($order, $period, $throwable->getMessage(), $renewalOrder);
+
+			return;
+		}
+
+		$status = $charge->status;
+		if ($status instanceof TransactionStatus && in_array($status, [TransactionStatus::FAILED, TransactionStatus::ERROR], true)) {
+			$detail = trim((string) ($charge->errorMessage ?? ''));
+
+			self::failScheduledCharge(
+				$order,
+				$period,
+				$detail !== '' ? $detail : __('Cargo fallido.', 'wipop'),
+				$renewalOrder
+			);
+
+			return;
+		}
+
+		$transactionId = (string) ($charge->id ?? '');
+		$gatewayOrderId = (string) ($charge->orderId ?? '');
+
+		if ($transactionId === '' && $gatewayOrderId === '') {
+			self::failScheduledCharge(
+				$order,
+				$period,
+				__('Cargo fallido.', 'wipop'),
+				$renewalOrder
+			);
+
+			return;
+		}
+
+		$gatewayOrderId = $gatewayOrderId !== '' ? $gatewayOrderId : $wipopGatewayOrderId;
+		$renewalOrder->update_meta_data(OrderMetaManager::META_GATEWAY_ORDER_ID, $gatewayOrderId);
+
+		if ($transactionId !== '') {
+			$renewalOrder->set_transaction_id($transactionId);
+			$renewalOrder->update_meta_data(OrderMetaManager::META_TRANSACTION_ID, $transactionId);
+		}
+
+		$renewalOrder->save();
+
+		// persist schedule timestamps: schedule will advance only after webhook payment confirmation
+		self::saveScheduleEntry($order, $period, $periodSchedule);
+
+		$reference = $transactionId !== '' ? $transactionId : $gatewayOrderId;
+		$note = sprintf(
+			__('Wipop: cargo recurrente %1$s #%2$d enviado. Referencia: %3$s. Importe: %4$s. Esperando confirmación del pago.', 'wipop'),
+			self::formatPeriodLabel($period),
+			$sequence,
+			$reference,
+			wc_price($chargedAmount, ['currency' => $order->get_currency()])
+		);
+
+		$renewalOrder->add_order_note($note);
+		$order->add_order_note($note);
+	}
+
+	private static function failScheduledCharge(WC_Order $order, string $period, string $message, ?WC_Order $renewalOrder = null): void
+	{
+		if ($renewalOrder instanceof WC_Order) {
+			$renewalOrder->update_status(WCOrderStatus::FAILED, $message);
+		}
+
+		self::handleChargeFailure($order, $period, $message);
+	}
+
+	private static function handleRecurringWebhookSuccess(
+		WC_Order $order,
+		string $period,
+		RecurringSchedule $periodSchedule,
+		Transaction $transaction
+	): void {
+		$sequence = $periodSchedule->cycleNumber();
+		$anchor = $periodSchedule->cycleStartTimestamp();
+
+		if ($anchor <= 0 || $sequence <= 0) {
+			self::cancelScheduleEntryForPeriodAndOrder(
+				$order,
+				$period,
+				__('Wipop: detuvimos los cobros recurrentes porque el fallo en la programación.', 'wipop')
+			);
+
+			return;
+		}
+
+		$chargedAmount = $transaction->amount !== null ? (float) $transaction->amount : $periodSchedule->amount();
+		if ($chargedAmount <= 0.0) {
+			self::cancelScheduleEntryForPeriodAndOrder(
+				$order,
+				$period,
+				__('Wipop: detuvimos los cobros recurrentes porque el importe configurado es 0.', 'wipop')
+			);
+
+			return;
+		}
+
+		$transactionId = (string) ($transaction->id ?? '');
+		$now = time();
+
+		$nextDue = self::calculateChargeTimestampFromPaymentDateAnchor($anchor, $period, $sequence + 1);
+		$periodSchedule = $periodSchedule->markSuccessfulCharge($nextDue, $now, $transactionId);
+
+		self::saveScheduleEntry($order, $period, $periodSchedule);
+		self::queueEvent($order->get_id(), $period, $periodSchedule->nextAttemptTimestamp());
+
+		$order->add_order_note(sprintf(
+			__('Wipop: cargo recurrente %1$s #%2$d confirmado. Transacción: %3$s. Importe: %4$s.', 'wipop'),
+			self::formatPeriodLabel($period),
+			$sequence,
+			$transactionId,
+			wc_price($chargedAmount, ['currency' => $order->get_currency()])
+		));
+	}
+
+	private static function handleRecurringWebhookFailure(
+		WC_Order $order,
+		string $period,
+		Transaction $transaction
+	): void {
+		$details = trim((string) ($transaction->errorMessage ?? ''));
+		if (!empty($transaction->errorCode)) {
+			$details = trim(sprintf('%s: %s', $details, $transaction->errorCode));
+		}
+
+		self::handleChargeFailure($order, $period, $details !== '' ? $details : __('Cargo fallido.', 'wipop'));
+	}
+
 	/**
 	 * @return array<string, array{amount: float, item_ids: array<int>, product_ids: array<int>}>
 	 */
@@ -452,7 +764,7 @@ final class RecurringPayments
 
 	private static function isValidPeriod(string $period): bool
 	{
-		return in_array($period, [self::PERIOD_MONTHLY, self::PERIOD_YEARLY]);
+		return in_array($period, [self::PERIOD_MONTHLY, self::PERIOD_YEARLY], true);
 	}
 
 	private static function findRecurringToken(WC_Order $order): ?WC_Payment_Token_CC
@@ -598,40 +910,17 @@ final class RecurringPayments
 		}
 	}
 
-	private static function handleChargeFailure(WC_Order $order, string $period, RecurringSchedule $periodSchedule, string $message): void
+	private static function handleChargeFailure(WC_Order $order, string $period, string $message): void
 	{
-		$periodSchedule = $periodSchedule->markFailure(
-			time() + self::RETRY_DELAY,
-			self::calculateChargeTimestampFromPaymentDateAnchor(
-				$periodSchedule->cycleStartTimestamp(),
-				$period,
-				$periodSchedule->cycleNumber()
+		self::cancelScheduleEntryForPeriodAndOrder(
+			$order,
+			$period,
+			sprintf(
+				__('Wipop: detuvimos los cobros recurrentes (%1$s) error: %2$s.', 'wipop'),
+				self::formatPeriodLabel($period),
+				$message
 			)
 		);
-
-		if ($periodSchedule->failures() >= self::MAX_FAILURES) {
-			$periodSchedule = $periodSchedule->deactivate();
-			self::saveScheduleEntry($order, $period, $periodSchedule);
-			self::unscheduleEvent($order->get_id(), $period);
-
-			$order->add_order_note(sprintf(
-				__('Wipop: detuvimos los cobros recurrentes (%1$s) tras %2$d fallos. Último error: %3$s.', 'wipop'),
-				self::formatPeriodLabel($period),
-				$periodSchedule->failures(),
-				$message
-			));
-
-			return;
-		}
-
-		self::saveScheduleEntry($order, $period, $periodSchedule);
-		self::queueEvent($order->get_id(), $period, $periodSchedule->nextAttemptTimestamp());
-
-		$order->add_order_note(sprintf(
-			__('Wipop: no pudimos cobrar la recurrencia (%1$s). Reintentaremos en 24 horas. Error: %2$s.', 'wipop'),
-			self::formatPeriodLabel($period),
-			$message
-		));
 	}
 
 	private static function calculateChargeTimestampFromPaymentDateAnchor(int $anchor, string $period, int $sequence): int

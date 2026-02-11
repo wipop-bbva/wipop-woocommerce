@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WipopWC\Admin\Product;
 
+use WipopWC\Core\WooCommerce\RecurringPayments;
+
 defined('ABSPATH') || exit;
 
 class RecurringPaymentSettings
@@ -36,17 +38,17 @@ class RecurringPaymentSettings
 	{
 		echo '<div id="wipop_recurring_options" class="panel woocommerce_options_panel">';
 		woocommerce_wp_checkbox([
-			'id' => '_wipop_recurring_enabled',
+			'id' => RecurringPayments::META_ENABLED,
 			'label' => __('Habilitar pago recurrente', 'wipop'),
 		]);
 
 		woocommerce_wp_select([
-			'id' => '_wipop_recurring_period',
+			'id' => RecurringPayments::META_PERIOD,
 			'label' => __('Periodicidad', 'wipop'),
 			'options' => [
 				'' => __('Seleccione una opción...', 'wipop'),
-				'monthly' => __('Mensual', 'wipop'),
-				'yearly' => __('Anual', 'wipop'),
+				RecurringPayments::PERIOD_MONTHLY => __('Mensual', 'wipop'),
+				RecurringPayments::PERIOD_YEARLY => __('Anual', 'wipop'),
 			],
 		]);
 		echo '</div>';
@@ -54,23 +56,27 @@ class RecurringPaymentSettings
 
 	public static function saveRecurringFields(int $postId): void
 	{
-		$rawPeriod = $_POST['_wipop_recurring_period'] ?? '';
+		$rawPeriod = $_POST[RecurringPayments::META_PERIOD] ?? '';
 		if (!is_string($rawPeriod)) {
 			$rawPeriod = '';
 		}
 
 		$period = trim((string) sanitize_text_field($rawPeriod));
 
-		$enabled = !empty($_POST['_wipop_recurring_enabled']) && in_array($period, ['monthly', 'yearly'], true)
-			? 'yes'
+		$enabled = !empty($_POST[RecurringPayments::META_ENABLED]) && in_array(
+			$period,
+			[RecurringPayments::PERIOD_MONTHLY, RecurringPayments::PERIOD_YEARLY],
+			true
+		)
+			? RecurringPayments::META_ENABLED_YES
 			: 'no';
 
-		update_post_meta($postId, '_wipop_recurring_enabled', $enabled);
+		update_post_meta($postId, RecurringPayments::META_ENABLED, $enabled);
 
-		if ($enabled === 'yes') {
-			update_post_meta($postId, '_wipop_recurring_period', $period);
+		if ($enabled === RecurringPayments::META_ENABLED_YES) {
+			update_post_meta($postId, RecurringPayments::META_PERIOD, $period);
 		} else {
-			delete_post_meta($postId, '_wipop_recurring_period');
+			delete_post_meta($postId, RecurringPayments::META_PERIOD);
 		}
 	}
 }

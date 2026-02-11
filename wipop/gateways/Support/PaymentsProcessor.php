@@ -6,6 +6,7 @@ namespace WipopWC\Gateways\Support;
 
 use Throwable;
 use WC_Order;
+use WC_Order_Item_Product;
 use WC_Payment_Token_CC;
 use WC_Payment_Tokens;
 use Wipop\Charge\ChargeMethod;
@@ -20,6 +21,7 @@ use WipopWC\Core\Exception\ClientConfigurationException;
 use WipopWC\Core\Logger;
 use WipopWC\Core\WooCommerce\ManualCaptureManager;
 use WipopWC\Core\WooCommerce\OrderMetaManager;
+use WipopWC\Core\WooCommerce\RecurringPayments;
 use WipopWC\Core\WooCommerce\StatusHelper;
 use WipopWC\Core\WooCommerce\WCOrderStatus;
 use WipopWC\Gateways\Card\Gateway as CardGateway;
@@ -74,9 +76,10 @@ trait PaymentsProcessor
 			$customerId = ChargeRequestFactory::resolveWipopCustomerId($order, (int) $order->get_user_id());
 
 			$savePaymentMethod = $this->shouldSavePaymentMethod($order, $method, $selectedToken);
+			$requiresRecurringToken = $method === ChargeMethod::CARD && $this->orderRequiresRecurringToken($order);
 			$useCof = false;
 
-			if ($savePaymentMethod) {
+			if ($savePaymentMethod || $requiresRecurringToken) {
 				$params->useCof(true);
 				$useCof = true;
 			}
@@ -381,5 +384,26 @@ trait PaymentsProcessor
 		$raw = wc_clean($_POST[$fieldName]);
 
 		return in_array($raw, ['1', 'true', 'yes', 'on'], true);
+	}
+
+	private function orderRequiresRecurringToken(WC_Order $order): bool
+	{
+		foreach ($order->get_items() as $item) {
+			if (!$item instanceof WC_Order_Item_Product) {
+				continue;
+			}
+
+			$enabled = (string) $item->get_meta(RecurringPayments::META_ENABLED, true);
+			if ($enabled !== RecurringPayments::META_ENABLED_YES) {
+				continue;
+			}
+
+			$period = (string) $item->get_meta(RecurringPayments::META_PERIOD, true);
+			if (in_array($period, [RecurringPayments::PERIOD_MONTHLY, RecurringPayments::PERIOD_YEARLY], true)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
