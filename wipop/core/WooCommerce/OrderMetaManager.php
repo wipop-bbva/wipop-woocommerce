@@ -16,6 +16,8 @@ defined('ABSPATH') || exit;
 final class OrderMetaManager
 {
 	public const META_TRANSACTION_ID = '_wipop_transaction_id';
+	public const META_GATEWAY_ORDER_ID = '_wipop_gateway_order_id';
+	public const META_RECURRING_PARENT_ORDER_ID = '_wipop_recurring_parent_order_id';
 
 	public static function sync(WC_Order $order, Transaction $transaction): void
 	{
@@ -26,7 +28,7 @@ final class OrderMetaManager
 		}
 
 		if (!empty($transaction->orderId)) {
-			$order->update_meta_data('_wipop_gateway_order_id', $transaction->orderId);
+			$order->update_meta_data(self::META_GATEWAY_ORDER_ID, $transaction->orderId);
 		}
 
 		if ($transaction->status !== null) {

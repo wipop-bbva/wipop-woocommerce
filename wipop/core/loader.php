@@ -56,6 +56,7 @@ class Loader
 		);
 
 		require_once WIPOP_PLUGIN_PATH . 'admin/Product/RecurringPaymentSettings.php';
+		require_once WIPOP_PLUGIN_PATH . 'core/WooCommerce/RecurringRenewalOrderFactory.php';
 		RecurringPaymentSettings::init();
 		ManualCaptureManager::init();
 		RecurringPayments::init();
