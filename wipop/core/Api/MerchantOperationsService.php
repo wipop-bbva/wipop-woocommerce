@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace WipopWC\Core\Api;
 
-use Wipop\Charge\ChargeMethod;
-use Wipop\Utils\ProductType;
-use Wipop\Utils\Terminal;
+use Wipop\Domain\ChargeMethod;
+use Wipop\Domain\ProductType;
+use Wipop\Domain\Value\Terminal;
 
 use function array_intersect;
 use function array_map;

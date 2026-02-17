@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace WipopWC\Core\WooCommerce;
 
 use WC_Order;
-use Wipop\Charge\CaptureParams;
-use Wipop\Charge\ReversalParams;
 use Wipop\Domain\Charge;
 use Wipop\Domain\Transaction;
 use Wipop\Domain\TransactionStatus;
+use Wipop\Operations\Charge\Params\CaptureParams;
+use Wipop\Operations\Charge\Params\ReversalParams;
 use WipopWC\Core\Api\ClientFactory;
 use WipopWC\Core\Api\SdkCaller;
 use WipopWC\Core\Exception\ApiCallException;

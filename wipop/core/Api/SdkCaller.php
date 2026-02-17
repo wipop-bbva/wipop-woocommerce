@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace WipopWC\Core\Api;
 
 use Throwable;
-use Wipop\Client\Exception\WipopApiException;
+use Wipop\Exception\WipopException;
 use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Logger;
 
@@ -26,7 +26,7 @@ class SdkCaller
 	{
 		try {
 			return $callback();
-		} catch (WipopApiException $exception) {
+		} catch (WipopException $exception) {
 			Logger::log(
 				sprintf('Wipop API error during %s: %s', $operation, $exception->getMessage()),
 				'error',
@@ -53,7 +53,7 @@ class SdkCaller
 		}
 	}
 
-	private static function buildUserMessage(WipopApiException $exception): string
+	private static function buildUserMessage(WipopException $exception): string
 	{
 		return sprintf(
 			__('No se pudo completar la operación con Wipop: %s', 'wipop'),

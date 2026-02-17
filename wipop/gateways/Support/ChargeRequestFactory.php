@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace WipopWC\Gateways\Support;
 
 use WC_Order;
-use Wipop\Charge\ChargeParams;
-use Wipop\Customer\Address;
-use Wipop\Customer\Customer;
-use Wipop\Utils\Language;
-use Wipop\Utils\OrderId;
-use Wipop\Utils\ProductType;
-use Wipop\Utils\Terminal;
+use Wipop\Domain\Input\Address;
+use Wipop\Domain\Input\Customer;
+use Wipop\Domain\Language;
+use Wipop\Domain\ProductType;
+use Wipop\Domain\Value\OrderId;
+use Wipop\Domain\Value\Terminal;
+use Wipop\Operations\Charge\Params\CreateChargeParams;
 use WipopWC\Core\Api\ClientFactory;
 
 use function __;
@@ -26,7 +26,7 @@ use function str_replace;
 use function trim;
 
 /**
- * Factory that builds ChargeParams instances from WooCommerce orders.
+ * Factory that builds CreateChargeParams instances from WooCommerce orders.
  */
 final class ChargeRequestFactory
 {
@@ -36,8 +36,8 @@ final class ChargeRequestFactory
 		string $redirectUrl,
 		bool $captureImmediately,
 		?OrderId $customOrderId = null
-	): ChargeParams {
-		$params = (new ChargeParams())
+	): CreateChargeParams {
+		$params = (new CreateChargeParams())
 			->method($method)
 			->amount((float) $order->get_total())
 			->currency($order->get_currency())
