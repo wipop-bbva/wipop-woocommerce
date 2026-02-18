@@ -32,6 +32,7 @@ if (is_readable($composerAutoload)) {
 
 require_once WIPOP_PLUGIN_PATH . 'core/logger.php';
 require_once WIPOP_PLUGIN_PATH . 'core/loader.php';
+require_once WIPOP_PLUGIN_PATH . 'core/webhook-auth.php';
 require_once WIPOP_PLUGIN_PATH . 'core/webhook.php';
 require_once WIPOP_PLUGIN_PATH . 'admin/admin.php';
 
