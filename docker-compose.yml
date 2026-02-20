@@ -28,6 +28,7 @@ services:
     volumes:
       - ./wipop:/var/www/html/wp-content/plugins/wipop 
       - ./uploads:/var/www/html/wp-content/uploads
+      - ./docker/apache/preserve-authorization.conf:/etc/apache2/conf-enabled/zz-preserve-authorization.conf:ro
 
   node:
     build:
