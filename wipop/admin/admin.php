@@ -386,7 +386,6 @@ class Admin
 		}
 		echo '</table>';
 		$this->renderWebhookRegenerateForm();
-
 	}
 
 	/**
@@ -449,7 +448,7 @@ class Admin
 		echo '<input type="hidden" name="action" value="wipop_regenerate_webhook_credentials" />';
 		echo '<button type="submit" class="button button-secondary">' . esc_html__('Regenerar credenciales', 'wipop') . '</button>';
 		echo ' <span class="description">'
-			. esc_html__('Después de regenerar, actualiza usuario y contraseña en el portal BBVA.', 'wipop')
+			. esc_html__('Después de regenerar, actualiza usuario y contraseña en el portal Wipöp.', 'wipop')
 			. '</span>';
 		echo '</form>';
 	}
