@@ -1,3 +1,9 @@
+## [0.7.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.7.0...v0.7.1) (2026-02-23)
+
+### Bug Fixes
+
+* **i18n:** add missing translations for webhook and recurring flows ([b236ba9](https://github.com/wipop-bbva/wipop-woocommerce/commit/b236ba9e5ca81c62e45653fb4468e0f69e34f67c))
+
 ## [0.7.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.6.1...v0.7.0) (2026-02-23)
 
 ### Features
