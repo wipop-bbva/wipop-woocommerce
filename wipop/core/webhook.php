@@ -23,11 +23,14 @@ use function add_action;
 use function array_key_exists;
 use function esc_html;
 use function file_get_contents;
+use function header;
 use function is_array;
 use function json_decode;
 use function sprintf;
 use function status_header;
+use function strtolower;
 use function strtoupper;
+use function trim;
 use function wc_get_order;
 use function wc_get_orders;
 use function wc_price;
@@ -58,6 +61,16 @@ class Webhook
 		try {
 			self::ensurePostRequest();
 			$payload = self::decodePayload($body);
+			$settings = WebhookAuth::getSettings();
+			$isAuthenticated = self::authorizeRequest($settings);
+
+			if (self::isVerificationEvent($payload)) {
+				self::handleVerificationPayload($payload);
+				self::respond(200, 'OK');
+
+				return;
+			}
+
 			$transaction = self::hydrateTransaction($payload);
 
 			Logger::log('Webhook received', 'info', [
@@ -83,6 +96,7 @@ class Webhook
 				'status' => $transaction->status?->value,
 			]);
 
+			WebhookAuth::markConnectedIfPending($isAuthenticated);
 			self::respond(200, 'OK');
 		} catch (WebhookException $exception) {
 			Logger::log($exception->getMessage(), 'error', [
@@ -96,6 +110,29 @@ class Webhook
 			]);
 			self::respond(500, __('Error processing the webhook.', 'wipop'));
 		}
+	}
+
+	/**
+	 * @param array<string, mixed> $settings
+	 */
+	private static function authorizeRequest(array $settings): bool
+	{
+		$state = WebhookAuth::state($settings);
+		$authorizationStatus = WebhookAuth::authorizationStatus($settings);
+
+		if ($authorizationStatus === WebhookAuth::AUTH_INVALID_BASIC) {
+			throw new WebhookException(__('Invalid webhook authentication.', 'wipop'), 401);
+		}
+
+		if ($authorizationStatus === WebhookAuth::AUTH_VALID_BASIC) {
+			return true;
+		}
+
+		if (WebhookAuth::isAuthorizationRequired($state)) {
+			throw new WebhookException(__('Webhook authentication is required.', 'wipop'), 401);
+		}
+
+		return false;
 	}
 
 	private static function ensurePostRequest(): void
@@ -130,6 +167,33 @@ class Webhook
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param array<string, mixed> $payload
+	 */
+	private static function isVerificationEvent(array $payload): bool
+	{
+		return strtolower((string) ($payload['type'] ?? '')) === 'verification';
+	}
+
+	/**
+	 * @param array<string, mixed> $payload
+	 */
+	private static function handleVerificationPayload(array $payload): void
+	{
+		$eventId = trim((string) ($payload['id'] ?? ''));
+		$verificationCode = trim((string) ($payload['verification_code'] ?? ''));
+
+		if ($eventId === '' || $verificationCode === '') {
+			throw new WebhookException(__('Invalid verification payload.', 'wipop'), 400);
+		}
+
+		$updated = WebhookAuth::markVerificationEvent($eventId, $verificationCode);
+		Logger::log('Webhook verification event received', 'info', [
+			'event_id' => $eventId,
+			'updated' => $updated,
+		]);
 	}
 
 	/**
@@ -195,7 +259,6 @@ class Webhook
 					],
 				],
 			];
-
 			$orders = wc_get_orders($args);
 
 			if (empty($orders)) {
@@ -378,6 +441,10 @@ class Webhook
 
 	private static function respond(int $statusCode, string $message): void
 	{
+		if ($statusCode === 401) {
+			header('WWW-Authenticate: Basic realm="Wipop webhook"');
+		}
+
 		status_header($statusCode);
 		echo esc_html($message);
 		exit;
