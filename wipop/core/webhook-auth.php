@@ -258,7 +258,7 @@ class WebhookAuth
 		try {
 			return bin2hex(random_bytes($bytes));
 		} catch (Throwable $throwable) {
-			Logger::log('Unable to generate secure ramndom bytes for webhook credentials.', 'error', [
+			Logger::log('Unable to generate secure random bytes for webhook credentials.', 'error', [
 				'exception' => $throwable,
 			]);
 
@@ -296,7 +296,7 @@ class WebhookAuth
 		try {
 			$iv = random_bytes($ivLength);
 		} catch (Throwable $throwable) {
-			Logger::log('Unable to generate Initialice Vector for password encryption.', 'error', [
+			Logger::log('Unable to generate Initialization Vector for password encryption.', 'error', [
 				'exception' => $throwable,
 			]);
 
