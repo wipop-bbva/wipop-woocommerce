@@ -1,182 +1,177 @@
-# Copyright (C) 2025 Secture Labs S.L.
-# This file is distributed under the same license as the Wipop plugin.
 msgid ""
 msgstr ""
 "Project-Id-Version: Wipop 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wipop\n"
-"POT-Creation-Date: 2026-01-23T09:21:56+00:00\n"
-"PO-Revision-Date: 2025-11-24T12:51:53+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-23T09:21:56+00:00\n"
+"PO-Revision-Date: 2025-11-24T12:51:53+00:00\n"
+"Language: eu\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wipop\n"
 
 #. Plugin Name of the plugin
-#: wipop.php build/index.js:225 src/index.js:69 build/index.js:126
+#: wipop.php
+#: build/index.js:225
+#: src/index.js:69
+#: build/index.js:126
 msgid "Wipop"
 msgstr "Wipop"
 
 #. Description of the plugin
 #: wipop.php
 msgid "Pasarelas de pago BBVA (Bizum, Tarjeta y Google Pay) para WooCommerce."
-msgstr ""
-"BBVA ordainketa-pasabideak (Bizum, Txartela eta Google Pay) WooCommerce-rako."
+msgstr "BBVA ordainketa-pasabideak (Bizum, Txartela eta Google Pay) WooCommerce-rako."
 
 #. Author of the plugin
 #: wipop.php
 msgid "Secture Labs S.L."
 msgstr "Secture Labs S.L."
 
-#: admin/admin.php:65
+#: admin/admin.php:74
+#: admin/admin.php:96
 msgid "No tienes permisos suficientes."
 msgstr "Ez duzu nahikoa baimenik."
 
-#: admin/admin.php:73
+#: admin/admin.php:82
 msgid "Credenciales verificadas correctamente."
 msgstr "Kredentzialak behar bezala egiaztatu dira."
 
-#: admin/admin.php:86 admin/admin.php:254
+#: admin/admin.php:112
+#: admin/admin.php:308
 msgid "Wipop Settings"
 msgstr "Wipop ezarpenak"
 
-#: admin/admin.php:261
+#: admin/admin.php:320
 msgid "Guardar"
 msgstr "Gorde"
 
-#: admin/admin.php:264
+#: admin/admin.php:323
 msgid "Verificar datos"
 msgstr "Datuak egiaztatu"
 
-#: admin/admin.php:302
+#: admin/admin.php:368
 msgid "Tus credenciales son válidas."
 msgstr "Zure kredentzialak baliozkoak dira."
 
-#: admin/admin.php:303
-msgid ""
-"No pudimos verificar las credenciales. Revisa los datos e inténtalo de nuevo."
-msgstr ""
-"Ezin izan ditugu kredentzialak egiaztatu. Egiaztatu datuak eta saiatu "
-"berriro."
+#: admin/admin.php:369
+msgid "No pudimos verificar las credenciales. Revisa los datos e inténtalo de nuevo."
+msgstr "Ezin izan ditugu kredentzialak egiaztatu. Egiaztatu datuak eta saiatu berriro."
 
-#: admin/admin.php:351
+#: admin/admin.php:529
 #, php-format
 msgid "%s must have at least 5 characters."
 msgstr "%s gutxienez 5 karaktere izan behar ditu."
 
-#: admin/admin.php:382
+#: admin/admin.php:560
 #, php-format
 msgid "%1$s must be a number between %2$d and %3$d."
 msgstr "%1$s zenbaki bat izan behar da %2$d eta %3$d artean."
 
-#: admin/admin.php:398
+#: admin/admin.php:576
 msgid "Merchant ID"
 msgstr "Merchant ID"
 
-#: admin/admin.php:401
+#: admin/admin.php:579
 msgid "Tu Merchant ID"
 msgstr "Zure Merchant IDa"
 
-#: admin/admin.php:402
+#: admin/admin.php:580
 msgid "Introduce tu Merchant ID del BBVA."
 msgstr "Sartu BBVAko zure Merchant IDa."
 
-#: admin/admin.php:406
+#: admin/admin.php:584
 msgid "Entorno"
 msgstr "Ingurunea"
 
-#: admin/admin.php:410
+#: admin/admin.php:588
 msgid "Sandbox"
 msgstr "Sandbox"
 
-#: admin/admin.php:411
+#: admin/admin.php:589
 msgid "Producción"
 msgstr "Ekoizpena"
 
-#: admin/admin.php:413
+#: admin/admin.php:591
 msgid "Elige el entorno de pagos."
 msgstr "Aukeratu ordainketa ingurunea."
 
-#: admin/admin.php:417
+#: admin/admin.php:595
 msgid "Preautorizaciones"
 msgstr "Aurretiazko baimenak"
 
-#: admin/admin.php:421
+#: admin/admin.php:599
 msgid "Cobrar automáticamente"
 msgstr "Automatikoki kobratu"
 
-#: admin/admin.php:422
+#: admin/admin.php:600
 msgid "Solo preautorizar y capturar manualmente"
 msgstr "Soilik aurrebaimendu eta eskuz kapturatu"
 
-#: admin/admin.php:424
-msgid ""
-"Si eliges preautorizar, tendrás que capturar o anular cada pago desde el "
-"pedido antes de una semana. Aplica a tarjetas."
-msgstr ""
-"Aurrebaimena aukeratzen baduzu, eskaeratik aste bateko epean ordainketa "
-"bakoitza kapturatu edo baliogabetu beharko duzu. Txartelei aplikatzen zaie."
+#: admin/admin.php:602
+msgid "Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas."
+msgstr "Aurrebaimena aukeratzen baduzu, eskaeratik aste bateko epean ordainketa bakoitza kapturatu edo baliogabetu beharko duzu. Txartelei aplikatzen zaie."
 
-#: admin/admin.php:431
+#: admin/admin.php:609
 msgid "Terminal ID"
 msgstr "Terminal ID"
 
-#: admin/admin.php:434
+#: admin/admin.php:612
 msgid "Introduce un número entre 0 y 99"
 msgstr "Sartu 0 eta 99 arteko zenbaki bat"
 
-#: admin/admin.php:435
+#: admin/admin.php:613
 msgid "Identificador del terminal en Wipop."
 msgstr "Terminalaren identifikadorea Wipopen."
 
-#: admin/admin.php:442
+#: admin/admin.php:620
 msgid "Public Key"
 msgstr "Gako publikoa"
 
-#: admin/admin.php:445
+#: admin/admin.php:623
 msgid "Tu Clave Pública"
 msgstr "Zure gako publikoa"
 
-#: admin/admin.php:446
+#: admin/admin.php:624
 msgid "Introduce tu Public Key del BBVA."
 msgstr "Sartu BBVAko zure gako publikoa."
 
-#: admin/admin.php:450
+#: admin/admin.php:628
 msgid "Private Key"
 msgstr "Gako pribatua"
 
-#: admin/admin.php:453
+#: admin/admin.php:631
 msgid "Tu Clave Privada"
 msgstr "Zure gako pribatua"
 
-#: admin/admin.php:454
+#: admin/admin.php:632
 msgid "Introduce tu Private Key del BBVA."
 msgstr "Sartu BBVAko zure gako pribatua."
 
-#: admin/Product/RecurringPaymentSettings.php:26
+#: admin/Product/RecurringPaymentSettings.php:28
 msgid "Pago recurrente"
 msgstr "Ordainketa errepikakorra"
 
-#: admin/Product/RecurringPaymentSettings.php:40
+#: admin/Product/RecurringPaymentSettings.php:42
 msgid "Habilitar pago recurrente"
 msgstr "Ordainketa errepikakorra gaitu"
 
-#: admin/Product/RecurringPaymentSettings.php:45
+#: admin/Product/RecurringPaymentSettings.php:47
 msgid "Periodicidad"
 msgstr "Periodikotasuna"
 
-#: admin/Product/RecurringPaymentSettings.php:47
+#: admin/Product/RecurringPaymentSettings.php:49
 msgid "Seleccione una opción..."
 msgstr "Aukeratu aukera bat..."
 
-#: admin/Product/RecurringPaymentSettings.php:48
+#: admin/Product/RecurringPaymentSettings.php:50
 msgid "Mensual"
 msgstr "Hilerokoa"
 
-#: admin/Product/RecurringPaymentSettings.php:49
+#: admin/Product/RecurringPaymentSettings.php:51
 msgid "Anual"
 msgstr "Urterokoa"
 
@@ -197,69 +192,66 @@ msgstr "Ustekabeko errorea gertatu da Wipop-ekin komunikatzean."
 msgid "No se pudo completar la operación con Wipop: %s"
 msgstr "Ezin izan da eragiketa burutu Wipop-ekin: %s"
 
-#: core/loader.php:192
+#: core/loader.php:193
 msgid "Activar"
 msgstr "Aktibatu"
 
-#: core/loader.php:193
+#: core/loader.php:194
 msgid "Desactivar"
 msgstr "Desaktibatu"
 
-#: core/loader.php:194
+#: core/loader.php:195
 #, php-format
 msgid "¿Estás seguro de que quieres desactivar %s?"
 msgstr "Ziur zaude %s desaktibatu nahi duzula?"
 
-#: core/loader.php:195
+#: core/loader.php:196
 msgid "este método de pago"
 msgstr "ordainketa metodo hau"
 
-#: core/loader.php:196
+#: core/loader.php:197
 msgid "Confirmar"
 msgstr "Berretsi"
 
-#: core/loader.php:197
+#: core/loader.php:198
 msgid "Cancelar"
 msgstr "Ezeztatu"
 
-#: core/loader.php:198
-msgid ""
-"Ups… no pudimos mostrar la ventana de confirmación. Puedes desactivar la "
-"pasarela desde el botón ⋮"
-msgstr ""
-"Ene… ezin izan dugu berrespen leihoa erakutsi. Pasabidea ⋮ botoitik "
-"desaktiba dezakezu"
+#: core/loader.php:199
+msgid "Ups… no pudimos mostrar la ventana de confirmación. Puedes desactivar la pasarela desde el botón ⋮"
+msgstr "Ene… ezin izan dugu berrespen leihoa erakutsi. Pasabidea ⋮ botoitik desaktiba dezakezu"
 
-#: core/webhook.php:71
+#: core/webhook.php:86
 msgid "Could not find the order in the ecommerce."
 msgstr "Ezin izan da eskaera aurkitu ecommerce-an."
 
-#: core/webhook.php:95
+#: core/webhook.php:111
 msgid "Error processing the webhook."
 msgstr "Errorea webhook-a prozesatzean."
 
-#: core/webhook.php:104
+#: core/webhook.php:143
 msgid "Method not allowed"
 msgstr "Metodoa ez dago onartuta"
 
-#: core/webhook.php:117
+#: core/webhook.php:156
 msgid "Could not decode the body payload"
 msgstr "Ezin izan da payload-aren gorputza deskodetu"
 
-#: core/webhook.php:125
+#: core/webhook.php:164
 msgid "Invalid body."
 msgstr "Gorputz baliogabea."
 
-#: core/webhook.php:143
+#: core/webhook.php:209
 msgid "Payload does not match the expected model."
 msgstr "Payload-a ez dator espero zen eredura."
 
-#: core/webhook.php:339
+#: core/webhook.php:430
 #, php-format
 msgid "Wipop: Reembolso de %1$s. Transacción: %2$s."
 msgstr "Wipop: %1$s-en itzulketa. Transakzioa: %2$s."
 
-#: core/webhook.php:341 gateways/Support/PaymentsProcessor.php:237
+#: core/webhook.php:432
+#: gateways/Support/PaymentsProcessor.php:240
 msgid "desconocida"
 msgstr "ezezaguna"
 
@@ -273,11 +265,13 @@ msgstr "Bizum (BBVA)"
 msgid "Paga con Bizum"
 msgstr "Ordaindu Bizumekin"
 
-#: core/WooCommerce/Blocks/CardPaymentMethod.php:19 gateways/card/card.php:41
+#: core/WooCommerce/Blocks/CardPaymentMethod.php:19
+#: gateways/card/card.php:41
 msgid "Card (BBVA)"
 msgstr "Txartela (BBVA)"
 
-#: core/WooCommerce/Blocks/CardPaymentMethod.php:20 gateways/card/card.php:28
+#: core/WooCommerce/Blocks/CardPaymentMethod.php:20
+#: gateways/card/card.php:28
 msgid "Paga con Card"
 msgstr "Ordaindu txartelarekin"
 
@@ -319,135 +313,79 @@ msgstr "Aurrebaimena eskuz baliogabetu da Wipopen."
 msgid "Wipop: Anulaste la preautorización. Transacción: %s."
 msgstr "Wipop: aurrebaimena baliogabetu duzu. Transakzioa: %s."
 
-#: core/WooCommerce/RecurringPayments.php:123
-msgid ""
-"Wipop: no se programaron cobros recurrentes porque el cliente no tiene "
-"tarjeta guardada."
-msgstr ""
-"Wipop: ez dira kobraketa errepikakorrak programatu bezeroak ez duelako "
-"gordetako txartelik."
+#: core/WooCommerce/RecurringPayments.php:150
+msgid "Wipop: no se programaron cobros recurrentes porque el cliente no tiene tarjeta guardada."
+msgstr "Wipop: ez dira kobraketa errepikakorrak programatu bezeroak ez duelako gordetako txartelik."
 
-#: core/WooCommerce/RecurringPayments.php:175
+#: core/WooCommerce/RecurringPayments.php:199
 #, php-format
 msgid "Wipop: programados cobros recurrentes (%s)."
 msgstr "Wipop: kobraketa errepikakorrak programatu dira (%s)."
 
-#: core/WooCommerce/RecurringPayments.php:203
-msgid ""
-"Wipop: detuvimos los cobros recurrentes porque el pedido ya no está activo."
-msgstr ""
-"Wipop: kobraketa errepikakorrak gelditu ditugu eskaera jada aktibo ez "
-"dagoelako."
+#: core/WooCommerce/RecurringPayments.php:227
+msgid "Wipop: detuvimos los cobros recurrentes porque el pedido ya no está activo."
+msgstr "Wipop: kobraketa errepikakorrak gelditu ditugu eskaera jada aktibo ez dagoelako."
 
-#: core/WooCommerce/RecurringPayments.php:216
-msgid ""
-"Wipop: detuvimos los cobros recurrentes porque el fallo en la programación."
-msgstr ""
-"Wipop: kobraketa errepikakorrak gelditu ditugu programazioan errore bat egon "
-"delako."
+#: core/WooCommerce/RecurringPayments.php:240
+#: core/WooCommerce/RecurringPayments.php:672
+msgid "Wipop: detuvimos los cobros recurrentes porque el fallo en la programación."
+msgstr "Wipop: kobraketa errepikakorrak gelditu ditugu programazioan errore bat egon delako."
 
-#: core/WooCommerce/RecurringPayments.php:248
-msgid ""
-"Wipop: no encontramos la tarjeta guardada del cliente para continuar con los "
-"cobros recurrentes."
-msgstr ""
-"Wipop: ezin izan dugu bezeroaren gordetako txartela aurkitu kobraketa "
-"errepikakorrei jarraitzeko."
+#: core/WooCommerce/RecurringPayments.php:272
+msgid "Wipop: no encontramos la tarjeta guardada del cliente para continuar con los cobros recurrentes."
+msgstr "Wipop: ezin izan dugu bezeroaren gordetako txartela aurkitu kobraketa errepikakorrei jarraitzeko."
 
-#: core/WooCommerce/RecurringPayments.php:259
-msgid ""
-"Wipop: detuvimos los cobros recurrentes porque el importe configurado es 0."
-msgstr ""
-"Wipop: kobraketa errepikakorrak gelditu ditugu konfiguratutako zenbatekoa 0 "
-"delako."
+#: core/WooCommerce/RecurringPayments.php:283
+#: core/WooCommerce/RecurringPayments.php:683
+msgid "Wipop: detuvimos los cobros recurrentes porque el importe configurado es 0."
+msgstr "Wipop: kobraketa errepikakorrak gelditu ditugu konfiguratutako zenbatekoa 0 delako."
 
-#: core/WooCommerce/RecurringPayments.php:324
-#, php-format
-msgid ""
-"Wipop: cargo recurrente %1$s #%2$d enviado. Transacción: %3$s. Importe: %4$s."
-msgstr ""
-"Wipop: %1$s kobraketa errepikakorra #%2$d bidali da. Transakzioa: %3$s. "
-"Zenbatekoa: %4$s."
+#: core/WooCommerce/RecurringPayments.php:443
+msgid "Wipop: cancelamos los cobros recurrentes porque el pedido cambió de estado."
+msgstr "Wipop: kobraketa errepikakorrak ezeztatu ditugu eskaerak egoera aldatu duelako."
 
-#: core/WooCommerce/RecurringPayments.php:351
-msgid ""
-"Wipop: cancelamos los cobros recurrentes porque el pedido cambió de estado."
-msgstr ""
-"Wipop: kobraketa errepikakorrak ezeztatu ditugu eskaerak egoera aldatu "
-"duelako."
-
-#: core/WooCommerce/RecurringPayments.php:378
+#: core/WooCommerce/RecurringPayments.php:470
 msgid "Recurrencia"
 msgstr "Errepikapena"
 
-#: core/WooCommerce/RecurringPayments.php:379
+#: core/WooCommerce/RecurringPayments.php:471
 msgid "Recurrencia de pagos"
 msgstr "Ordainketen errepikapena"
 
-#: core/WooCommerce/RecurringPayments.php:394
+#: core/WooCommerce/RecurringPayments.php:486
 msgid "Sí"
 msgstr "Bai"
 
-#: core/WooCommerce/RecurringPayments.php:394
+#: core/WooCommerce/RecurringPayments.php:486
 msgid "No"
 msgstr "Ez"
 
-#: core/WooCommerce/RecurringPayments.php:399
-#: core/WooCommerce/RecurringPayments.php:507
+#: core/WooCommerce/RecurringPayments.php:491
+#: core/WooCommerce/RecurringPayments.php:819
 msgid "mensual"
 msgstr "hilekoa"
 
-#: core/WooCommerce/RecurringPayments.php:400
-#: core/WooCommerce/RecurringPayments.php:506
+#: core/WooCommerce/RecurringPayments.php:492
+#: core/WooCommerce/RecurringPayments.php:818
 msgid "anual"
 msgstr "urtekoa"
 
-#: core/WooCommerce/RecurringPayments.php:508
+#: core/WooCommerce/RecurringPayments.php:820
 #: core/WooCommerce/StatusHelper.php:16
 msgid "desconocido"
 msgstr "ezezaguna"
-
-#: core/WooCommerce/RecurringPayments.php:618
-#, php-format
-msgid ""
-"Wipop: detuvimos los cobros recurrentes (%1$s) tras %2$d fallos. Último "
-"error: %3$s."
-msgstr ""
-"Wipop: kobraketa errepikakorrak (%1$s) gelditu ditugu %2$d hutsegiteren "
-"ondoren. Azken errorea: %3$s."
-
-#: core/WooCommerce/RecurringPayments.php:631
-#, php-format
-msgid ""
-"Wipop: no pudimos cobrar la recurrencia (%1$s). Reintentaremos en 24 horas. "
-"Error: %2$s."
-msgstr ""
-"Wipop: ezin izan dugu errepikapeneko kobraketa (%1$s) kobratu. 24 ordutan "
-"berriro saiatuko gara. Errorea: %2$s."
 
 #: core/WooCommerce/StatusHelper.php:18
 #, php-format
 msgid "Estado de Wipop: %s."
 msgstr "Wipop egoera: %s."
 
-#: core/WooCommerce/ThankYouNotice.php:53
-msgid "Pago rechazado por la pasarela de Wipop."
-msgstr "Wipop ordainketa-pasabideak ordainketa baztertu du."
-
-#: core/WooCommerce/ThankYouNotice.php:57
-#, php-format
-msgid "Codigo: %s"
-msgstr "Kodea: %s"
-
-#: core/WooCommerce/ThankYouNotice.php:73
-msgid "Pago iniciado con Wipop. Estamos esperando confirmacion."
-msgstr "Ordainketa Wipop-ekin hasi da. Berrespenaren zain gaude."
-
 #: gateways/bizum/bizum.php:26
 msgid "Bizum"
 msgstr "Bizum"
 
-#: gateways/bizum/bizum.php:66 gateways/card/card.php:67
+#: gateways/bizum/bizum.php:66
+#: gateways/card/card.php:67
 #: gateways/googlepay/gpay.php:59
 msgid "Gestiona este método desde WooCommerce > Wipop."
 msgstr "Kudeatu metodo hau WooCommerce > Wipop ataletik."
@@ -493,139 +431,233 @@ msgstr "Bezeroa"
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: gateways/Support/PaymentsProcessor.php:54
+#: gateways/Support/PaymentsProcessor.php:56
 msgid "No se pudo iniciar el pago: el pedido es inválido."
 msgstr "Ezin izan da ordainketa abiatu: eskaera baliogabea da."
 
-#: gateways/Support/PaymentsProcessor.php:119
+#: gateways/Support/PaymentsProcessor.php:122
 msgid "No se pudo iniciar el pago con Wipop."
 msgstr "Ezin izan da ordainketa abiatu Wipop-ekin."
 
-#: gateways/Support/PaymentsProcessor.php:133
+#: gateways/Support/PaymentsProcessor.php:136
 msgid "No se pudo iniciar el pago con Wipop. Inténtalo de nuevo."
 msgstr "Ezin izan da ordainketa abiatu Wipop-ekin. Saiatu berriro."
 
-#: gateways/Support/PaymentsProcessor.php:166
+#: gateways/Support/PaymentsProcessor.php:169
 msgid "No se pudo procesar el reembolso porque el pedido es inválido."
 msgstr "Ezin izan da itzulketa prozesatu eskaera baliogabea delako."
 
-#: gateways/Support/PaymentsProcessor.php:173
+#: gateways/Support/PaymentsProcessor.php:176
 msgid "El importe del reembolso tiene que ser mayor que cero."
 msgstr "Itzulketaren zenbatekoa zero baino handiagoa izan behar da."
 
-#: gateways/Support/PaymentsProcessor.php:186
+#: gateways/Support/PaymentsProcessor.php:189
 msgid "No se encontró la transacción de Wipop para este pedido."
 msgstr "Ez da aurkitu Wipop transakziorik eskaera honetarako."
 
-#: gateways/Support/PaymentsProcessor.php:209
+#: gateways/Support/PaymentsProcessor.php:212
 msgid "No se pudo completar el reembolso. Error al comunicarse con Wipop"
 msgstr "Ezin izan da itzulketa burutu. Errorea Wipop-ekin komunikatzean"
 
-#: gateways/Support/PaymentsProcessor.php:224
+#: gateways/Support/PaymentsProcessor.php:227
 msgid "No se pudo completar el reembolso con Wipop. Inténtalo de nuevo."
 msgstr "Ezin izan da itzulketa burutu Wipop-ekin. Saiatu berriro."
 
-#: gateways/Support/PaymentsProcessor.php:235
+#: gateways/Support/PaymentsProcessor.php:238
 #, php-format
 msgid "Reembolso Wipop completado por %1$s. Transacción: %2$s."
 msgstr "Wipop itzulketa osatuta %1$s-rekin. Transakzioa: %2$s."
 
-#: gateways/Support/PaymentsProcessor.php:242
+#: gateways/Support/PaymentsProcessor.php:245
 #, php-format
 msgid "Motivo: %s"
 msgstr "Arrazoia: %s"
 
-#: gateways/Support/PaymentsProcessor.php:265
+#: gateways/Support/PaymentsProcessor.php:268
 msgid "Pago iniciado con Wipop. Esperando confirmación."
 msgstr "Ordainketa Wipop-ekin abiatu da. Berrespenaren zain."
 
-#: gateways/Support/PaymentsProcessor.php:288
+#: gateways/Support/PaymentsProcessor.php:291
 #, php-format
 msgid "Transacción Wipop creada. Transacción: %s"
 msgstr "Wipop transakzioa sortu da. Transakzioa: %s"
 
-#: gateways/Support/PaymentsProcessor.php:289
+#: gateways/Support/PaymentsProcessor.php:292
 msgid "sin ID"
 msgstr "IDrik gabe"
 
-#: gateways/Support/PaymentsProcessor.php:293
-msgid ""
-"Pago preautorizado con Wipop. Captura o anula la autorización desde las "
-"acciones del pedido."
-msgstr ""
-"Ordainketa Wipop-ekin aurrebaimenduta. Kapturatu edo baliogabetu baimena "
-"eskaeraren ekintzetatik."
+#: gateways/Support/PaymentsProcessor.php:296
+msgid "Pago preautorizado con Wipop. Captura o anula la autorización desde las acciones del pedido."
+msgstr "Ordainketa Wipop-ekin aurrebaimenduta. Kapturatu edo baliogabetu baimena eskaeraren ekintzetatik."
 
-#: wipop.php:42
+#: wipop.php:41
 msgid "Wipop requires WooCommerce to be installed and active."
 msgstr "Wipop-ek WooCommerce instalatuta eta aktibatuta egotea eskatzen du."
 
-#: wipop.php:113
+#: wipop.php:111
 msgid "Ajustes"
 msgstr "Ezarpenak"
 
-#: build/index.js:182 src/index.js:18 build/index.js:75
+#: build/index.js:182
+#: src/index.js:18
+#: build/index.js:75
 msgid "Search"
 msgstr "Bilatu"
 
-#: build/index.js:192 src/index.js:29 build/index.js:86
+#: build/index.js:192
+#: src/index.js:29
+#: build/index.js:86
 msgid "Dropdown"
 msgstr "Goitibehera zerrenda"
 
-#: build/index.js:206 src/index.js:43 build/index.js:100
+#: build/index.js:206
+#: src/index.js:43
+#: build/index.js:100
 msgid "Pill shaped container"
 msgstr "Pilula itxurako edukiontzia"
 
-#: build/index.js:209 src/index.js:45 build/index.js:102
+#: build/index.js:209
+#: src/index.js:45
+#: build/index.js:102
 msgid "Pill Shape Container"
 msgstr "Pilula itxurako edukiontzia"
 
-#: build/index.js:212 src/index.js:50 build/index.js:107
+#: build/index.js:212
+#: src/index.js:50
+#: build/index.js:107
 msgid "Spinner"
 msgstr "Kargatze-adierazlea"
 
-#: build/index.js:216 src/index.js:56 build/index.js:113
+#: build/index.js:216
+#: src/index.js:56
+#: build/index.js:113
 msgid "Datepicker"
 msgstr "Data-hautatzailea"
 
-#: build/index.js:218 src/index.js:58 build/index.js:115
+#: build/index.js:218
+#: src/index.js:58
+#: build/index.js:115
 msgid "I am a datepicker!"
 msgstr "Ni data-hautatzaile bat naiz!"
 
-#: block.json
-msgctxt "block title"
-msgid "Wipop"
-msgstr "Wipop"
+#: admin/admin.php:311
+msgid "Credenciales de webhook regeneradas correctamente."
+msgstr "Webhook kredentzialak behar bezala birsortu dira."
 
-#~ msgid "Enable Bizum"
-#~ msgstr "Bizum gaitu"
+#: admin/admin.php:370
+msgid "Copiado al portapapeles."
+msgstr "Arbelera kopiatu da."
 
-#~ msgid "Enable Bizum payments"
-#~ msgstr "Bizum bidezko ordainketak gaitu"
+#: admin/admin.php:371
+msgid "No se pudo copiar automáticamente. Copia el valor manualmente."
+msgstr "Ezin izan da automatikoki kopiatu. Kopiatu balioa eskuz."
 
-#~ msgid "Checkout title"
-#~ msgstr "Checkout-eko titulua"
+#: admin/admin.php:372
+msgid "Copia el valor manualmente (Ctrl/Cmd + C)"
+msgstr "Kopiatu balioa eskuz (Ctrl/Cmd + C)"
 
-#~ msgid "Title that the customer will see at payment."
-#~ msgstr "Bezeroak ordainketan ikusiko duen titulua."
+#: admin/admin.php:373
+msgid "Al regenerar credenciales tendrás que actualizar el portal Wipöp. ¿Quieres continuar?"
+msgstr "Kredentzialak birsortzean Wipöp ataria eguneratu beharko duzu. Jarraitu nahi duzu?"
 
-#~ msgid "Pay with Bizum"
-#~ msgstr "Ordaindu Bizumekin"
+#: admin/admin.php:382
+msgid "Autenticación del webhook"
+msgstr "Webhook autentifikazioa"
 
-#~ msgid "Enable Card"
-#~ msgstr "Txartela gaitu"
+#: admin/admin.php:401
+msgid "Webhook URL"
+msgstr "Webhook URL"
 
-#~ msgid "Enable Card payments"
-#~ msgstr "Txartel bidezko ordainketak gaitu"
+#: admin/admin.php:407
+msgid "Usuario webhook"
+msgstr "Webhook erabiltzailea"
 
-#~ msgid "Pay with Card"
-#~ msgstr "Ordaindu txartelarekin"
+#: admin/admin.php:413
+msgid "Contraseña webhook"
+msgstr "Webhook pasahitza"
 
-#~ msgid "Enable GPay"
-#~ msgstr "Google Pay gaitu"
+#: admin/admin.php:419
+msgid "Estado"
+msgstr "Egoera"
 
-#~ msgid "Enable GPay payments"
-#~ msgstr "Google Pay bidezko ordainketak gaitu"
+#: admin/admin.php:425
+msgid "Código de verificación"
+msgstr "Egiaztapen-kodea"
 
-#~ msgid "Pay with GPay"
-#~ msgstr "Ordaindu Google Pay-rekin"
+#: admin/admin.php:431
+msgid "Código recibido en"
+msgstr "Kodea hemen jaso da:"
+
+#: admin/admin.php:437
+msgid "Conectado en"
+msgstr "Konektatuta:"
+
+#: admin/admin.php:449
+msgid "Regenerar credenciales"
+msgstr "Kredentzialak birsortu"
+
+#: admin/admin.php:451
+msgid "Después de regenerar, actualiza usuario y contraseña en el portal Wipöp."
+msgstr "Birsortu ondoren, eguneratu erabiltzailea eta pasahitza Wipöp atarian."
+
+#: admin/admin.php:469
+msgid "Copiar"
+msgstr "Kopiatu"
+
+#: admin/admin.php:480
+msgid "Conectado"
+msgstr "Konektatuta"
+
+#: admin/admin.php:481
+msgid "Sin verificar"
+msgstr "Egiaztatu gabe"
+
+#: admin/admin.php:482
+msgid "Desconectado"
+msgstr "Deskonektatuta"
+
+#: core/webhook.php:124
+msgid "Invalid webhook authentication."
+msgstr "Webhook autentifikazio baliogabea."
+
+#: core/webhook.php:132
+msgid "Webhook authentication is required."
+msgstr "Webhook autentifikazioa beharrezkoa da."
+
+#: core/webhook.php:189
+msgid "Invalid verification payload."
+msgstr "Egiaztapen payload baliogabea."
+
+#: core/WooCommerce/RecurringPayments.php:537
+msgid "No se pudo crear el pedido recurrente."
+msgstr "Ezin izan da eskaera errepikaria sortu."
+
+#: core/WooCommerce/RecurringPayments.php:603
+#: core/WooCommerce/RecurringPayments.php:617
+#: core/WooCommerce/RecurringPayments.php:717
+msgid "Cargo fallido."
+msgstr "Kargak huts egin du."
+
+#: core/WooCommerce/RecurringPayments.php:639
+#, php-format
+msgid "Wipop: cargo recurrente %1$s #%2$d enviado. Referencia: %3$s. Importe: %4$s. Esperando confirmación del pago."
+msgstr "Wipop: %1$s #%2$d karga errepikaria bidali da. Erreferentzia: %3$s. Zenbatekoa: %4$s. Ordainketaren berrespena zain."
+
+#: core/WooCommerce/RecurringPayments.php:699
+#, php-format
+msgid "Wipop: cargo recurrente %1$s #%2$d confirmado. Transacción: %3$s. Importe: %4$s."
+msgstr "Wipop: %1$s #%2$d karga errepikaria berretsi da. Transakzioa: %3$s. Zenbatekoa: %4$s."
+
+#: core/WooCommerce/RecurringPayments.php:919
+#, php-format
+msgid "Wipop: detuvimos los cobros recurrentes (%1$s) error: %2$s."
+msgstr "Wipop: ordainketa errepikariak gelditu ditugu (%1$s) errorea: %2$s."
+
+#: core/WooCommerce/RecurringRenewalOrderFactory.php:48
+msgid "Wipop: no pudimos crear el pedido recurrente."
+msgstr "Wipop: ezin izan dugu eskaera errepikaria sortu."
+
+#: core/WooCommerce/RecurringRenewalOrderFactory.php:111
+#, php-format
+msgid "Wipop: pedido recurrente creado desde el pedido %1$s (ciclo nº%2$d)."
+msgstr "Wipop: eskaera errepikaria %1$s eskaeratik sortu da (zikloa %2$d)."
