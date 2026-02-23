@@ -67,6 +67,8 @@ class Webhook
 			if (self::isVerificationEvent($payload)) {
 				self::handleVerificationPayload($payload);
 				self::respond(200, 'OK');
+
+				return;
 			}
 
 			$transaction = self::hydrateTransaction($payload);
