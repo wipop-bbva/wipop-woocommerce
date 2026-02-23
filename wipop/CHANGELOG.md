@@ -1,3 +1,17 @@
+## [0.7.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.6.1...v0.7.0) (2026-02-23)
+
+### Features
+
+* **admin:** add webhook auth settings UI and credential management ([b5737d7](https://github.com/wipop-bbva/wipop-woocommerce/commit/b5737d752e964b4eb072a82624f7e935628dd76c))
+* **webhook:** add auth and verification flow in webhook endpoint ([375cbdd](https://github.com/wipop-bbva/wipop-woocommerce/commit/375cbddb62e2fed01871e69f010b0b70d3387577))
+
+### Bug Fixes
+
+* **admin:** update description for webhook credential regeneration to reflect correct portal name ([6c57a95](https://github.com/wipop-bbva/wipop-woocommerce/commit/6c57a95cd30c37335e750106988e4e7fb41ec0a7))
+* **docker:** preserve Authorization header for WordPress webhook auth ([1ea2af3](https://github.com/wipop-bbva/wipop-woocommerce/commit/1ea2af32ad444a55d5b874b47f4a21943eb7761e))
+* **webhook:** correct typos in error logging messages ([294622f](https://github.com/wipop-bbva/wipop-woocommerce/commit/294622f78dfae6563a6fd11c89e104efd60135e1))
+* **webhook:** ensure early return after handling verification payload ([d8081d1](https://github.com/wipop-bbva/wipop-woocommerce/commit/d8081d12f4725fc343b7c24616162bc73613077a))
+
 ## [0.6.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.6.0...v0.6.1) (2026-02-11)
 
 ### Bug Fixes
