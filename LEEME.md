@@ -1,7 +1,9 @@
 # Plugin WooCommerce de Wipop
 
-Plugin de WooCommerce para integra la pasarela de pagos de Wipöp permitiendo a los usuarios de tu e-commerce con Wordpress realizar pagos de forma sencilla.
+Plugin de WooCommerce para integrar la pasarela de pagos de Wipöp, permitiendo a los usuarios de tu e-commerce con WordPress realizar pagos de forma sencilla.
 Incluye pasarelas listas para producción de tarjeta y Bizum. Configura las credenciales entre todos los métodos y mantiene los pedidos de WooCommerce sincronizados con las transacciones que reporta Wipöp.
+
+Para una versión funcional orientada a cliente, consulta [DOCUMENTO_FUNCIONAL_CLIENTE.md](DOCUMENTO_FUNCIONAL_CLIENTE.md).
 
 ## Funcionalidades
 
@@ -25,7 +27,7 @@ Incluye pasarelas listas para producción de tarjeta y Bizum. Configura las cred
 ## Requisitos
 
 - PHP 8.1 o superior.
-- WordPress con WooCommerce instalado y activo..
+- WordPress con WooCommerce instalado y activo.
 - Cuenta de comercio Wipöp con credenciales de Sandbox y Producción (Merchant ID, Terminal ID, Public Key, Private Key).
 
 ## Instalación
@@ -44,7 +46,7 @@ Incluye pasarelas listas para producción de tarjeta y Bizum. Configura las cred
 - Completa el alta con Wipöp para disponer de terminales de Sandbox y Producción.
 - Reúne todas las credenciales del plugin: Merchant ID, Terminal ID, Public Key y Private Key.
 - Define el entorno con el que vas a trabajar y asegúrate de que la URL de la tienda admite HTTPS para poder recibir webhooks.
-- [TBD] Configura en el panel de BBVA la URL `https://{tu-dominio}/?wc-api=wipop_bbva` como webhook de notificaciones.
+- Copia en el portal el usuario y contraseña de webhook que se muestran en `WooCommerce > Wipop` al igual que la url del webhook.
 
 ## Inicio rápido
 
@@ -81,14 +83,15 @@ Con `Cobrar automáticamente` (comportamiento por defecto) la captura se confirm
 
 El plugin consulta los métodos de pago disponibles y solo registra las pasarelas devueltas por Wipöp. Activa o desactiva cada método desde `WooCommerce > Pagos`.
 
-### Webhooks [TBD]
+### Webhooks
 
-Expón `https://{tu-dominio}/?wc-api=wipop_bbva` en el portal de BBVA. El webhook sincroniza:
+Expón `https://{tu-dominio}/?wc-api=wipop_bbva` en el portal de Wipöp usando las credenciales mostradas en `WooCommerce > Wipop`. El webhook sincroniza:
 
 - Cambios de estado del pedido (pendiente → en espera → procesando/completado → fallido).
 - Metadatos de captura manual.
 - Identificadores de transacción, datos enmascarados de tarjeta y tokens almacenados.
 - Eventos de reembolso.
+- Eventos de verificación para marcar el webhook como conectado en el panel de administración.
 
 ### Productos recurrentes
 
@@ -96,7 +99,9 @@ Al editar productos verás la pestaña **Pago recurrente**. Márcala y escoge `M
 - Verifica que el cliente tiene un token guardado.
 - Agrupa los importes por periodicidad y guarda en el pedido el metadato con la cantidad, próxima fecha y contadores de ejecución.
 - Agenda el job mediante WP-Cron. 
-- Añade notas en el pedido con cada intento, reprograma la siguiente fecha o detiene la recurrencia tras cinco fallos seguidos.
+- Añade notas en el pedido con cada intento y detiene la recurrencia si el pedido queda inactivo, faltan datos de tarjeta/token, el importe es inválido o falla un cargo recurrente.
+
+Además, los cobros recurrentes se pueden detener manualmente desde las acciones del pedido con **Detener cobros recurrentes con Wipop**.
 
 Los cobros recurrentes se desactivan automáticamente si el pedido pasa a cancelado/reembolsado/fallido, si se elimina el pedido o si el cliente borra la tarjeta (no se encuentra token COF).
 
