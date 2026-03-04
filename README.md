@@ -13,7 +13,7 @@ It includes production-ready gateways for card and Bizum. Configure shared crede
 - **Bizum payments**
   - Dedicated button at checkout that creates a Bizum charge.
 - **Google Pay**
-  - Initial support.
+  - Initial support pending.
 - **Merchant synchronization and admin tools**
   - Central settings page at `WooCommerce > Wipop` with environment, keys, terminal, and capture mode.
   - Credential verification that saves allowed methods.
@@ -44,7 +44,9 @@ It includes production-ready gateways for card and Bizum. Configure shared crede
 
 - Complete onboarding with Wipöp to get Sandbox and Production terminals.
 - Gather all plugin credentials: Merchant ID, Terminal ID, Public Key and Private Key.
-- [TBD] Configure `https://{your-domain}/?wc-api=wipop_bbva` as the notification webhook URL in the BBVA panel.
+- Ensure the store is reachable via HTTPS.
+- Configure `https://{your-domain}/?wc-api=wipop_bbva` as the webhook URL in the Wipöp/BBVA portal.
+- Copy the webhook username/password generated in `WooCommerce > Wipop` into the portal.
 
 ## Quick start
 
@@ -80,14 +82,15 @@ With `Capture automatically` (default behavior) the capture is confirmed at the 
 
 The plugin queries available payment methods and only registers the gateways returned by Wipöp. Enable or disable each method from `WooCommerce > Payments`.
 
-### Webhooks [TBD]
+### Webhooks
 
-Expose `https://{your-domain}/?wc-api=wipop_bbva` in the BBVA portal. The webhook syncs:
+Expose `https://{your-domain}/?wc-api=wipop_bbva` in the BBVA portal with the credentials shown in `WooCommerce > Wipop`. The webhook syncs:
 
 - Order status changes (pending → on-hold → processing/completed → failed).
 - Manual capture metadata.
 - Transaction identifiers, masked card data and stored tokens.
 - Refund events.
+- Verification events to mark the webhook as connected in the admin panel.
 
 ### Recurring products
 
@@ -96,7 +99,9 @@ When editing products you’ll see the **Recurring payment** tab. Enable it and 
 - Verifies that the customer has a stored token.
 - Groups amounts by frequency and stores order metadata with the amount, next date, and execution counters.
 - Schedules the job via WP-Cron.
-- Adds order notes for each attempt, reschedules the next date or stops recurrence after five consecutive failures.
+- Adds order notes for each attempt and stops recurrence if the order becomes inactive, card/token data is missing, amount is invalid, or a recurring charge fails.
+
+Recurring charges can also be stopped manually from the order actions dropdown with **Stop recurring charges with Wipöp**.
 
 Recurring charges are automatically disabled if the order becomes cancelled/refunded/failed, if the order is deleted, or if the customer deletes the card (no COF token found).
 
