@@ -1,3 +1,9 @@
+## [0.8.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.7.1...v0.8.0) (2026-03-04)
+
+### Features
+
+* **woocommerce:** add order action to stop Wipop recurring charges and update i18n ([9e8e680](https://github.com/wipop-bbva/wipop-woocommerce/commit/9e8e6806fd4c86b680e0d1cf32534eb413f2a8cf))
+
 ## [0.7.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.7.0...v0.7.1) (2026-02-23)
 
 ### Bug Fixes
