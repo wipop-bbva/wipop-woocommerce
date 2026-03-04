@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-23T17:43:23+00:00\n"
+"POT-Creation-Date: 2026-02-28T20:08:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wipop\n"
@@ -402,89 +402,102 @@ msgstr ""
 msgid "Wipop: Anulaste la preautorización. Transacción: %s."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:150
+#: core/WooCommerce/RecurringPayments.php:154
 msgid "Wipop: no se programaron cobros recurrentes porque el cliente no tiene tarjeta guardada."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:199
+#: core/WooCommerce/RecurringPayments.php:203
 #, php-format
 msgid "Wipop: programados cobros recurrentes (%s)."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:227
+#: core/WooCommerce/RecurringPayments.php:231
 msgid "Wipop: detuvimos los cobros recurrentes porque el pedido ya no está activo."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:240
-#: core/WooCommerce/RecurringPayments.php:672
+#: core/WooCommerce/RecurringPayments.php:244
+#: core/WooCommerce/RecurringPayments.php:736
 msgid "Wipop: detuvimos los cobros recurrentes porque el fallo en la programación."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:272
+#: core/WooCommerce/RecurringPayments.php:276
 msgid "Wipop: no encontramos la tarjeta guardada del cliente para continuar con los cobros recurrentes."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:283
-#: core/WooCommerce/RecurringPayments.php:683
+#: core/WooCommerce/RecurringPayments.php:287
+#: core/WooCommerce/RecurringPayments.php:747
 msgid "Wipop: detuvimos los cobros recurrentes porque el importe configurado es 0."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:443
+#: core/WooCommerce/RecurringPayments.php:447
 msgid "Wipop: cancelamos los cobros recurrentes porque el pedido cambió de estado."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:470
+#: core/WooCommerce/RecurringPayments.php:457
+msgid "Detener cobros recurrentes con Wipop"
+msgstr ""
+
+#: core/WooCommerce/RecurringPayments.php:483
+#, php-format
+msgid "Wipop: has detenido manualmente los cobros recurrentes del pedido original #%s."
+msgstr ""
+
+#: core/WooCommerce/RecurringPayments.php:488
+msgid "Wipop: has detenido manualmente los cobros recurrentes."
+msgstr ""
+
+#: core/WooCommerce/RecurringPayments.php:534
 msgid "Recurrencia"
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:471
+#: core/WooCommerce/RecurringPayments.php:535
 msgid "Recurrencia de pagos"
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:486
+#: core/WooCommerce/RecurringPayments.php:550
 msgid "Sí"
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:486
+#: core/WooCommerce/RecurringPayments.php:550
 msgid "No"
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:491
-#: core/WooCommerce/RecurringPayments.php:819
+#: core/WooCommerce/RecurringPayments.php:555
+#: core/WooCommerce/RecurringPayments.php:883
 msgid "mensual"
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:492
-#: core/WooCommerce/RecurringPayments.php:818
+#: core/WooCommerce/RecurringPayments.php:556
+#: core/WooCommerce/RecurringPayments.php:882
 msgid "anual"
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:537
+#: core/WooCommerce/RecurringPayments.php:601
 msgid "No se pudo crear el pedido recurrente."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:603
-#: core/WooCommerce/RecurringPayments.php:617
-#: core/WooCommerce/RecurringPayments.php:717
+#: core/WooCommerce/RecurringPayments.php:667
+#: core/WooCommerce/RecurringPayments.php:681
+#: core/WooCommerce/RecurringPayments.php:781
 msgid "Cargo fallido."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:639
+#: core/WooCommerce/RecurringPayments.php:703
 #, php-format
 msgid "Wipop: cargo recurrente %1$s #%2$d enviado. Referencia: %3$s. Importe: %4$s. Esperando confirmación del pago."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:699
+#: core/WooCommerce/RecurringPayments.php:763
 #, php-format
 msgid "Wipop: cargo recurrente %1$s #%2$d confirmado. Transacción: %3$s. Importe: %4$s."
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:820
+#: core/WooCommerce/RecurringPayments.php:884
 #: core/WooCommerce/StatusHelper.php:16
 msgid "desconocido"
 msgstr ""
 
-#: core/WooCommerce/RecurringPayments.php:919
+#: core/WooCommerce/RecurringPayments.php:983
 #, php-format
 msgid "Wipop: detuvimos los cobros recurrentes (%1$s) error: %2$s."
 msgstr ""

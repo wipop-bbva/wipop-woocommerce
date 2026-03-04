@@ -313,64 +313,64 @@ msgstr "Preautorització anul·lada manualment a Wipop."
 msgid "Wipop: Anulaste la preautorización. Transacción: %s."
 msgstr "Wipop: has anul·lat la preautorització. Transacció: %s."
 
-#: core/WooCommerce/RecurringPayments.php:150
+#: core/WooCommerce/RecurringPayments.php:154
 msgid "Wipop: no se programaron cobros recurrentes porque el cliente no tiene tarjeta guardada."
 msgstr "Wipop: no s'han programat cobraments recurrents perquè el client no té targeta desada."
 
-#: core/WooCommerce/RecurringPayments.php:199
+#: core/WooCommerce/RecurringPayments.php:203
 #, php-format
 msgid "Wipop: programados cobros recurrentes (%s)."
 msgstr "Wipop: programats cobraments recurrents (%s)."
 
-#: core/WooCommerce/RecurringPayments.php:227
+#: core/WooCommerce/RecurringPayments.php:231
 msgid "Wipop: detuvimos los cobros recurrentes porque el pedido ya no está activo."
 msgstr "Wipop: hem aturat els cobraments recurrents perquè la comanda ja no està activa."
 
-#: core/WooCommerce/RecurringPayments.php:240
-#: core/WooCommerce/RecurringPayments.php:672
+#: core/WooCommerce/RecurringPayments.php:244
+#: core/WooCommerce/RecurringPayments.php:736
 msgid "Wipop: detuvimos los cobros recurrentes porque el fallo en la programación."
 msgstr "Wipop: hem aturat els cobraments recurrents per un error en la programació."
 
-#: core/WooCommerce/RecurringPayments.php:272
+#: core/WooCommerce/RecurringPayments.php:276
 msgid "Wipop: no encontramos la tarjeta guardada del cliente para continuar con los cobros recurrentes."
 msgstr "Wipop: no hem trobat la targeta desada del client per continuar amb els cobraments recurrents."
 
-#: core/WooCommerce/RecurringPayments.php:283
-#: core/WooCommerce/RecurringPayments.php:683
+#: core/WooCommerce/RecurringPayments.php:287
+#: core/WooCommerce/RecurringPayments.php:747
 msgid "Wipop: detuvimos los cobros recurrentes porque el importe configurado es 0."
 msgstr "Wipop: hem aturat els cobraments recurrents perquè l'import configurat és 0."
 
-#: core/WooCommerce/RecurringPayments.php:443
+#: core/WooCommerce/RecurringPayments.php:447
 msgid "Wipop: cancelamos los cobros recurrentes porque el pedido cambió de estado."
 msgstr "Wipop: hem cancel·lat els cobraments recurrents perquè la comanda ha canviat d'estat."
 
-#: core/WooCommerce/RecurringPayments.php:470
+#: core/WooCommerce/RecurringPayments.php:534
 msgid "Recurrencia"
 msgstr "Recurrència"
 
-#: core/WooCommerce/RecurringPayments.php:471
+#: core/WooCommerce/RecurringPayments.php:535
 msgid "Recurrencia de pagos"
 msgstr "Recurrència de pagaments"
 
-#: core/WooCommerce/RecurringPayments.php:486
+#: core/WooCommerce/RecurringPayments.php:550
 msgid "Sí"
 msgstr "Sí"
 
-#: core/WooCommerce/RecurringPayments.php:486
+#: core/WooCommerce/RecurringPayments.php:550
 msgid "No"
 msgstr "No"
 
-#: core/WooCommerce/RecurringPayments.php:491
-#: core/WooCommerce/RecurringPayments.php:819
+#: core/WooCommerce/RecurringPayments.php:555
+#: core/WooCommerce/RecurringPayments.php:883
 msgid "mensual"
 msgstr "mensual"
 
-#: core/WooCommerce/RecurringPayments.php:492
-#: core/WooCommerce/RecurringPayments.php:818
+#: core/WooCommerce/RecurringPayments.php:556
+#: core/WooCommerce/RecurringPayments.php:882
 msgid "anual"
 msgstr "anual"
 
-#: core/WooCommerce/RecurringPayments.php:820
+#: core/WooCommerce/RecurringPayments.php:884
 #: core/WooCommerce/StatusHelper.php:16
 msgid "desconocido"
 msgstr "desconegut"
@@ -628,27 +628,27 @@ msgstr "Cal autenticació del webhook."
 msgid "Invalid verification payload."
 msgstr "Càrrega de verificació no vàlida."
 
-#: core/WooCommerce/RecurringPayments.php:537
+#: core/WooCommerce/RecurringPayments.php:601
 msgid "No se pudo crear el pedido recurrente."
 msgstr "No s'ha pogut crear la comanda recurrent."
 
-#: core/WooCommerce/RecurringPayments.php:603
-#: core/WooCommerce/RecurringPayments.php:617
-#: core/WooCommerce/RecurringPayments.php:717
+#: core/WooCommerce/RecurringPayments.php:667
+#: core/WooCommerce/RecurringPayments.php:681
+#: core/WooCommerce/RecurringPayments.php:781
 msgid "Cargo fallido."
 msgstr "Càrrec fallit."
 
-#: core/WooCommerce/RecurringPayments.php:639
+#: core/WooCommerce/RecurringPayments.php:703
 #, php-format
 msgid "Wipop: cargo recurrente %1$s #%2$d enviado. Referencia: %3$s. Importe: %4$s. Esperando confirmación del pago."
 msgstr "Wipop: càrrec recurrent %1$s #%2$d enviat. Referència: %3$s. Import: %4$s. Esperant confirmació del pagament."
 
-#: core/WooCommerce/RecurringPayments.php:699
+#: core/WooCommerce/RecurringPayments.php:763
 #, php-format
 msgid "Wipop: cargo recurrente %1$s #%2$d confirmado. Transacción: %3$s. Importe: %4$s."
 msgstr "Wipop: càrrec recurrent %1$s #%2$d confirmat. Transacció: %3$s. Import: %4$s."
 
-#: core/WooCommerce/RecurringPayments.php:919
+#: core/WooCommerce/RecurringPayments.php:983
 #, php-format
 msgid "Wipop: detuvimos los cobros recurrentes (%1$s) error: %2$s."
 msgstr "Wipop: hem aturat els cobraments recurrents (%1$s) error: %2$s."
@@ -661,3 +661,16 @@ msgstr "Wipop: no hem pogut crear la comanda recurrent."
 #, php-format
 msgid "Wipop: pedido recurrente creado desde el pedido %1$s (ciclo nº%2$d)."
 msgstr "Wipop: comanda recurrent creada des de la comanda %1$s (cicle núm. %2$d)."
+
+#: core/WooCommerce/RecurringPayments.php:457
+msgid "Detener cobros recurrentes con Wipop"
+msgstr "Aturar cobraments recurrents amb Wipop"
+
+#: core/WooCommerce/RecurringPayments.php:488
+msgid "Wipop: has detenido manualmente los cobros recurrentes."
+msgstr "Wipop: has aturat manualment els cobraments recurrents."
+
+#: core/WooCommerce/RecurringPayments.php:483
+#, php-format
+msgid "Wipop: has detenido manualmente los cobros recurrentes del pedido original #%s."
+msgstr "Wipop: has aturat manualment els cobraments recurrents de la comanda original #%s."
