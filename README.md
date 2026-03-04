@@ -13,7 +13,7 @@ It includes production-ready gateways for card and Bizum. Configure shared crede
 - **Bizum payments**
   - Dedicated button at checkout that creates a Bizum charge.
 - **Google Pay**
-  - Initial support.
+  - Initial support pending.
 - **Merchant synchronization and admin tools**
   - Central settings page at `WooCommerce > Wipop` with environment, keys, terminal, and capture mode.
   - Credential verification that saves allowed methods.

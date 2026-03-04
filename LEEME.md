@@ -15,7 +15,7 @@ Para una versión funcional orientada a cliente, consulta [DOCUMENTO_FUNCIONAL_C
 - **Pagos Bizum**
   - Botón específico en el checkout que crea un cargo Bizum.
 - **Google Pay**
-  - Soporte inicial
+  - Soporte pendiente.
 - **Sincronización del comercio y herramientas de administración**
   - Página de ajustes centralizada en `WooCommerce > Wipöp` con entorno, claves, terminal y modo de captura.
   - Verificación de credenciales que guarda en los métodos permitidos.
