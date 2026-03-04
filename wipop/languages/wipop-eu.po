@@ -313,64 +313,64 @@ msgstr "Aurrebaimena eskuz baliogabetu da Wipopen."
 msgid "Wipop: Anulaste la preautorización. Transacción: %s."
 msgstr "Wipop: aurrebaimena baliogabetu duzu. Transakzioa: %s."
 
-#: core/WooCommerce/RecurringPayments.php:150
+#: core/WooCommerce/RecurringPayments.php:154
 msgid "Wipop: no se programaron cobros recurrentes porque el cliente no tiene tarjeta guardada."
 msgstr "Wipop: ez dira kobraketa errepikakorrak programatu bezeroak ez duelako gordetako txartelik."
 
-#: core/WooCommerce/RecurringPayments.php:199
+#: core/WooCommerce/RecurringPayments.php:203
 #, php-format
 msgid "Wipop: programados cobros recurrentes (%s)."
 msgstr "Wipop: kobraketa errepikakorrak programatu dira (%s)."
 
-#: core/WooCommerce/RecurringPayments.php:227
+#: core/WooCommerce/RecurringPayments.php:231
 msgid "Wipop: detuvimos los cobros recurrentes porque el pedido ya no está activo."
 msgstr "Wipop: kobraketa errepikakorrak gelditu ditugu eskaera jada aktibo ez dagoelako."
 
-#: core/WooCommerce/RecurringPayments.php:240
-#: core/WooCommerce/RecurringPayments.php:672
+#: core/WooCommerce/RecurringPayments.php:244
+#: core/WooCommerce/RecurringPayments.php:736
 msgid "Wipop: detuvimos los cobros recurrentes porque el fallo en la programación."
 msgstr "Wipop: kobraketa errepikakorrak gelditu ditugu programazioan errore bat egon delako."
 
-#: core/WooCommerce/RecurringPayments.php:272
+#: core/WooCommerce/RecurringPayments.php:276
 msgid "Wipop: no encontramos la tarjeta guardada del cliente para continuar con los cobros recurrentes."
 msgstr "Wipop: ezin izan dugu bezeroaren gordetako txartela aurkitu kobraketa errepikakorrei jarraitzeko."
 
-#: core/WooCommerce/RecurringPayments.php:283
-#: core/WooCommerce/RecurringPayments.php:683
+#: core/WooCommerce/RecurringPayments.php:287
+#: core/WooCommerce/RecurringPayments.php:747
 msgid "Wipop: detuvimos los cobros recurrentes porque el importe configurado es 0."
 msgstr "Wipop: kobraketa errepikakorrak gelditu ditugu konfiguratutako zenbatekoa 0 delako."
 
-#: core/WooCommerce/RecurringPayments.php:443
+#: core/WooCommerce/RecurringPayments.php:447
 msgid "Wipop: cancelamos los cobros recurrentes porque el pedido cambió de estado."
 msgstr "Wipop: kobraketa errepikakorrak ezeztatu ditugu eskaerak egoera aldatu duelako."
 
-#: core/WooCommerce/RecurringPayments.php:470
+#: core/WooCommerce/RecurringPayments.php:534
 msgid "Recurrencia"
 msgstr "Errepikapena"
 
-#: core/WooCommerce/RecurringPayments.php:471
+#: core/WooCommerce/RecurringPayments.php:535
 msgid "Recurrencia de pagos"
 msgstr "Ordainketen errepikapena"
 
-#: core/WooCommerce/RecurringPayments.php:486
+#: core/WooCommerce/RecurringPayments.php:550
 msgid "Sí"
 msgstr "Bai"
 
-#: core/WooCommerce/RecurringPayments.php:486
+#: core/WooCommerce/RecurringPayments.php:550
 msgid "No"
 msgstr "Ez"
 
-#: core/WooCommerce/RecurringPayments.php:491
-#: core/WooCommerce/RecurringPayments.php:819
+#: core/WooCommerce/RecurringPayments.php:555
+#: core/WooCommerce/RecurringPayments.php:883
 msgid "mensual"
 msgstr "hilekoa"
 
-#: core/WooCommerce/RecurringPayments.php:492
-#: core/WooCommerce/RecurringPayments.php:818
+#: core/WooCommerce/RecurringPayments.php:556
+#: core/WooCommerce/RecurringPayments.php:882
 msgid "anual"
 msgstr "urtekoa"
 
-#: core/WooCommerce/RecurringPayments.php:820
+#: core/WooCommerce/RecurringPayments.php:884
 #: core/WooCommerce/StatusHelper.php:16
 msgid "desconocido"
 msgstr "ezezaguna"
@@ -628,27 +628,27 @@ msgstr "Webhook autentifikazioa beharrezkoa da."
 msgid "Invalid verification payload."
 msgstr "Egiaztapen payload baliogabea."
 
-#: core/WooCommerce/RecurringPayments.php:537
+#: core/WooCommerce/RecurringPayments.php:601
 msgid "No se pudo crear el pedido recurrente."
 msgstr "Ezin izan da eskaera errepikaria sortu."
 
-#: core/WooCommerce/RecurringPayments.php:603
-#: core/WooCommerce/RecurringPayments.php:617
-#: core/WooCommerce/RecurringPayments.php:717
+#: core/WooCommerce/RecurringPayments.php:667
+#: core/WooCommerce/RecurringPayments.php:681
+#: core/WooCommerce/RecurringPayments.php:781
 msgid "Cargo fallido."
 msgstr "Kargak huts egin du."
 
-#: core/WooCommerce/RecurringPayments.php:639
+#: core/WooCommerce/RecurringPayments.php:703
 #, php-format
 msgid "Wipop: cargo recurrente %1$s #%2$d enviado. Referencia: %3$s. Importe: %4$s. Esperando confirmación del pago."
 msgstr "Wipop: %1$s #%2$d karga errepikaria bidali da. Erreferentzia: %3$s. Zenbatekoa: %4$s. Ordainketaren berrespena zain."
 
-#: core/WooCommerce/RecurringPayments.php:699
+#: core/WooCommerce/RecurringPayments.php:763
 #, php-format
 msgid "Wipop: cargo recurrente %1$s #%2$d confirmado. Transacción: %3$s. Importe: %4$s."
 msgstr "Wipop: %1$s #%2$d karga errepikaria berretsi da. Transakzioa: %3$s. Zenbatekoa: %4$s."
 
-#: core/WooCommerce/RecurringPayments.php:919
+#: core/WooCommerce/RecurringPayments.php:983
 #, php-format
 msgid "Wipop: detuvimos los cobros recurrentes (%1$s) error: %2$s."
 msgstr "Wipop: ordainketa errepikariak gelditu ditugu (%1$s) errorea: %2$s."
@@ -661,3 +661,16 @@ msgstr "Wipop: ezin izan dugu eskaera errepikaria sortu."
 #, php-format
 msgid "Wipop: pedido recurrente creado desde el pedido %1$s (ciclo nº%2$d)."
 msgstr "Wipop: eskaera errepikaria %1$s eskaeratik sortu da (zikloa %2$d)."
+
+#: core/WooCommerce/RecurringPayments.php:457
+msgid "Detener cobros recurrentes con Wipop"
+msgstr "Gelditu ordainketa errepikariak Wipopekin"
+
+#: core/WooCommerce/RecurringPayments.php:488
+msgid "Wipop: has detenido manualmente los cobros recurrentes."
+msgstr "Wipop: eskuz gelditu dituzu ordainketa errepikariak."
+
+#: core/WooCommerce/RecurringPayments.php:483
+#, php-format
+msgid "Wipop: has detenido manualmente los cobros recurrentes del pedido original #%s."
+msgstr "Wipop: eskuz gelditu dituzu #%s jatorrizko eskaeraren ordainketa errepikariak."

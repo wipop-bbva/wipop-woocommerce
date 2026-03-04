@@ -54,6 +54,8 @@ final class RecurringPayments
 	public const PERIOD_MONTHLY = 'monthly';
 	public const PERIOD_YEARLY = 'yearly';
 	private const CRON_HOOK = 'wipop_process_recurring_payment';
+	private const ORDER_ACTION_HOOK_PREFIX = 'woocommerce_order_action_';
+	private const ORDER_ACTION_STOP_RECURRING = 'wipop_stop_recurring';
 	private const MINUTE_IN_SECONDS = 60;
 
 	public static function init(): void
@@ -61,6 +63,8 @@ final class RecurringPayments
 		add_action('woocommerce_checkout_create_order_line_item', [__CLASS__, 'markRecurringItem'], 10, 4);
 		add_action('woocommerce_payment_complete', [__CLASS__, 'maybeScheduleOrder']);
 		add_action(self::CRON_HOOK, [__CLASS__, 'handleScheduledCharge'], 10, 2);
+		add_filter('woocommerce_order_actions', [__CLASS__, 'registerOrderActions'], 10, 2);
+		add_action(self::ORDER_ACTION_HOOK_PREFIX . self::ORDER_ACTION_STOP_RECURRING, [__CLASS__, 'handleStopRecurringAction']);
 		add_action('woocommerce_order_status_cancelled', [__CLASS__, 'cancelOrderSchedulesOnStateChange']);
 		add_action('woocommerce_order_status_refunded', [__CLASS__, 'cancelOrderSchedulesOnStateChange']);
 		add_action('woocommerce_order_status_failed', [__CLASS__, 'cancelOrderSchedulesOnStateChange']);
@@ -443,6 +447,47 @@ final class RecurringPayments
 		$order->add_order_note(__('Wipop: cancelamos los cobros recurrentes porque el pedido cambió de estado.', 'wipop'));
 	}
 
+	public static function registerOrderActions(array $actions, WC_Order $order): array
+	{
+		$masterOrder = self::resolveMasterOrderWithSchedules($order);
+		if (!$masterOrder instanceof WC_Order) {
+			return $actions;
+		}
+
+		$actions[self::ORDER_ACTION_STOP_RECURRING] = __('Detener cobros recurrentes con Wipop', 'wipop');
+
+		return $actions;
+	}
+
+	public static function handleStopRecurringAction(WC_Order $order): void
+	{
+		$masterOrder = self::resolveMasterOrderWithSchedules($order);
+		if (!$masterOrder instanceof WC_Order) {
+			return;
+		}
+
+		$schedules = self::getSchedules($masterOrder);
+		if (empty($schedules)) {
+			return;
+		}
+
+		foreach (array_keys($schedules) as $period) {
+			self::unscheduleEvent($masterOrder->get_id(), (string) $period);
+		}
+
+		$masterOrder->delete_meta_data(self::ORDER_META_SCHEDULE);
+		$masterOrder->save();
+
+		if ($masterOrder->get_id() !== $order->get_id()) {
+			$order->add_order_note(sprintf(
+				__('Wipop: has detenido manualmente los cobros recurrentes.', 'wipop'),
+				$masterOrder->get_id()
+			));
+		}
+
+		$masterOrder->add_order_note(__('Wipop: has detenido manualmente los cobros recurrentes.', 'wipop'));
+	}
+
 	public static function handleOrderDeletion(int $postId): void
 	{
 		$order = wc_get_order($postId);
@@ -495,6 +540,25 @@ final class RecurringPayments
 		}
 
 		return $displayValue;
+	}
+
+	private static function resolveMasterOrderWithSchedules(WC_Order $order): ?WC_Order
+	{
+		if (!empty(self::getSchedules($order))) {
+			return $order;
+		}
+
+		$parentId = (int) $order->get_meta(OrderMetaManager::META_RECURRING_PARENT_ORDER_ID, true);
+		if ($parentId <= 0) {
+			return null;
+		}
+
+		$parentOrder = wc_get_order($parentId);
+		if (!$parentOrder instanceof WC_Order) {
+			return null;
+		}
+
+		return !empty(self::getSchedules($parentOrder)) ? $parentOrder : null;
 	}
 
 	private static function startScheduledCharge(
