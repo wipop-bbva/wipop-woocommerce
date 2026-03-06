@@ -1,3 +1,9 @@
+## [0.8.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.8.0...v0.8.1) (2026-03-06)
+
+### Bug Fixes
+
+* **wipop:** normalize locales and inherit customerId for recurring renewals ([5fd456d](https://github.com/wipop-bbva/wipop-woocommerce/commit/5fd456dfaecc066529f7918512e21825fab5b110))
+
 ## [0.8.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.7.1...v0.8.0) (2026-03-04)
 
 ### Features
