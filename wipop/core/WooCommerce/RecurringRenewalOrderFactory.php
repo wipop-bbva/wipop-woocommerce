@@ -31,6 +31,7 @@ final class RecurringRenewalOrderFactory
 			if ($gatewayOrderId !== '') {
 				$existing->update_meta_data(OrderMetaManager::META_GATEWAY_ORDER_ID, $gatewayOrderId);
 			}
+			self::syncWipopCustomerIdFromParent($existing, $parentOrder);
 			$existing->update_meta_data(OrderMetaManager::META_RECURRING_PARENT_ORDER_ID, $parentOrder->get_id());
 			$existing->update_meta_data(RecurringPayments::META_PERIOD, $period);
 			$existing->update_meta_data(RecurringPayments::ORDER_META_SEQUENCE, $sequence);
@@ -60,6 +61,7 @@ final class RecurringRenewalOrderFactory
 		$newOrder->set_created_via('wipop_recurring');
 		$newOrder->set_payment_method(CardGateway::ID);
 		$newOrder->update_meta_data('_wipop_use_cof', 'yes');
+		self::syncWipopCustomerIdFromParent($newOrder, $parentOrder);
 
 		if ($gatewayOrderId !== '') {
 			$newOrder->update_meta_data(OrderMetaManager::META_GATEWAY_ORDER_ID, $gatewayOrderId);
@@ -140,5 +142,15 @@ final class RecurringRenewalOrderFactory
 		]);
 
 		return !empty($orders) && $orders[0] instanceof WC_Order ? $orders[0] : null;
+	}
+
+	private static function syncWipopCustomerIdFromParent(WC_Order $order, WC_Order $parentOrder): void
+	{
+		$customerId = (string) $parentOrder->get_meta('_wipop_customer_id', true);
+		if ($customerId === '') {
+			return;
+		}
+
+		$order->update_meta_data('_wipop_customer_id', $customerId);
 	}
 }

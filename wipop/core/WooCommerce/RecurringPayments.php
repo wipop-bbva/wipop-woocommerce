@@ -644,7 +644,11 @@ final class RecurringPayments
 
 		$order->update_meta_data('_wipop_use_cof', 'yes');
 
-		$customerId = ChargeRequestFactory::resolveWipopCustomerId($renewalOrder, (int) $renewalOrder->get_user_id());
+		$customerId = ChargeRequestFactory::resolveWipopCustomerId(
+			$renewalOrder,
+			(int) $renewalOrder->get_user_id(),
+			$order
+		);
 
 		try {
 			$charge = SdkCaller::call(
