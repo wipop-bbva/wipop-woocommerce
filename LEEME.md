@@ -3,8 +3,6 @@
 Plugin de WooCommerce para integrar la pasarela de pagos de Wipöp, permitiendo a los usuarios de tu e-commerce con WordPress realizar pagos de forma sencilla.
 Incluye pasarelas listas para producción de tarjeta y Bizum. Configura las credenciales entre todos los métodos y mantiene los pedidos de WooCommerce sincronizados con las transacciones que reporta Wipöp.
 
-Para una versión funcional orientada a cliente, consulta [DOCUMENTO_FUNCIONAL_CLIENTE.md](DOCUMENTO_FUNCIONAL_CLIENTE.md).
-
 ## Funcionalidades
 
 - **Pagos con tarjeta**
