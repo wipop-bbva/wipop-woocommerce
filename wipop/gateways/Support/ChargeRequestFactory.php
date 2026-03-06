@@ -23,6 +23,8 @@ use function get_user_meta;
 use function implode;
 use function sprintf;
 use function str_replace;
+use function str_starts_with;
+use function strtolower;
 use function trim;
 
 /**
@@ -59,7 +61,7 @@ final class ChargeRequestFactory
 		return $params;
 	}
 
-	public static function resolveWipopCustomerId(WC_Order $order, int $userId): ?string
+	public static function resolveWipopCustomerId(WC_Order $order, int $userId, ?WC_Order $fallbackOrder = null): ?string
 	{
 		$fromUserMeta = $userId > 0 ? (string) get_user_meta($userId, '_wipop_customer_id', true) : '';
 		if ($fromUserMeta !== '') {
@@ -71,7 +73,31 @@ final class ChargeRequestFactory
 			return $fromOrderMeta;
 		}
 
+		if ($fallbackOrder instanceof WC_Order) {
+			$fromFallbackOrderMeta = (string) $fallbackOrder->get_meta('_wipop_customer_id', true);
+			if ($fromFallbackOrderMeta !== '') {
+				return $fromFallbackOrderMeta;
+			}
+		}
+
 		return null;
+	}
+
+	public static function normalizeLanguage(string $locale): string
+	{
+		$normalizedLocale = strtolower(str_replace('_', '-', trim($locale)));
+		if ($normalizedLocale === '') {
+			return Language::SPANISH;
+		}
+
+		return match (true) {
+			str_starts_with($normalizedLocale, 'ca') => 'ca-ES',
+			str_starts_with($normalizedLocale, 'eu') => 'eu-ES',
+			str_starts_with($normalizedLocale, 'gl') => 'gl-ES',
+			str_starts_with($normalizedLocale, 'en') => 'en-GB',
+			str_starts_with($normalizedLocale, 'es') => Language::SPANISH,
+			default => Language::SPANISH,
+		};
 	}
 
 	private static function buildDescription(WC_Order $order): string
@@ -159,11 +185,6 @@ final class ChargeRequestFactory
 
 	private static function resolveLanguage(): string
 	{
-		$locale = get_locale();
-		if ($locale === '') {
-			return Language::SPANISH;
-		}
-
-		return str_replace('_', '-', $locale);
+		return self::normalizeLanguage(get_locale());
 	}
 }
