@@ -19,35 +19,11 @@ defined('ABSPATH') || exit;
  */
 class Admin
 {
+	private const OPTION_NAME = 'wipop_settings';
+	private const PAGE_SLUG = 'wipop';
+	private const GROUP_SLUG = 'wipop_group';
+	private const SECTION_SLUG = 'wipop_main';
 	private const WEBHOOK_REGENERATED_QUERY_ARG = 'wipop_webhook_regenerated';
-
-	/**
-	 * Option name used to store settings.
-	 *
-	 * @var string
-	 */
-	private $option_name = 'wipop_settings';
-
-	/**
-	 * Page slug for settings page.
-	 *
-	 * @var string
-	 */
-	private $page_slug = 'wipop';
-
-	/**
-	 * Settings group slug.
-	 *
-	 * @var string
-	 */
-	private $group_slug = 'wipop_group';
-
-	/**
-	 * Settings section slug.
-	 *
-	 * @var string
-	 */
-	private $section_slug = 'wipop_main';
 
 	public function __construct()
 	{
@@ -60,7 +36,7 @@ class Admin
 			[__CLASS__, 'regenerate_webhook_credentials']
 		);
 		add_action(
-			'update_option_' . $this->option_name,
+			'update_option_' . self::OPTION_NAME,
 			[__CLASS__, 'log_settings_update'],
 			10,
 			3
@@ -113,7 +89,7 @@ class Admin
 			__('Wipop Settings', 'wipop'),
 			'Wipop',
 			'manage_options',
-			$this->page_slug,
+			self::PAGE_SLUG,
 			[$this, 'settings_page']
 		);
 	}
@@ -121,16 +97,16 @@ class Admin
 	public function register_settings(): void
 	{
 		register_setting(
-			$this->group_slug,
-			$this->option_name,
+			self::GROUP_SLUG,
+			self::OPTION_NAME,
 			[$this, 'fields_validator']
 		);
 
 		add_settings_section(
-			$this->section_slug,
+			self::SECTION_SLUG,
 			'',
 			'__return_false',
-			$this->page_slug
+			self::PAGE_SLUG
 		);
 
 		foreach ($this->get_fields() as $key => $field) {
@@ -149,8 +125,8 @@ class Admin
 				$key,
 				$title,
 				[$this, 'render_field'],
-				$this->page_slug,
-				$this->section_slug,
+				self::PAGE_SLUG,
+				self::SECTION_SLUG,
 				['key' => $key, 'field' => $field]
 			);
 		}
@@ -163,7 +139,7 @@ class Admin
 	 */
 	public function fields_validator(array $input): array
 	{
-		$old = (array) get_option($this->option_name, []);
+		$old = (array) get_option(self::OPTION_NAME, []);
 		$valid = $old;
 
 		foreach ($this->get_fields() as $key => $field) {
@@ -219,7 +195,7 @@ class Admin
 	 */
 	public function render_field($args)
 	{
-		$options = (array) get_option($this->option_name, []);
+		$options = (array) get_option(self::OPTION_NAME, []);
 		$key = $args['key'];
 		$field = $args['field'];
 		$value = $options[$key] ?? $field['default'];
@@ -240,7 +216,7 @@ class Admin
 				printf(
 					'<input type="text" class="%1$s" name="%2$s[%3$s]" value="%4$s" placeholder="%5$s" />',
 					esc_attr($field['class']),
-					esc_attr($this->option_name),
+					esc_attr(self::OPTION_NAME),
 					esc_attr($key),
 					esc_attr((string) $value),
 					esc_attr($field['placeholder'])
@@ -250,7 +226,7 @@ class Admin
 				printf(
 					'<select class="%1$s" name="%2$s[%3$s]">',
 					esc_attr($field['class']),
-					esc_attr($this->option_name),
+					esc_attr(self::OPTION_NAME),
 					esc_attr($key)
 				);
 				foreach ($field['options'] as $opt_value => $opt_label) {
@@ -269,7 +245,7 @@ class Admin
 					'<input type="password" id="%1$s" class="%2$s wipop-password-field" name="%3$s[%1$s]" value="%4$s" placeholder="%5$s" />',
 					esc_attr($key),
 					esc_attr($field['class']),
-					esc_attr($this->option_name),
+					esc_attr(self::OPTION_NAME),
 					esc_attr((string) $value),
 					esc_attr($field['placeholder'])
 				);
@@ -280,20 +256,18 @@ class Admin
 				echo '</div>';
 				break;
 			case 'number':
-				$min = isset($field['min']) ? (int) $field['min'] : 0;
-				$max = isset($field['max']) ? (int) $field['max'] : 99;
-				$step = isset($field['step']) ? (int) $field['step'] : 1;
+				$constraints = $this->numberFieldConstraints($field);
 				$numberValue = is_numeric($value) ? (int) $value : '';
 				printf(
 					'<input type="number" class="%1$s" name="%2$s[%3$s]" value="%4$s" placeholder="%5$s" min="%6$u" max="%7$u" step="%8$u" />',
 					esc_attr($field['class']),
-					esc_attr($this->option_name),
+					esc_attr(self::OPTION_NAME),
 					esc_attr($key),
 					esc_attr((string) $numberValue),
 					esc_attr($field['placeholder']),
-					$min,
-					$max,
-					$step
+					$constraints['min'],
+					$constraints['max'],
+					$constraints['step']
 				);
 				break;
 		}
@@ -342,7 +316,7 @@ class Admin
 
 	public function enqueue_assets(): void
 	{
-		if (!is_admin() || !isset($_GET['page']) || $_GET['page'] !== $this->page_slug) {
+		if (!is_admin() || !isset($_GET['page']) || $_GET['page'] !== self::PAGE_SLUG) {
 			return;
 		}
 
@@ -490,8 +464,9 @@ class Admin
 	 */
 	private function validateNumberField(string $key, array $field, string $value, array $old): string
 	{
-		$min = isset($field['min']) ? (int) $field['min'] : 0;
-		$max = isset($field['max']) ? (int) $field['max'] : 99;
+		$constraints = $this->numberFieldConstraints($field);
+		$min = $constraints['min'];
+		$max = $constraints['max'];
 
 		if (!is_numeric($value)) {
 			$this->addNumberFieldError($key, $field, $min, $max);
@@ -524,7 +499,7 @@ class Admin
 		}
 
 		add_settings_error(
-			$this->option_name,
+			self::OPTION_NAME,
 			$key,
 			sprintf(
 				__('%s must have at least 5 characters.', 'wipop'),
@@ -555,7 +530,7 @@ class Admin
 	private function addNumberFieldError(string $key, array $field, int $min, int $max): void
 	{
 		add_settings_error(
-			$this->option_name,
+			self::OPTION_NAME,
 			$key,
 			sprintf(
 				__('%1$s must be a number between %2$d and %3$d.', 'wipop'),
@@ -565,6 +540,35 @@ class Admin
 			),
 			'error'
 		);
+	}
+
+	private function settingsErrorsHtml(): string
+	{
+		ob_start();
+		settings_errors(self::OPTION_NAME);
+
+		return trim((string) ob_get_clean());
+	}
+
+	private function renderSuccessNotice(string $message): void
+	{
+		echo '<div class="notice notice-success is-dismissible"><p>'
+			. esc_html($message)
+			. '</p></div>';
+	}
+
+	/**
+	 * @param array<string, mixed> $field
+	 *
+	 * @return array{min: int, max: int, step: int}
+	 */
+	private function numberFieldConstraints(array $field): array
+	{
+		return [
+			'min' => isset($field['min']) ? (int) $field['min'] : 0,
+			'max' => isset($field['max']) ? (int) $field['max'] : 99,
+			'step' => isset($field['step']) ? (int) $field['step'] : 1,
+		];
 	}
 
 	/**
