@@ -278,18 +278,23 @@ class Admin
 	public function settings_page()
 	{
 		$settings = WebhookAuth::ensureCredentialsStored();
+		$settingsErrorsHtml = $this->settingsErrorsHtml();
 		?>
 	<div class="wrap admin-page-wipop-settings">
 		<h1><?php esc_html_e('Wipop Settings', 'wipop'); ?></h1>
-		<?php if (!empty($_GET[self::WEBHOOK_REGENERATED_QUERY_ARG])) { ?>
-			<div class="notice notice-success is-dismissible">
-				<p><?php esc_html_e('Credenciales de webhook regeneradas correctamente.', 'wipop'); ?></p>
-			</div>
-		<?php } ?>
-		<?php settings_errors($this->option_name); ?>
+		<?php
+		if (!empty($_GET[self::WEBHOOK_REGENERATED_QUERY_ARG])) {
+			$this->renderSuccessNotice(__('Credenciales de webhook regeneradas correctamente.', 'wipop'));
+		}
+
+		if (!empty($_GET['settings-updated']) && $settingsErrorsHtml === '') {
+			$this->renderSuccessNotice(__('Ajustes guardados correctamente.', 'wipop'));
+		}
+		?>
+		<?php echo $settingsErrorsHtml; ?>
 		<form method="post" action="options.php">
-			<?php settings_fields($this->group_slug); ?>
-			<?php do_settings_sections($this->page_slug); ?>
+			<?php settings_fields(self::GROUP_SLUG); ?>
+			<?php do_settings_sections(self::PAGE_SLUG); ?>
 			<div class="wipop-button-group">
 				<button type="submit" class="button button-primary" id="wipop-admin-save-button">
 					<?php esc_html_e('Guardar', 'wipop'); ?>
@@ -342,7 +347,7 @@ class Admin
 			'nonce' => wp_create_nonce('wipop_verify_credentials'),
 			'successMessage' => __('Tus credenciales son válidas.', 'wipop'),
 			'errorMessage' => __('No pudimos verificar las credenciales. Revisa los datos e inténtalo de nuevo.', 'wipop'),
-			'copySuccessMessage' => __('Copiado al portapapeles.', 'wipop'),
+			'copyDoneLabel' => __('Copiado', 'wipop'),
 			'copyErrorMessage' => __('No se pudo copiar automáticamente. Copia el valor manualmente.', 'wipop'),
 			'manualCopyPrompt' => __('Copia el valor manualmente (Ctrl/Cmd + C)', 'wipop'),
 			'regenerateConfirmMessage' => __('Al regenerar credenciales tendrás que actualizar el portal Wipöp. ¿Quieres continuar?', 'wipop'),
