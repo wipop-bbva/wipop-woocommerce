@@ -1,3 +1,14 @@
+## [0.9.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.8.1...v0.9.0) (2026-03-17)
+
+### Features
+
+* **admin:** improve settings feedback and copy UX ([fa6ea2c](https://github.com/wipop-bbva/wipop-woocommerce/commit/fa6ea2cb28ddeafb81edd19732505be6fe5303f3))
+* **settings:** sync terminal_id limits with Wipop SDK ([c9731f6](https://github.com/wipop-bbva/wipop-woocommerce/commit/c9731f620ade39b0dc81bb4a4a5e25758a5a8f5f))
+
+### Bug Fixes
+
+* **composer:** update wipop-php-client requirement to version 0.9.0 ([c50a6e3](https://github.com/wipop-bbva/wipop-woocommerce/commit/c50a6e323dbb6618601a3423db4aeee6e88db376))
+
 ## [0.8.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.8.0...v0.8.1) (2026-03-06)
 
 ### Bug Fixes
