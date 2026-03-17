@@ -1,6 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
   const ui = window.wipopAdminVerify || {};
   const notify = (key, fallback) => window.alert(ui[key] || fallback);
+  const setTemporaryButtonLabel = (button, nextLabel) => {
+    if (!button) {
+      return;
+    }
+
+    const defaultLabel = button.dataset.wipopDefaultLabel || button.textContent;
+    button.dataset.wipopDefaultLabel = defaultLabel;
+    button.textContent = nextLabel;
+    button.disabled = true;
+
+    window.setTimeout(() => {
+      button.textContent = button.dataset.wipopDefaultLabel || defaultLabel;
+      button.disabled = false;
+    }, 1200);
+  };
   const manualCopy = (text) => {
     const promptMessage = ui.manualCopyPrompt || 'Copy this value manually (Ctrl/Cmd + C).';
 
@@ -38,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     icon.addEventListener('click', () => togglePassword(icon));
   });
 
-  const copyInputValue = async (inputId) => {
+  const copyInputValue = async (inputId, button) => {
     const input = document.getElementById(inputId);
     if (!input || !input.value || input.value === '-') {
       return;
@@ -51,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      notify('copySuccessMessage', 'Copied!');
+      setTemporaryButtonLabel(button, ui.copyDoneLabel || 'Copied');
     } catch (error) {
       manualCopy(input.value);
     }
@@ -59,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('[data-wipop-copy-target]').forEach((button) => {
     button.addEventListener('click', () => {
-      copyInputValue(button.getAttribute('data-wipop-copy-target'));
+      copyInputValue(button.getAttribute('data-wipop-copy-target'), button);
     });
   });
 

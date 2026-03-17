@@ -7,6 +7,7 @@ namespace WipopWC\Core\Api;
 use Wipop\Client\Environment;
 use Wipop\Client\WipopClient;
 use Wipop\Client\WipopClientConfiguration;
+use Wipop\Domain\Value\Terminal;
 use WipopWC\Core\Exception\ClientConfigurationException;
 
 use function __;
@@ -47,13 +48,28 @@ class ClientFactory
 		$settings = (array) get_option('wipop_settings', []);
 		$value = self::stringSetting($settings, 'terminal_id');
 
-		if (!is_numeric($value)) {
+		$terminalId = is_numeric($value) ? (int) $value : null;
+		if (
+			$terminalId === null
+			|| $terminalId < self::getMinTerminalId()
+			|| $terminalId > self::getMaxTerminalId()
+		) {
 			throw new ClientConfigurationException(
 				__('Configura tu Terminal ID para utilizar Wipop.', 'wipop')
 			);
 		}
 
-		return (int) $value;
+		return $terminalId;
+	}
+
+	public static function getMinTerminalId(): int
+	{
+		return Terminal::MIN_TERMINAL_ID;
+	}
+
+	public static function getMaxTerminalId(): int
+	{
+		return Terminal::MAX_TERMINAL_ID;
 	}
 
 	private static function resolveEnvironment(string $environment): string
