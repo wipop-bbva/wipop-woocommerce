@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WipopWC\Admin;
 
+use WipopWC\Core\Api\ClientFactory;
 use WipopWC\Core\Api\MerchantOperationsService;
 use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Exception\ClientConfigurationException;
@@ -571,6 +572,9 @@ class Admin
 	 */
 	private function get_fields(): array
 	{
+		$terminalMin = ClientFactory::getMinTerminalId();
+		$terminalMax = ClientFactory::getMaxTerminalId();
+
 		return [
 			'merchant_id' => [
 				'title' => __('Merchant ID', 'wipop'),
@@ -609,11 +613,15 @@ class Admin
 				'title' => __('Terminal ID', 'wipop'),
 				'type' => 'number',
 				'class' => 'wipop-terminal-id',
-				'placeholder' => __('Introduce un número entre 0 y 99', 'wipop'),
+				'placeholder' => sprintf(
+					__('Introduce un número entre %1$d y %2$d', 'wipop'),
+					$terminalMin,
+					$terminalMax
+				),
 				'description' => __('Identificador del terminal en Wipop.', 'wipop'),
 				'default' => '1',
-				'min' => 0,
-				'max' => 99,
+				'min' => $terminalMin,
+				'max' => $terminalMax,
 				'step' => 1,
 			],
 			'public_key' => [
