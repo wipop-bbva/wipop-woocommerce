@@ -691,10 +691,12 @@ final class RecurringPayments
 
 		$gatewayOrderId = $gatewayOrderId !== '' ? $gatewayOrderId : $wipopGatewayOrderId;
 		$renewalOrder->update_meta_data(OrderMetaManager::META_GATEWAY_ORDER_ID, $gatewayOrderId);
+		OrderMetaManager::addGatewayOrderIdLookup($renewalOrder, $gatewayOrderId);
 
 		if ($transactionId !== '') {
 			$renewalOrder->set_transaction_id($transactionId);
 			$renewalOrder->update_meta_data(OrderMetaManager::META_TRANSACTION_ID, $transactionId);
+			OrderMetaManager::addTransactionIdLookup($renewalOrder, $transactionId);
 		}
 
 		$renewalOrder->save();

@@ -30,6 +30,7 @@ final class RecurringRenewalOrderFactory
 		if ($existing instanceof WC_Order) {
 			if ($gatewayOrderId !== '') {
 				$existing->update_meta_data(OrderMetaManager::META_GATEWAY_ORDER_ID, $gatewayOrderId);
+				OrderMetaManager::addGatewayOrderIdLookup($existing, $gatewayOrderId);
 			}
 			self::syncWipopCustomerIdFromParent($existing, $parentOrder);
 			$existing->update_meta_data(OrderMetaManager::META_RECURRING_PARENT_ORDER_ID, $parentOrder->get_id());
@@ -65,6 +66,7 @@ final class RecurringRenewalOrderFactory
 
 		if ($gatewayOrderId !== '') {
 			$newOrder->update_meta_data(OrderMetaManager::META_GATEWAY_ORDER_ID, $gatewayOrderId);
+			OrderMetaManager::addGatewayOrderIdLookup($newOrder, $gatewayOrderId);
 		}
 
 		foreach ($periodSchedule->itemIds() as $itemId) {
