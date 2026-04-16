@@ -40,10 +40,10 @@ msgstr "Ez duzu nahikoa baimenik."
 msgid "Credenciales verificadas correctamente."
 msgstr "Kredentzialak behar bezala egiaztatu dira."
 
-#: admin/admin.php:112
-#: admin/admin.php:308
-msgid "Wipop Settings"
-msgstr "Wipop ezarpenak"
+#: admin/admin.php:89
+#: admin/admin.php:284
+msgid "Configuración de pagos con Wipop"
+msgstr "Wipöp bidezko ordainketen konfigurazioa"
 
 #: admin/admin.php:320
 msgid "Guardar"
@@ -103,13 +103,13 @@ msgstr "Aukeratu ordainketa ingurunea."
 msgid "Preautorizaciones"
 msgstr "Aurretiazko baimenak"
 
-#: admin/admin.php:599
-msgid "Cobrar automáticamente"
-msgstr "Automatikoki kobratu"
+#: admin/admin.php:612
+msgid "Cobrar en el momento de la compra"
+msgstr "Erosketaren unean kobratu"
 
-#: admin/admin.php:600
-msgid "Solo preautorizar y capturar manualmente"
-msgstr "Soilik aurrebaimendu eta eskuz kapturatu"
+#: admin/admin.php:613
+msgid "Reservar el importe para cobrarlo después"
+msgstr "Zenbatekoa erreserbatu gero kobratzeko"
 
 #: admin/admin.php:602
 msgid "Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas."
@@ -557,7 +557,7 @@ msgid "Copia el valor manualmente (Ctrl/Cmd + C)"
 msgstr "Kopiatu balioa eskuz (Ctrl/Cmd + C)"
 
 #: admin/admin.php:373
-msgid "Al regenerar credenciales tendrás que actualizar el portal Wipöp. ¿Quieres continuar?"
+msgid "Al regenerar credenciales tendrás que actualizar el portal Wipop. ¿Quieres continuar?"
 msgstr "Kredentzialak birsortzean Wipöp ataria eguneratu beharko duzu. Jarraitu nahi duzu?"
 
 #: admin/admin.php:382
@@ -597,7 +597,7 @@ msgid "Regenerar credenciales"
 msgstr "Kredentzialak birsortu"
 
 #: admin/admin.php:451
-msgid "Después de regenerar, actualiza usuario y contraseña en el portal Wipöp."
+msgid "Después de regenerar, actualiza usuario y contraseña en el portal Wipop."
 msgstr "Birsortu ondoren, eguneratu erabiltzailea eta pasahitza Wipöp atarian."
 
 #: admin/admin.php:469

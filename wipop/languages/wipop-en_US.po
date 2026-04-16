@@ -41,10 +41,10 @@ msgstr "You do not have sufficient permissions."
 msgid "Credenciales verificadas correctamente."
 msgstr "Credentials verified successfully."
 
-#: admin/admin.php:112
-#: admin/admin.php:308
-msgid "Wipop Settings"
-msgstr "Wipop Settings"
+#: admin/admin.php:89
+#: admin/admin.php:284
+msgid "Configuración de pagos con Wipop"
+msgstr "Payment settings with Wipöp"
 
 #: admin/admin.php:320
 msgid "Guardar"
@@ -104,13 +104,13 @@ msgstr "Choose the payments environment."
 msgid "Preautorizaciones"
 msgstr "Preauthorizations"
 
-#: admin/admin.php:599
-msgid "Cobrar automáticamente"
-msgstr "Charge automatically"
+#: admin/admin.php:612
+msgid "Cobrar en el momento de la compra"
+msgstr "Charge at checkout"
 
-#: admin/admin.php:600
-msgid "Solo preautorizar y capturar manualmente"
-msgstr "Only preauthorize and capture manually"
+#: admin/admin.php:613
+msgid "Reservar el importe para cobrarlo después"
+msgstr "Reserve the amount to charge it later"
 
 #: admin/admin.php:602
 msgid "Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas."
@@ -558,7 +558,7 @@ msgid "Copia el valor manualmente (Ctrl/Cmd + C)"
 msgstr "Copy the value manually (Ctrl/Cmd + C)"
 
 #: admin/admin.php:373
-msgid "Al regenerar credenciales tendrás que actualizar el portal Wipöp. ¿Quieres continuar?"
+msgid "Al regenerar credenciales tendrás que actualizar el portal Wipop. ¿Quieres continuar?"
 msgstr "When you regenerate credentials, you'll need to update the Wipöp portal. Do you want to continue?"
 
 #: admin/admin.php:382
@@ -598,7 +598,7 @@ msgid "Regenerar credenciales"
 msgstr "Regenerate credentials"
 
 #: admin/admin.php:451
-msgid "Después de regenerar, actualiza usuario y contraseña en el portal Wipöp."
+msgid "Después de regenerar, actualiza usuario y contraseña en el portal Wipop."
 msgstr "After regenerating, update the username and password in the Wipöp portal."
 
 #: admin/admin.php:469
