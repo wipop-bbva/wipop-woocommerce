@@ -1,3 +1,11 @@
+## [0.9.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.0...v0.9.1) (2026-04-17)
+
+### Bug Fixes
+
+* **order-id:** generate a new Wipop order ID per payment attempt ([f489bfb](https://github.com/wipop-bbva/wipop-woocommerce/commit/f489bfb6a4f42edbf054d020e60565450c8c47c9))
+* **recurring:** register Wipop renewal identifiers for webhook lookup ([aebdfdd](https://github.com/wipop-bbva/wipop-woocommerce/commit/aebdfdd35222c9ae22576dfa5090c7142651a63d))
+* **webhook:** keep Wipop attempt identifiers queryable ([7148aac](https://github.com/wipop-bbva/wipop-woocommerce/commit/7148aace1f76e4620eb39e12dbc7bd4e862701fb))
+
 ## [0.9.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.8.1...v0.9.0) (2026-03-17)
 
 ### Features
