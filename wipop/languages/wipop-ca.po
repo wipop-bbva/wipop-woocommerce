@@ -40,10 +40,10 @@ msgstr "No tens permisos suficients."
 msgid "Credenciales verificadas correctamente."
 msgstr "Credencials verificades correctament."
 
-#: admin/admin.php:112
-#: admin/admin.php:308
-msgid "Wipop Settings"
-msgstr "Configuració de Wipop"
+#: admin/admin.php:89
+#: admin/admin.php:284
+msgid "Configuración de pagos con Wipop"
+msgstr "Configuració de pagaments amb Wipöp"
 
 #: admin/admin.php:320
 msgid "Guardar"
@@ -103,13 +103,13 @@ msgstr "Tria l'entorn de pagaments."
 msgid "Preautorizaciones"
 msgstr "Preautoritzacions"
 
-#: admin/admin.php:599
-msgid "Cobrar automáticamente"
-msgstr "Cobrar automàticament"
+#: admin/admin.php:612
+msgid "Cobrar en el momento de la compra"
+msgstr "Cobrar en el moment de la compra"
 
-#: admin/admin.php:600
-msgid "Solo preautorizar y capturar manualmente"
-msgstr "Només preautoritzar i capturar manualment"
+#: admin/admin.php:613
+msgid "Reservar el importe para cobrarlo después"
+msgstr "Reservar l'import per cobrar-lo després"
 
 #: admin/admin.php:602
 msgid "Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas."
@@ -557,7 +557,7 @@ msgid "Copia el valor manualmente (Ctrl/Cmd + C)"
 msgstr "Copia el valor manualment (Ctrl/Cmd + C)"
 
 #: admin/admin.php:373
-msgid "Al regenerar credenciales tendrás que actualizar el portal Wipöp. ¿Quieres continuar?"
+msgid "Al regenerar credenciales tendrás que actualizar el portal Wipop. ¿Quieres continuar?"
 msgstr "En regenerar les credencials hauràs d'actualitzar el portal Wipöp. Vols continuar?"
 
 #: admin/admin.php:382
@@ -597,7 +597,7 @@ msgid "Regenerar credenciales"
 msgstr "Regenerar credencials"
 
 #: admin/admin.php:451
-msgid "Después de regenerar, actualiza usuario y contraseña en el portal Wipöp."
+msgid "Después de regenerar, actualiza usuario y contraseña en el portal Wipop."
 msgstr "Després de regenerar, actualitza l'usuari i la contrasenya al portal Wipöp."
 
 #: admin/admin.php:469

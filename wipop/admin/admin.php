@@ -86,7 +86,7 @@ class Admin
 	{
 		add_submenu_page(
 			'woocommerce',
-			__('Wipop Settings', 'wipop'),
+			__('Configuración de pagos con Wipop', 'wipop'),
 			'Wipop',
 			'manage_options',
 			self::PAGE_SLUG,
@@ -281,7 +281,7 @@ class Admin
 		$settingsErrorsHtml = $this->settingsErrorsHtml();
 		?>
 	<div class="wrap admin-page-wipop-settings">
-		<h1><?php esc_html_e('Wipop Settings', 'wipop'); ?></h1>
+		<h1><?php esc_html_e('Configuración de pagos con Wipop', 'wipop'); ?></h1>
 		<?php
 		if (!empty($_GET[self::WEBHOOK_REGENERATED_QUERY_ARG])) {
 			$this->renderSuccessNotice(__('Credenciales de webhook regeneradas correctamente.', 'wipop'));
@@ -350,7 +350,7 @@ class Admin
 			'copyDoneLabel' => __('Copiado', 'wipop'),
 			'copyErrorMessage' => __('No se pudo copiar automáticamente. Copia el valor manualmente.', 'wipop'),
 			'manualCopyPrompt' => __('Copia el valor manualmente (Ctrl/Cmd + C)', 'wipop'),
-			'regenerateConfirmMessage' => __('Al regenerar credenciales tendrás que actualizar el portal Wipöp. ¿Quieres continuar?', 'wipop'),
+			'regenerateConfirmMessage' => __('Al regenerar credenciales tendrás que actualizar el portal Wipop. ¿Quieres continuar?', 'wipop'),
 		]);
 	}
 
@@ -428,7 +428,7 @@ class Admin
 		echo '<input type="hidden" name="action" value="wipop_regenerate_webhook_credentials" />';
 		echo '<button type="submit" class="button button-secondary">' . esc_html__('Regenerar credenciales', 'wipop') . '</button>';
 		echo ' <span class="description">'
-			. esc_html__('Después de regenerar, actualiza usuario y contraseña en el portal Wipöp.', 'wipop')
+			. esc_html__('Después de regenerar, actualiza usuario y contraseña en el portal Wipop.', 'wipop')
 			. '</span>';
 		echo '</form>';
 	}
@@ -609,8 +609,8 @@ class Admin
 				'type' => 'select',
 				'class' => 'wipop-manual-capture',
 				'options' => [
-					ManualCaptureManager::CAPTURE_MODE_AUTO => __('Cobrar automáticamente', 'wipop'),
-					ManualCaptureManager::CAPTURE_MODE_MANUAL => __('Solo preautorizar y capturar manualmente', 'wipop'),
+					ManualCaptureManager::CAPTURE_MODE_AUTO => __('Cobrar en el momento de la compra', 'wipop'),
+					ManualCaptureManager::CAPTURE_MODE_MANUAL => __('Reservar el importe para cobrarlo después', 'wipop'),
 				],
 				'description' => __(
 					'Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas.',

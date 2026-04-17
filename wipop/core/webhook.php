@@ -233,11 +233,19 @@ class Webhook
 				'key' => OrderMetaManager::META_GATEWAY_ORDER_ID,
 				'value' => $transaction->orderId,
 			];
+			$candidates[] = [
+				'key' => OrderMetaManager::META_GATEWAY_ORDER_ID_LOOKUP,
+				'value' => $transaction->orderId,
+			];
 		}
 
 		if (!empty($transaction->id)) {
 			$candidates[] = [
 				'key' => OrderMetaManager::META_TRANSACTION_ID,
+				'value' => $transaction->id,
+			];
+			$candidates[] = [
+				'key' => OrderMetaManager::META_TRANSACTION_ID_LOOKUP,
 				'value' => $transaction->id,
 			];
 		}

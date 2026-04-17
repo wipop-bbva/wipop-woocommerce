@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+if (!defined('ABSPATH')) {
+	define('ABSPATH', dirname(__DIR__) . '/');
+}
+
 $autoload = __DIR__ . '/../vendor/autoload.php';
 if (is_readable($autoload)) {
 	require_once $autoload;
