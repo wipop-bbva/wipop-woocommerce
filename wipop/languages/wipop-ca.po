@@ -80,8 +80,8 @@ msgid "Tu Merchant ID"
 msgstr "El teu Merchant ID"
 
 #: admin/admin.php:580
-msgid "Introduce tu Merchant ID del BBVA."
-msgstr "Introdueix el teu Merchant ID del BBVA."
+msgid "Identificador de comercio que puedes consultar en la sección Integración técnica de tu Panel de control."
+msgstr "Identificador de comerç que pots consultar a la secció Integració tècnica del teu Tauler de control."
 
 #: admin/admin.php:584
 msgid "Entorno"
@@ -96,8 +96,8 @@ msgid "Producción"
 msgstr "Producció"
 
 #: admin/admin.php:591
-msgid "Elige el entorno de pagos."
-msgstr "Tria l'entorn de pagaments."
+msgid "Selecciona si quieres realizar pruebas (Sandbox) o procesar pagos reales (Producción)."
+msgstr "Selecciona si vols fer proves (Sandbox) o processar pagaments reals (Producció)."
 
 #: admin/admin.php:595
 msgid "Preautorizaciones"
@@ -112,8 +112,8 @@ msgid "Reservar el importe para cobrarlo después"
 msgstr "Reservar l'import per cobrar-lo després"
 
 #: admin/admin.php:602
-msgid "Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas."
-msgstr "Si tries preautoritzar, hauràs de capturar o anul·lar cada pagament des de la comanda abans d'una setmana. Aplica a targetes."
+msgid "Si eliges reservar el importe, tendrás que confirmar o anular el cobro manualmente desde el detalle del pedido. Solo aplica a pagos con tarjeta."
+msgstr "Si tries reservar l'import, hauràs de confirmar o anul·lar el cobrament manualment des del detall de la comanda. Només s'aplica a pagaments amb targeta."
 
 #: admin/admin.php:609
 msgid "Terminal ID"
@@ -124,8 +124,8 @@ msgid "Introduce un número entre 0 y 99"
 msgstr "Introdueix un número entre 0 i 99"
 
 #: admin/admin.php:613
-msgid "Identificador del terminal en Wipop."
-msgstr "Identificador del terminal a Wipop."
+msgid "Número de terminal que puedes encontrar en la sección Integración técnica de tu Panel de control."
+msgstr "Número de terminal que pots trobar a la secció Integració tècnica del teu Tauler de control."
 
 #: admin/admin.php:620
 msgid "Public Key"
@@ -136,8 +136,8 @@ msgid "Tu Clave Pública"
 msgstr "La teva clau pública"
 
 #: admin/admin.php:624
-msgid "Introduce tu Public Key del BBVA."
-msgstr "Introdueix la teva clau pública del BBVA."
+msgid "Introduce la API key pública que te proporcionamos para identificar tu comercio de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control."
+msgstr "Introdueix l'API key pública que et proporcionem per identificar el teu comerç de manera segura. Pots consultar-la a la secció Integració tècnica del teu Tauler de control."
 
 #: admin/admin.php:628
 msgid "Private Key"
@@ -148,8 +148,8 @@ msgid "Tu Clave Privada"
 msgstr "La teva clau privada"
 
 #: admin/admin.php:632
-msgid "Introduce tu Private Key del BBVA."
-msgstr "Introdueix la teva clau privada del BBVA."
+msgid "Introduce la API key privada que te proporcionamos para validar tus operaciones de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control."
+msgstr "Introdueix l'API key privada que et proporcionem per validar les teves operacions de manera segura. Pots consultar-la a la secció Integració tècnica del teu Tauler de control."
 
 #: admin/Product/RecurringPaymentSettings.php:28
 msgid "Pago recurrente"

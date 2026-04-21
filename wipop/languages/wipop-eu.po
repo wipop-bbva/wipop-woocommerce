@@ -80,8 +80,8 @@ msgid "Tu Merchant ID"
 msgstr "Zure Merchant IDa"
 
 #: admin/admin.php:580
-msgid "Introduce tu Merchant ID del BBVA."
-msgstr "Sartu BBVAko zure Merchant IDa."
+msgid "Identificador de comercio que puedes consultar en la sección Integración técnica de tu Panel de control."
+msgstr "Zure Kontrol-paneleko Integrazio teknikoa atalean kontsulta dezakezun merkataritza-identifikatzailea."
 
 #: admin/admin.php:584
 msgid "Entorno"
@@ -96,8 +96,8 @@ msgid "Producción"
 msgstr "Ekoizpena"
 
 #: admin/admin.php:591
-msgid "Elige el entorno de pagos."
-msgstr "Aukeratu ordainketa ingurunea."
+msgid "Selecciona si quieres realizar pruebas (Sandbox) o procesar pagos reales (Producción)."
+msgstr "Hautatu probak egin nahi dituzun (Sandbox) edo benetako ordainketak prozesatu nahi dituzun (Produkzioa)."
 
 #: admin/admin.php:595
 msgid "Preautorizaciones"
@@ -112,8 +112,8 @@ msgid "Reservar el importe para cobrarlo después"
 msgstr "Zenbatekoa erreserbatu gero kobratzeko"
 
 #: admin/admin.php:602
-msgid "Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas."
-msgstr "Aurrebaimena aukeratzen baduzu, eskaeratik aste bateko epean ordainketa bakoitza kapturatu edo baliogabetu beharko duzu. Txartelei aplikatzen zaie."
+msgid "Si eliges reservar el importe, tendrás que confirmar o anular el cobro manualmente desde el detalle del pedido. Solo aplica a pagos con tarjeta."
+msgstr "Zenbatekoa erreserbatzea aukeratzen baduzu, kobrantza eskuz berretsi edo baliogabetu beharko duzu eskaeraren xehetasunetatik. Txartel bidezko ordainketei soilik aplikatzen zaie."
 
 #: admin/admin.php:609
 msgid "Terminal ID"
@@ -124,8 +124,8 @@ msgid "Introduce un número entre 0 y 99"
 msgstr "Sartu 0 eta 99 arteko zenbaki bat"
 
 #: admin/admin.php:613
-msgid "Identificador del terminal en Wipop."
-msgstr "Terminalaren identifikadorea Wipopen."
+msgid "Número de terminal que puedes encontrar en la sección Integración técnica de tu Panel de control."
+msgstr "Zure Kontrol-paneleko Integrazio teknikoa atalean aurki dezakezun terminal-zenbakia."
 
 #: admin/admin.php:620
 msgid "Public Key"
@@ -136,8 +136,8 @@ msgid "Tu Clave Pública"
 msgstr "Zure gako publikoa"
 
 #: admin/admin.php:624
-msgid "Introduce tu Public Key del BBVA."
-msgstr "Sartu BBVAko zure gako publikoa."
+msgid "Introduce la API key pública que te proporcionamos para identificar tu comercio de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control."
+msgstr "Sartu zure merkataritza modu seguruan identifikatzeko ematen dizugun API key publikoa. Zure Kontrol-paneleko Integrazio teknikoa atalean kontsulta dezakezu."
 
 #: admin/admin.php:628
 msgid "Private Key"
@@ -148,8 +148,8 @@ msgid "Tu Clave Privada"
 msgstr "Zure gako pribatua"
 
 #: admin/admin.php:632
-msgid "Introduce tu Private Key del BBVA."
-msgstr "Sartu BBVAko zure gako pribatua."
+msgid "Introduce la API key privada que te proporcionamos para validar tus operaciones de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control."
+msgstr "Sartu zure eragiketak modu seguruan baliozkotzeko ematen dizugun API key pribatua. Zure Kontrol-paneleko Integrazio teknikoa atalean kontsulta dezakezu."
 
 #: admin/Product/RecurringPaymentSettings.php:28
 msgid "Pago recurrente"

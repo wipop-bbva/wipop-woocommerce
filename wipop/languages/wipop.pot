@@ -157,7 +157,7 @@ msgid "Tu Merchant ID"
 msgstr ""
 
 #: admin/admin.php:580
-msgid "Introduce tu Merchant ID del BBVA."
+msgid "Identificador de comercio que puedes consultar en la sección Integración técnica de tu Panel de control."
 msgstr ""
 
 #: admin/admin.php:584
@@ -173,7 +173,7 @@ msgid "Producción"
 msgstr ""
 
 #: admin/admin.php:591
-msgid "Elige el entorno de pagos."
+msgid "Selecciona si quieres realizar pruebas (Sandbox) o procesar pagos reales (Producción)."
 msgstr ""
 
 #: admin/admin.php:595
@@ -189,7 +189,7 @@ msgid "Reservar el importe para cobrarlo después"
 msgstr ""
 
 #: admin/admin.php:602
-msgid "Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas."
+msgid "Si eliges reservar el importe, tendrás que confirmar o anular el cobro manualmente desde el detalle del pedido. Solo aplica a pagos con tarjeta."
 msgstr ""
 
 #: admin/admin.php:609
@@ -201,7 +201,7 @@ msgid "Introduce un número entre 0 y 99"
 msgstr ""
 
 #: admin/admin.php:613
-msgid "Identificador del terminal en Wipop."
+msgid "Número de terminal que puedes encontrar en la sección Integración técnica de tu Panel de control."
 msgstr ""
 
 #: admin/admin.php:620
@@ -213,7 +213,7 @@ msgid "Tu Clave Pública"
 msgstr ""
 
 #: admin/admin.php:624
-msgid "Introduce tu Public Key del BBVA."
+msgid "Introduce la API key pública que te proporcionamos para identificar tu comercio de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control."
 msgstr ""
 
 #: admin/admin.php:628
@@ -225,7 +225,7 @@ msgid "Tu Clave Privada"
 msgstr ""
 
 #: admin/admin.php:632
-msgid "Introduce tu Private Key del BBVA."
+msgid "Introduce la API key privada que te proporcionamos para validar tus operaciones de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control."
 msgstr ""
 
 #: admin/Product/RecurringPaymentSettings.php:28

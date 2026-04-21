@@ -590,7 +590,7 @@ class Admin
 				'type' => 'text',
 				'class' => 'wipop-merchant-id',
 				'placeholder' => __('Tu Merchant ID', 'wipop'),
-				'description' => __('Introduce tu Merchant ID del BBVA.', 'wipop'),
+				'description' => __('Identificador de comercio que puedes consultar en la sección Integración técnica de tu Panel de control.', 'wipop'),
 				'default' => '',
 			],
 			'environment' => [
@@ -601,7 +601,7 @@ class Admin
 					'sandbox' => __('Sandbox', 'wipop'),
 					'production' => __('Producción', 'wipop'),
 				],
-				'description' => __('Elige el entorno de pagos.', 'wipop'),
+				'description' => __('Selecciona si quieres realizar pruebas (Sandbox) o procesar pagos reales (Producción).', 'wipop'),
 				'default' => 'sandbox',
 			],
 			'manual_capture_mode' => [
@@ -613,7 +613,7 @@ class Admin
 					ManualCaptureManager::CAPTURE_MODE_MANUAL => __('Reservar el importe para cobrarlo después', 'wipop'),
 				],
 				'description' => __(
-					'Si eliges preautorizar, tendrás que capturar o anular cada pago desde el pedido antes de una semana. Aplica a tarjetas.',
+					'Si eliges reservar el importe, tendrás que confirmar o anular el cobro manualmente desde el detalle del pedido. Solo aplica a pagos con tarjeta.',
 					'wipop'
 				),
 				'default' => ManualCaptureManager::CAPTURE_MODE_AUTO,
@@ -627,7 +627,7 @@ class Admin
 					$terminalMin,
 					$terminalMax
 				),
-				'description' => __('Identificador del terminal en Wipop.', 'wipop'),
+				'description' => __('Número de terminal que puedes encontrar en la sección Integración técnica de tu Panel de control.', 'wipop'),
 				'default' => '1',
 				'min' => $terminalMin,
 				'max' => $terminalMax,
@@ -638,7 +638,7 @@ class Admin
 				'type' => 'password',
 				'class' => 'wipop-public-key',
 				'placeholder' => __('Tu Clave Pública', 'wipop'),
-				'description' => __('Introduce tu Public Key del BBVA.', 'wipop'),
+				'description' => __('Introduce la API key pública que te proporcionamos para identificar tu comercio de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control.', 'wipop'),
 				'default' => '',
 			],
 			'private_key' => [
@@ -646,7 +646,7 @@ class Admin
 				'type' => 'password',
 				'class' => 'wipop-private-key',
 				'placeholder' => __('Tu Clave Privada', 'wipop'),
-				'description' => __('Introduce tu Private Key del BBVA.', 'wipop'),
+				'description' => __('Introduce la API key privada que te proporcionamos para validar tus operaciones de forma segura. Puedes consultarla en la sección Integración técnica de tu Panel de control.', 'wipop'),
 				'default' => '',
 			],
 		];
