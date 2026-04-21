@@ -49,7 +49,7 @@ Incluye pasarelas listas para producción de tarjeta y Bizum. Configura las cred
 ## Inicio rápido
 
 1. Entra en `WooCommerce > Wipop` y completa Merchant ID, Terminal, claves públicas/privadas y el entorno deseado.
-2. Elige el modo de **Preautorizaciones** (`Cobrar automáticamente` o `Solo preautorizar`) para los cobros con tarjeta.
+2. Elige el modo de **Preautorizaciones** (`Cobrar en el momento de la compra` o `Reservar el importe para cobrarlo después`) para los cobros con tarjeta.
 3. Pulsa **Verificar datos** para validar las credenciales y obtener los métodos de pago permitidos.
 4. Ve a `WooCommerce > Pagos` y activa las pasarelas que quieres mostrar (Tarjeta, Bizum, Google Pay).
 5. Realiza un pedido en Sandbox para comprobar el flujo. Asegúrate de que los metadatos de Wipöp se guardan y de que el webhook actualiza el estado.
@@ -68,14 +68,14 @@ Los ajustes se guardan en la opción `wipop_settings`. Campos obligatorios:
 
 ### Captura manual / preautorización
 
-Selecciona `Solo preautorizar` en **Preautorizaciones** si quieres que los cargos con tarjeta queden autorizados pero pendientes de captura. Cuando está activo:
+Selecciona `Reservar el importe para cobrarlo después` en **Preautorizaciones** si quieres que los cargos con tarjeta queden autorizados pero pendientes de captura. Cuando está activo:
 
 - El pedido pasa a `en espera` con una nota indicando que falta capturar.
 - Aparecen las acciones *Capturar preautorización con Wipöp* y *Anular preautorización con Wipöp* en el desplegable de acciones del pedido.
 - Al ejecutarlas se llaman a `charge.capture` o `charge.reversal` mediante el SDK.
 - Las preautorizaciones suelen tener un periodo de validez de una semana.
 
-Con `Cobrar automáticamente` (comportamiento por defecto) la captura se confirma en el mismo momento del cargo.
+Con `Cobrar en el momento de la compra` (comportamiento por defecto) la captura se confirma en el mismo momento del cargo.
 
 ### Métodos de pago
 

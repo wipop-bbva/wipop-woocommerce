@@ -51,7 +51,7 @@ It includes production-ready gateways for card and Bizum. Configure shared crede
 ## Quick start
 
 1. Go to `WooCommerce > Wipop` and fill in Merchant ID, Terminal, public/private keys and the target environment.
-2. Choose the **Preauthorizations** mode (`Capture automatically` or `Preauthorize only`) for card payments.
+2. Choose the **Preauthorizations** mode (`Charge at checkout` or `Reserve the amount to charge it later`) for card payments.
 3. Click **Verify data** to validate credentials and fetch allowed payment methods.
 4. Go to `WooCommerce > Payments` and enable the gateways you want to show (Card, Bizum, Google Pay).
 5. Place a test order in Sandbox to verify the flow. Make sure Wipöp metadata is stored and the webhook updates the status.
@@ -70,13 +70,13 @@ Settings are stored in the `wipop_settings` option. Required fields:
 
 ### Manual capture / preauthorization
 
-Select `Preauthorize only` in **Preauthorizations** if you want card charges to be authorized but left pending capture. When enabled:
+Select `Reserve the amount to charge it later` in **Preauthorizations** if you want card charges to be authorized but left pending capture. When enabled:
 
 - The order goes to `on-hold` with a note indicating it must be captured.
 - The actions *Capture preauthorization with Wipöp* and *Void preauthorization with Wipöp* appear in the order actions dropdown.
 - Preauthorizations typically have a validity period of about one week.
 
-With `Capture automatically` (default behavior) the capture is confirmed at the time of the charge.
+With `Charge at checkout` (default behavior) the capture is confirmed at the time of the charge.
 
 ### Payment methods
 
