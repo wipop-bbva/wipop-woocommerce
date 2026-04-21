@@ -1,3 +1,9 @@
+## [0.9.2](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.1...v0.9.2) (2026-04-21)
+
+### Bug Fixes
+
+* **translations:** update descriptions for Merchant ID and payment environment in multiple languages ([74b3d76](https://github.com/wipop-bbva/wipop-woocommerce/commit/74b3d762dafa44ee92f661117621996dd40d8731))
+
 ## [0.9.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.0...v0.9.1) (2026-04-17)
 
 ### Bug Fixes
