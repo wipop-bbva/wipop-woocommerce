@@ -42,7 +42,12 @@ jobs:
           npm test --if-present
 
       - name: Install PHP dependencies
-        run: composer install --no-dev --optimize-autoloader
+        run: |
+          rm -rf vendor
+          composer install --no-dev --optimize-autoloader
+
+          test ! -f vendor/composer/jetpack_autoload_filemap.php
+          test ! -d vendor/jetpack-autoloader
 
       - name: Build plugin without tests and so
         run: |

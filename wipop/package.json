@@ -12,8 +12,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start",
-		"postinstall": "composer install"
+		"start": "wp-scripts start"
 	},
 	"dependencies": {
 		"@woocommerce/components": "^10.3.0",
