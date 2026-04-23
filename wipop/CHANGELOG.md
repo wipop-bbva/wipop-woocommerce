@@ -1,3 +1,9 @@
+## [0.9.3](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.2...v0.9.3) (2026-04-23)
+
+### Bug Fixes
+
+* **release:** clear vendor directory before installing PHP dependencies ([4ca02dc](https://github.com/wipop-bbva/wipop-woocommerce/commit/4ca02dc5821057941b4b76d3a893224b19afdeca))
+
 ## [0.9.2](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.1...v0.9.2) (2026-04-21)
 
 ### Bug Fixes
