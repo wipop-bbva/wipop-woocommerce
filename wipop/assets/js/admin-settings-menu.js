@@ -53,6 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
     icon.addEventListener('click', () => togglePassword(icon));
   });
 
+  document.querySelectorAll('.wipop-password-field[readonly]').forEach((input) => {
+    const unlockField = () => {
+      input.removeAttribute('readonly');
+    };
+
+    input.addEventListener('focus', unlockField, { once: true });
+    input.addEventListener('keydown', unlockField, { once: true });
+  });
+
   const copyInputValue = async (inputId, button) => {
     const input = document.getElementById(inputId);
     if (!input || !input.value || input.value === '-') {
