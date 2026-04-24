@@ -143,6 +143,10 @@ class Admin
 		$valid = $old;
 
 		foreach ($this->get_fields() as $key => $field) {
+			if (!array_key_exists($key, $input)) {
+				continue;
+			}
+
 			$value = trim((string) ($input[$key] ?? ''));
 
 			switch ($field['type']) {
