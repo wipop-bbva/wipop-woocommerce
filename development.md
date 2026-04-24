@@ -17,6 +17,7 @@ docker compose up -d db wordpress
 ```bash
 docker compose run --rm node bash
 cd wipop
+composer install
 npm install
 npm run build
 ```
