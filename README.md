@@ -65,7 +65,7 @@ Settings are stored in the `wipop_settings` option. Required fields:
 
 - `Merchant ID`: as provided in Wipöp.
 - `Public Key` / `Private Key`: cryptographic keys to sign requests.
-- `Terminal ID`: number between 0 and 99.
+- `Terminal ID`: number between 1 and 99.
 - `Environment`: Sandbox or Production.
 
 ### Manual capture / preauthorization

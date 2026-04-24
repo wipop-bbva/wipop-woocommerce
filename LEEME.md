@@ -63,7 +63,7 @@ Los ajustes se guardan en la opción `wipop_settings`. Campos obligatorios:
 
 - `Merchant ID`: en Wipöp.
 - `Public Key` / `Private Key`: claves criptográficas para firmar las peticiones.
-- `Terminal ID`: número entre 0 y 99.
+- `Terminal ID`: número entre 1 y 99.
 - `Entorno`: Sandbox o Producción.
 
 ### Captura manual / preautorización
