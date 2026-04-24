@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WipopWC\Core\Api;
 
+use Throwable;
 use Wipop\Client\Environment;
 use Wipop\Client\WipopClient;
 use Wipop\Client\WipopClientConfiguration;
@@ -40,7 +41,15 @@ class ClientFactory
 			$privateKey
 		);
 
-		return new WipopClient($configuration);
+		try {
+			return new WipopClient($configuration);
+		} catch (Throwable $throwable) {
+			throw new ClientConfigurationException(
+				__('No se pudo inicializar el cliente de Wipop. Revisa la instalación del plugin.', 'wipop'),
+				0,
+				$throwable
+			);
+		}
 	}
 
 	public static function getTerminalId(): int
