@@ -1,3 +1,9 @@
+## [0.9.6](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.5...v0.9.6) (2026-04-24)
+
+### Bug Fixes
+
+* **logging:** add PSR Logger depence in production ([825a60e](https://github.com/wipop-bbva/wipop-woocommerce/commit/825a60e63b8f46da5a2386d1df6311fc832dc50b))
+
 ## [0.9.5](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.4...v0.9.5) (2026-04-24)
 
 ### Bug Fixes
