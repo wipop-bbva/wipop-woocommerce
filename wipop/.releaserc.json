@@ -6,10 +6,11 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
+    "./scripts/semantic-release-prepare.cjs",
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "wipop/package.json"]
+        "assets": ["CHANGELOG.md", "package.json", "block.json", "wipop.php"]
       }
     ],
     [
