@@ -1,3 +1,9 @@
+## [0.9.5](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.4...v0.9.5) (2026-04-24)
+
+### Bug Fixes
+
+* **release:** update versioning and metadata for plugin release ([bdcf77f](https://github.com/wipop-bbva/wipop-woocommerce/commit/bdcf77f9a64cd9f3ea66c6194a28cecf15bea98f))
+
 ## [0.9.4](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.3...v0.9.4) (2026-04-24)
 
 ### Bug Fixes
