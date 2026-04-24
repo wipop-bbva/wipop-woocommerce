@@ -49,16 +49,6 @@ jobs:
           test ! -f vendor/composer/jetpack_autoload_filemap.php
           test ! -d vendor/jetpack-autoloader
 
-      - name: Build plugin without tests and so
-        run: |
-          npm run build
-     
-          zip -r wipop.zip . \
-            -x "src/*" \
-            -x "node_modules/*" \
-            -x "tests/*" \
-            -x ".*"
-
       - name: Switch to Node 20 for Semantic Release
         uses: actions/setup-node@v4
         with:

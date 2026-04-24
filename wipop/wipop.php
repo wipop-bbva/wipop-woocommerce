@@ -9,9 +9,9 @@ use WipopWC\Core\Webhook;
 
 /*
  * Plugin Name: Wipop
- * Description: Pasarelas de pago BBVA (Bizum, Tarjeta y Google Pay) para WooCommerce.
- * Version: 0.1.0
- * Author: Secture Labs S.L.
+ * Description: Plataforma de pagos de BBVA en España para pymes y autónomos.
+ * Version: 0.9.4
+ * Author: Wipöp by BBVA
  * Text Domain: wipop
  * Domain Path: /languages
  */
