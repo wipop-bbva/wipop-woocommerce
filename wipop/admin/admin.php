@@ -143,6 +143,10 @@ class Admin
 		$valid = $old;
 
 		foreach ($this->get_fields() as $key => $field) {
+			if (!array_key_exists($key, $input)) {
+				continue;
+			}
+
 			$value = trim((string) ($input[$key] ?? ''));
 
 			switch ($field['type']) {
@@ -242,7 +246,7 @@ class Admin
 			case 'password':
 				echo '<div class="wipop-password-inner">';
 				printf(
-					'<input type="password" id="%1$s" class="%2$s wipop-password-field" name="%3$s[%1$s]" value="%4$s" placeholder="%5$s" />',
+					'<input type="password" id="%1$s" class="%2$s wipop-password-field" name="%3$s[%1$s]" value="%4$s" placeholder="%5$s" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" readonly="readonly" />',
 					esc_attr($key),
 					esc_attr($field['class']),
 					esc_attr(self::OPTION_NAME),
@@ -291,8 +295,8 @@ class Admin
 			$this->renderSuccessNotice(__('Ajustes guardados correctamente.', 'wipop'));
 		}
 		?>
-		<?php echo $settingsErrorsHtml; ?>
-		<form method="post" action="options.php">
+			<?php echo $settingsErrorsHtml; ?>
+			<form method="post" action="options.php" autocomplete="off" data-lpignore="true">
 			<?php settings_fields(self::GROUP_SLUG); ?>
 			<?php do_settings_sections(self::PAGE_SLUG); ?>
 			<div class="wipop-button-group">
