@@ -1,3 +1,11 @@
+## [0.9.4](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.3...v0.9.4) (2026-04-24)
+
+### Bug Fixes
+
+* **admin:** enhance password field behavior and unlock on focus/keydown ([06c8a4c](https://github.com/wipop-bbva/wipop-woocommerce/commit/06c8a4cbe82c0966b9a50e8031b446a3d7a33fa3))
+* **admin:** skip validation for missing fields in fields_validator method ([c4b2c2c](https://github.com/wipop-bbva/wipop-woocommerce/commit/c4b2c2c6f2e769e3711819394dc5f4d7a6bb40b6))
+* **docs:** update Terminal ID range in README and LEEME files ([a84a810](https://github.com/wipop-bbva/wipop-woocommerce/commit/a84a81074d343086e433efc28f619c70b5031037))
+
 ## [0.9.3](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.2...v0.9.3) (2026-04-23)
 
 ### Bug Fixes
