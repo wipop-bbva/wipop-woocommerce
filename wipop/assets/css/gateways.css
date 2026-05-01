@@ -1,26 +1,121 @@
 .wipop-gateway-label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    gap: 10px;
+    vertical-align: middle;
 }
 
 .wipop-gateway-icon {
-    height: 24px;
+    width: 22px !important;
+    height: 22px !important;
+    max-width: 22px !important;
+    flex: 0 0 22px;
+    object-fit: contain;
+    display: block;
 }
 
 .wipop-gateway-text {
     display: flex;
     flex-direction: column;
+    gap: 2px;
+}
+
+.woocommerce-checkout #payment :is(.payment_method_wipop_card_gateway, .payment_method_wipop_bizum_gateway, .payment_method_wipop_gpay_gateway) > label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    width: calc(100% - 34px);
+}
+
+.woocommerce-checkout #payment {
+    background: #ffffff;
+    border: 1px solid #dbe5ef;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(20, 34, 54, 0.04);
+}
+
+.woocommerce-checkout #payment ul.payment_methods {
+    background: #ffffff;
+    border: 0;
+    border-radius: 12px;
+    padding: 0 !important;
+}
+
+.woocommerce-checkout #payment ul.payment_methods > li[class*="payment_method_wipop_"] {
+    background: #ffffff;
+    border-top: 1px solid #edf2f7;
+    margin: 0;
+    padding: 14px 18px;
+}
+
+.woocommerce-checkout #payment ul.payment_methods > li[class*="payment_method_wipop_"]:first-child {
+    border-top: 0;
+}
+
+.woocommerce-checkout #payment ul.payment_methods > li[class*="payment_method_wipop_"] > .input-radio {
+    margin: 4px 12px 0 0;
+}
+
+.woocommerce-checkout #payment ul.payment_methods > li[class*="payment_method_wipop_"] .wipop-gateway-label {
+    width: 100%;
+}
+
+.woocommerce-checkout #payment ul.payment_methods > li[class*="payment_method_wipop_"] .wipop-gateway-text {
+    min-width: 0;
+}
+
+.woocommerce-checkout #payment div.payment_box:is(.payment_method_wipop_card_gateway, .payment_method_wipop_bizum_gateway, .payment_method_wipop_gpay_gateway) {
+    background: #ffffff !important;
+    color: #334155;
+    box-shadow: none;
+    margin: 12px 0 0 34px;
+    padding: 14px 0 0;
+}
+
+.woocommerce-checkout #payment div.payment_box:is(.payment_method_wipop_card_gateway, .payment_method_wipop_bizum_gateway, .payment_method_wipop_gpay_gateway)::before {
+    display: none;
+}
+
+.woocommerce-checkout #payment .payment_method_wipop_card_gateway .woocommerce-SavedPaymentMethods {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.woocommerce-checkout #payment .payment_method_wipop_card_gateway :is(.woocommerce-SavedPaymentMethods li, .woocommerce-SavedPaymentMethods-saveNew) {
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e5edf5;
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 12px;
+}
+
+.woocommerce-checkout #payment .payment_method_wipop_card_gateway :is(.woocommerce-SavedPaymentMethods li, .woocommerce-SavedPaymentMethods-saveNew) label {
+    margin: 0;
+}
+
+.woocommerce-checkout #payment .payment_method_wipop_card_gateway :is(.woocommerce-SavedPaymentMethods li, .woocommerce-SavedPaymentMethods-saveNew) input {
+    margin: 0;
+}
+
+.woocommerce-checkout #payment .payment_method_wipop_card_gateway .woocommerce-SavedPaymentMethods-saveNew {
+    margin-top: 10px;
 }
 
 .wipop-title-text {
-    font-weight: normal;
+    color: #111827;
+    font-weight: 500;
 }
 
 .wipop-subtext {
     font-size: 12px;
-    color: #666;
+    color: #64748b;
 }
 
 .checkout-security-message {

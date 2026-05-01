@@ -79,22 +79,15 @@ class Gateway extends WC_Payment_Gateway
 			return $title;
 		}
 
-		$icon_url = plugins_url(
-			'gateways/googlepay/assets/img/google-svgrepo-com.svg',
-			WIPOP_PLUGIN_FILE
-		);
-
 		$html = sprintf(
-			'<label for="payment_method_%1$s" class="wipop-gateway-label">
-                <input id="payment_method_%1$s" class="input-radio" name="payment_method" type="radio" value="%1$s" />
-                <img src="%2$s" alt="%3$s" class="wipop-gateway-icon" />
-                <div class="wipop-gateway-text">
-                  <span class="wipop-title-text">%4$s</span>
+			'<span class="wipop-gateway-label">
+                <img src="%1$s" alt="%2$s" class="wipop-gateway-icon" />
+                <span class="wipop-gateway-text">
+                  <span class="wipop-title-text">%3$s</span>
                   <small class="wipop-subtext">Wipop by BBVA</small>
-                </div>
-              </label>',
-			esc_attr($this->id),
-			esc_url($icon_url),
+                </span>
+              </span>',
+			esc_url($this->icon),
 			esc_attr($this->method_title),
 			esc_html($title)
 		);
