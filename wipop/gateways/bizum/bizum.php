@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace WipopWC\Gateways\Bizum;
 
+use WC_Order;
 use WC_Payment_Gateway;
 use Wipop\Domain\ChargeMethod;
 use WipopWC\Core\Logger;
+use WipopWC\Core\WooCommerce\RecurringPayments;
 use WipopWC\Gateways\Support\PaymentsProcessor;
 
 use function is_admin;
 use function is_checkout;
+use function wc_add_notice;
+use function wc_get_order;
 
 defined('ABSPATH') || exit;
 
@@ -66,6 +70,15 @@ class Gateway extends WC_Payment_Gateway
 		echo '<p>' . esc_html__('Gestiona este método desde WooCommerce > Wipop.', 'wipop') . '</p>';
 	}
 
+	public function is_available()
+	{
+		if (RecurringPayments::cartContainsRecurringProduct()) {
+			return false;
+		}
+
+		return parent::is_available();
+	}
+
 	public function filter_gateway_icon($icon, $gateway_id)
 	{
 		if ($gateway_id === $this->id && !is_admin()) {
@@ -110,6 +123,18 @@ class Gateway extends WC_Payment_Gateway
 
 	public function process_payment($order_id)
 	{
+		$order = wc_get_order($order_id);
+		if ($order instanceof WC_Order && RecurringPayments::orderContainsRecurringItems($order)) {
+			wc_add_notice(
+				__('Bizum no está disponible para productos recurrentes. Selecciona pago con tarjeta.', 'wipop'),
+				'error'
+			);
+
+			return [
+				'result' => 'failure',
+			];
+		}
+
 		Logger::log('Processing Bizum payment for order ' . $order_id);
 
 		return $this->processGatewayPayment($order_id, ChargeMethod::BIZUM);
