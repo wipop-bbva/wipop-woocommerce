@@ -390,6 +390,10 @@ msgstr "Bizum"
 msgid "Gestiona este método desde WooCommerce > Wipop."
 msgstr "Gestiona aquest mètode des de WooCommerce > Wipop."
 
+#: gateways/bizum/bizum.php:122
+msgid "Bizum no está disponible para productos recurrentes. Selecciona pago con tarjeta."
+msgstr "Bizum no està disponible per a productes recurrents. Selecciona el pagament amb targeta."
+
 #: gateways/bizum/templates/payment.php:1
 msgid "Pay securely using Bizum."
 msgstr "Paga de forma segura amb Bizum."
@@ -486,9 +490,9 @@ msgstr "Transacció Wipop creada. Transacció: %s"
 msgid "sin ID"
 msgstr "sense ID"
 
-#: gateways/Support/PaymentsProcessor.php:296
-msgid "Pago preautorizado con Wipop. Captura o anula la autorización desde las acciones del pedido."
-msgstr "Pagament preautoritzat amb Wipop. Captura o anul·la l'autorització des de les accions de la comanda."
+#: gateways/Support/PaymentsProcessor.php:319
+msgid "Preautorización iniciada con Wipop. Esperando confirmación antes de permitir captura o anulación."
+msgstr "Preautorització iniciada amb Wipop. Esperant confirmació abans de permetre la captura o l'anul·lació."
 
 #: wipop.php:41
 msgid "Wipop requires WooCommerce to be installed and active."

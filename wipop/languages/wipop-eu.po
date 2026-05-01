@@ -390,6 +390,10 @@ msgstr "Bizum"
 msgid "Gestiona este método desde WooCommerce > Wipop."
 msgstr "Kudeatu metodo hau WooCommerce > Wipop ataletik."
 
+#: gateways/bizum/bizum.php:122
+msgid "Bizum no está disponible para productos recurrentes. Selecciona pago con tarjeta."
+msgstr "Bizum ez dago erabilgarri produktu errepikakorretarako. Hautatu txartel bidezko ordainketa."
+
 #: gateways/bizum/templates/payment.php:1
 msgid "Pay securely using Bizum."
 msgstr "Ordaindu Bizumekin modu seguruan."
@@ -486,9 +490,9 @@ msgstr "Wipop transakzioa sortu da. Transakzioa: %s"
 msgid "sin ID"
 msgstr "IDrik gabe"
 
-#: gateways/Support/PaymentsProcessor.php:296
-msgid "Pago preautorizado con Wipop. Captura o anula la autorización desde las acciones del pedido."
-msgstr "Ordainketa Wipop-ekin aurrebaimenduta. Kapturatu edo baliogabetu baimena eskaeraren ekintzetatik."
+#: gateways/Support/PaymentsProcessor.php:319
+msgid "Preautorización iniciada con Wipop. Esperando confirmación antes de permitir captura o anulación."
+msgstr "Aurrebaimena Wipop-ekin hasi da. Berrespena itxaroten, kaptura edo baliogabetzea baimendu aurretik."
 
 #: wipop.php:41
 msgid "Wipop requires WooCommerce to be installed and active."
