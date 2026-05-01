@@ -31,6 +31,7 @@ use function __;
 use function in_array;
 use function is_object;
 use function method_exists;
+use function parse_url;
 use function sanitize_text_field;
 use function sprintf;
 use function WC;
@@ -104,6 +105,22 @@ trait PaymentsProcessor
 				$order->update_meta_data('_wipop_use_cof', $useCof ? 'yes' : 'no');
 				$order->save();
 			}
+
+			Logger::log('Wipop charge.create request', 'info', [
+				'wc_order_id' => $order->get_id(),
+				'method' => $method,
+				'amount' => (float) $order->get_total(),
+				'currency' => $order->get_currency(),
+				'capture' => $captureImmediately,
+				'manual_capture' => !$captureImmediately,
+				'use_cof' => $useCof,
+				'save_payment_method' => $savePaymentMethod,
+				'requires_recurring_token' => $requiresRecurringToken,
+				'selected_token_id' => $selectedToken instanceof WC_Payment_Token_CC ? $selectedToken->get_id() : null,
+				'source_id' => $selectedToken instanceof WC_Payment_Token_CC ? $selectedToken->get_token() : null,
+				'customer_id' => $customerId,
+				'redirect_host' => parse_url($this->get_return_url($order), PHP_URL_HOST),
+			]);
 
 			$charge = SdkCaller::call(
 				'charge.create',
@@ -193,6 +210,13 @@ trait PaymentsProcessor
 		try {
 			$client = ClientFactory::create();
 			$params = (new RefundParams())->amount((float) $amount);
+			Logger::log('Wipop charge.refund request', 'info', [
+				'wc_order_id' => $order->get_id(),
+				'transaction_id' => $transactionId,
+				'amount' => (float) $amount,
+				'currency' => $order->get_currency(),
+			]);
+
 			$charge = SdkCaller::call(
 				'charge.refund',
 				static fn () => $client->chargeOperation()->refund($transactionId, $params)
