@@ -279,7 +279,7 @@ trait PaymentsProcessor
 		OrderMetaManager::sync($order, $charge);
 
 		if ($requiresManualCapture) {
-			ManualCaptureManager::markAuthorized($order);
+			ManualCaptureManager::markPendingAuthorization($order);
 		} else {
 			ManualCaptureManager::disable($order);
 		}
@@ -292,7 +292,7 @@ trait PaymentsProcessor
 			__('Pago iniciado con Wipop. Esperando confirmación.', 'wipop')
 		);
 
-		$statusToApply = $requiresManualCapture ? WCOrderStatus::ON_HOLD : WCOrderStatus::PENDING;
+		$statusToApply = WCOrderStatus::PENDING;
 		$order->update_status($statusToApply, $statusDescription);
 
 		// Avoid double stock reduction when WooCommerce has already reduced stock on order creation.
@@ -317,7 +317,7 @@ trait PaymentsProcessor
 		));
 
 		if ($requiresManualCapture) {
-			$order->add_order_note(__('Pago preautorizado con Wipop. Captura o anula la autorización desde las acciones del pedido.', 'wipop'));
+			$order->add_order_note(__('Preautorización iniciada con Wipop. Esperando confirmación antes de permitir captura o anulación.', 'wipop'));
 		}
 	}
 

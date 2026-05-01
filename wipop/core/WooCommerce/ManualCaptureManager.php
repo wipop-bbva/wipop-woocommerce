@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WipopWC\Core\WooCommerce;
 
+use WC_Admin_Meta_Boxes;
 use WC_Order;
 use Wipop\Domain\Charge;
 use Wipop\Domain\Transaction;
@@ -19,10 +20,11 @@ use WipopWC\Core\Logger;
 use function __;
 use function add_action;
 use function add_filter;
+use function class_exists;
 use function get_option;
+use function in_array;
 use function sprintf;
 use function strtoupper;
-use function wc_add_notice;
 use function wc_price;
 
 final class ManualCaptureManager
@@ -30,9 +32,11 @@ final class ManualCaptureManager
 	public const META_ORDER_CAPTURE_ENABLED = '_wipop_order_capture';
 	public const META_ORDER_CAPTURE_STATUS = '_wipop_manual_capture_status';
 
+	public const STATUS_PENDING_AUTHORIZATION = 'pending_authorization';
 	public const STATUS_AUTHORIZED = 'authorized';
 	public const STATUS_CAPTURED = 'captured';
 	public const STATUS_REVERSED = 'reversed';
+	public const STATUS_FAILED = 'failed';
 
 	public const OPTION_CAPTURE_MODE = 'manual_capture_mode';
 	public const CAPTURE_MODE_AUTO = 'auto';
@@ -86,7 +90,7 @@ final class ManualCaptureManager
 		$transactionId = self::resolveTransactionId($order);
 
 		if ($transactionId === '') {
-			wc_add_notice(__('No encontramos la transacción en Wipop.', 'wipop'), 'error');
+			self::addAdminError(__('No encontramos la transacción en Wipop.', 'wipop'));
 			Logger::log(
 				sprintf(
 					'Wipop capture failed: order %s not found',
@@ -102,12 +106,19 @@ final class ManualCaptureManager
 			$client = ClientFactory::create();
 			$params = (new CaptureParams())->amount((float) $order->get_total());
 
+			Logger::log('Wipop charge.capture request', 'info', [
+				'wc_order_id' => $order->get_id(),
+				'transaction_id' => $transactionId,
+				'amount' => (float) $order->get_total(),
+				'currency' => $order->get_currency(),
+			]);
+
 			$charge = SdkCaller::call(
 				self::SDK_OPERATION_CAPTURE,
 				static fn () => $client->chargeOperation()->capture($transactionId, $params)
 			);
 		} catch (ApiCallException | ClientConfigurationException $exception) {
-			wc_add_notice(__('No hemos podido capturar la preautorización en Wipop', 'wipop'), 'error');
+			self::addAdminError(__('No hemos podido capturar la preautorización en Wipop', 'wipop'));
 			Logger::log(
 				sprintf(
 					'Wipop capture failed for order %s: %s',
@@ -121,6 +132,22 @@ final class ManualCaptureManager
 		}
 
 		self::applyChargeMeta($order, $charge);
+
+		if ($charge->status !== TransactionStatus::COMPLETED) {
+			self::restoreTransactionId($order, $transactionId);
+			$order->save();
+			self::addAdminError(__('No hemos podido capturar la preautorización en Wipop', 'wipop'));
+			Logger::log('Wipop capture returned a non-completed status', 'error', [
+				'wc_order_id' => $order->get_id(),
+				'transaction_id' => $transactionId,
+				'status' => $charge->status?->value,
+				'error_code' => $charge->errorCode,
+				'error_message' => $charge->errorMessage,
+			]);
+
+			return;
+		}
+
 		self::setStatus($order, self::STATUS_CAPTURED);
 
 		$captureTransactionId = $charge->id ?? $transactionId;
@@ -144,7 +171,7 @@ final class ManualCaptureManager
 		$transactionId = self::resolveTransactionId($order);
 
 		if ($transactionId === '') {
-			wc_add_notice(__('No encontramos la transacción en Wipop', 'wipop'), 'error');
+			self::addAdminError(__('No encontramos la transacción en Wipop', 'wipop'));
 			Logger::log(
 				sprintf(
 					'Wipop reversal failed: order %s not found',
@@ -160,12 +187,18 @@ final class ManualCaptureManager
 			$client = ClientFactory::create();
 			$params = (new ReversalParams())->reason(self::REVERSAL_REASON_DEFAULT);
 
+			Logger::log('Wipop charge.reversal request', 'info', [
+				'wc_order_id' => $order->get_id(),
+				'transaction_id' => $transactionId,
+				'reason' => self::REVERSAL_REASON_DEFAULT,
+			]);
+
 			$charge = SdkCaller::call(
 				self::SDK_OPERATION_REVERSAL,
 				static fn () => $client->chargeOperation()->reversal($transactionId, $params)
 			);
 		} catch (ApiCallException | ClientConfigurationException $exception) {
-			wc_add_notice(__('No hemos podido cancelar la preautorización en Wipop.', 'wipop'), 'error');
+			self::addAdminError(__('No hemos podido cancelar la preautorización en Wipop.', 'wipop'));
 			Logger::log(
 				sprintf(
 					'Wipop reversal failed for order %s: %s',
@@ -179,6 +212,22 @@ final class ManualCaptureManager
 		}
 
 		self::applyChargeMeta($order, $charge);
+
+		if ($charge->status !== TransactionStatus::COMPLETED) {
+			self::restoreTransactionId($order, $transactionId);
+			$order->save();
+			self::addAdminError(__('No hemos podido cancelar la preautorización en Wipop.', 'wipop'));
+			Logger::log('Wipop reversal returned a non-completed status', 'error', [
+				'wc_order_id' => $order->get_id(),
+				'transaction_id' => $transactionId,
+				'status' => $charge->status?->value,
+				'error_code' => $charge->errorCode,
+				'error_message' => $charge->errorMessage,
+			]);
+
+			return;
+		}
+
 		self::setStatus($order, self::STATUS_REVERSED);
 
 		$order->update_status(
@@ -190,6 +239,12 @@ final class ManualCaptureManager
 			__('Wipop: Anulaste la preautorización. Transacción: %s.', 'wipop'),
 			$charge->id ?? $transactionId
 		));
+	}
+
+	public static function markPendingAuthorization(WC_Order $order): void
+	{
+		$order->update_meta_data(self::META_ORDER_CAPTURE_ENABLED, self::META_ENABLED_VALUE_YES);
+		$order->update_meta_data(self::META_ORDER_CAPTURE_STATUS, self::STATUS_PENDING_AUTHORIZATION);
 	}
 
 	public static function markAuthorized(WC_Order $order): void
@@ -236,19 +291,37 @@ final class ManualCaptureManager
 		$type = strtoupper($transaction->transactionType ?? '');
 
 		if ($type === self::TRANSACTION_TYPE_CAPTURE) {
-			self::setStatus($order, self::STATUS_CAPTURED);
+			if ($transaction->status === TransactionStatus::COMPLETED) {
+				self::setStatus($order, self::STATUS_CAPTURED);
+			}
 
 			return;
 		}
 
 		if ($type === self::TRANSACTION_TYPE_REVERSAL) {
-			self::setStatus($order, self::STATUS_REVERSED);
+			if ($transaction->status === TransactionStatus::COMPLETED) {
+				self::setStatus($order, self::STATUS_REVERSED);
+			}
+
+			return;
+		}
+
+		if ($transaction->status === TransactionStatus::IN_PROGRESS) {
+			if ($order->get_meta(self::META_ORDER_CAPTURE_STATUS, true) === self::STATUS_PENDING_AUTHORIZATION) {
+				self::markAuthorized($order);
+			}
 
 			return;
 		}
 
 		if ($transaction->status === TransactionStatus::COMPLETED) {
 			self::setStatus($order, self::STATUS_CAPTURED);
+
+			return;
+		}
+
+		if (in_array($transaction->status, [TransactionStatus::FAILED, TransactionStatus::ERROR], true)) {
+			self::setStatus($order, self::STATUS_FAILED);
 		}
 	}
 
@@ -266,5 +339,18 @@ final class ManualCaptureManager
 		}
 
 		return $order->get_transaction_id();
+	}
+
+	private static function restoreTransactionId(WC_Order $order, string $transactionId): void
+	{
+		$order->set_transaction_id($transactionId);
+		$order->update_meta_data(OrderMetaManager::META_TRANSACTION_ID, $transactionId);
+	}
+
+	private static function addAdminError(string $message): void
+	{
+		if (class_exists(WC_Admin_Meta_Boxes::class)) {
+			WC_Admin_Meta_Boxes::add_error($message);
+		}
 	}
 }
