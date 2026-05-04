@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace WipopWC\Gateways\Bizum;
 
+use WC_Order;
 use WC_Payment_Gateway;
 use Wipop\Domain\ChargeMethod;
-use WipopWC\Core\Logger;
+use WipopWC\Core\WooCommerce\RecurringPayments;
 use WipopWC\Gateways\Support\PaymentsProcessor;
 
 use function is_admin;
 use function is_checkout;
+use function wc_add_notice;
+use function wc_get_order;
 
 defined('ABSPATH') || exit;
 
@@ -66,6 +69,15 @@ class Gateway extends WC_Payment_Gateway
 		echo '<p>' . esc_html__('Gestiona este método desde WooCommerce > Wipop.', 'wipop') . '</p>';
 	}
 
+	public function is_available()
+	{
+		if (RecurringPayments::cartContainsRecurringProduct()) {
+			return false;
+		}
+
+		return parent::is_available();
+	}
+
 	public function filter_gateway_icon($icon, $gateway_id)
 	{
 		if ($gateway_id === $this->id && !is_admin()) {
@@ -85,22 +97,15 @@ class Gateway extends WC_Payment_Gateway
 			return $title;
 		}
 
-		$icon_url = plugins_url(
-			'gateways/bizum/assets/img/cellphone-svgrepo-com.svg',
-			WIPOP_PLUGIN_FILE
-		);
-
 		$html = sprintf(
-			'<label for="payment_method_%1$s" class="wipop-gateway-label">
-              <input id="payment_method_%1$s" class="input-radio" name="payment_method" type="radio" value="%1$s" />
-              <img src="%2$s" alt="%3$s" class="wipop-gateway-icon" />
-              <div class="wipop-gateway-text">
-                  <span class="wipop-title-text">%4$s</span>
+			'<span class="wipop-gateway-label">
+              <img src="%1$s" alt="%2$s" class="wipop-gateway-icon" />
+              <span class="wipop-gateway-text">
+                  <span class="wipop-title-text">%3$s</span>
                   <small class="wipop-subtext">Wipop by BBVA</small>
-              </div>
-            </label>',
-			esc_attr($this->id),
-			esc_url($icon_url),
+              </span>
+            </span>',
+			esc_url($this->icon),
 			esc_attr($this->method_title),
 			esc_html($title)
 		);
@@ -110,15 +115,23 @@ class Gateway extends WC_Payment_Gateway
 
 	public function process_payment($order_id)
 	{
-		Logger::log('Processing Bizum payment for order ' . $order_id);
+		$order = wc_get_order($order_id);
+		if ($order instanceof WC_Order && RecurringPayments::orderContainsRecurringItems($order)) {
+			wc_add_notice(
+				__('Bizum no está disponible para productos recurrentes. Selecciona pago con tarjeta.', 'wipop'),
+				'error'
+			);
+
+			return [
+				'result' => 'failure',
+			];
+		}
 
 		return $this->processGatewayPayment($order_id, ChargeMethod::BIZUM);
 	}
 
 	public function process_refund($order_id, $amount = null, $reason = '')
 	{
-		Logger::log('Processing Bizum refund for order ' . $order_id);
-
 		$numericAmount = is_numeric($amount) ? (float) $amount : null;
 
 		return $this->processGatewayRefund($order_id, $numericAmount, $reason);

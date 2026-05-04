@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WipopWC\Core\WooCommerce\Blocks;
 
+use WipopWC\Core\WooCommerce\RecurringPayments;
 use WipopWC\Gateways\Bizum\Gateway;
 
 use function __;
@@ -20,5 +21,10 @@ class BizumPaymentMethod extends AbstractBlockPaymentMethod
 			__('Paga con Bizum', 'wipop'),
 			'gateways/bizum/assets/img/cellphone-svgrepo-com.svg'
 		);
+	}
+
+	public function is_active()
+	{
+		return parent::is_active() && !RecurringPayments::cartContainsRecurringProduct();
 	}
 }

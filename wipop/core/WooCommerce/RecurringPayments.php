@@ -7,11 +7,13 @@ namespace WipopWC\Core\WooCommerce;
 use DateInterval;
 use DateTimeImmutable;
 use Throwable;
+use WC_Cart;
 use WC_DateTime;
 use WC_Order;
 use WC_Order_Item_Product;
 use WC_Payment_Token_CC;
 use WC_Payment_Tokens;
+use WC_Product;
 use Wipop\Domain\ChargeMethod;
 use Wipop\Domain\OriginChannel;
 use Wipop\Domain\PostType;
@@ -29,11 +31,12 @@ use WipopWC\Gateways\Support\OrderIdFactory;
 use function __;
 use function add_action;
 use function array_keys;
+use function function_exists;
 use function get_post_meta;
 use function home_url;
 use function implode;
 use function in_array;
-use function method_exists;
+use function is_array;
 use function reset;
 use function sprintf;
 use function time;
@@ -106,6 +109,78 @@ final class RecurringPayments
 
 		$item->add_meta_data(self::META_ENABLED, self::META_ENABLED_YES, true);
 		$item->add_meta_data(self::META_PERIOD, $period, true);
+	}
+
+	public static function cartContainsRecurringProduct(?WC_Cart $cart = null): bool
+	{
+		if (!$cart && function_exists('WC')) {
+			/** @var mixed $cartCandidate */
+			$cartCandidate = WC()->cart;
+			$cart = $cartCandidate instanceof WC_Cart ? $cartCandidate : null;
+		}
+
+		if (!$cart instanceof WC_Cart) {
+			return false;
+		}
+
+		foreach ($cart->get_cart() as $cartItem) {
+			if (!is_array($cartItem)) {
+				continue;
+			}
+
+			$product = $cartItem['data'] ?? null;
+			if ($product instanceof WC_Product && self::isRecurringProduct($product)) {
+				return true;
+			}
+
+			foreach (['variation_id', 'product_id'] as $key) {
+				$productId = isset($cartItem[$key]) ? (int) $cartItem[$key] : 0;
+				if (self::isRecurringProductId($productId)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public static function orderContainsRecurringItems(WC_Order $order): bool
+	{
+		foreach ($order->get_items() as $item) {
+			if (!$item instanceof WC_Order_Item_Product) {
+				continue;
+			}
+
+			$enabled = (string) $item->get_meta(self::META_ENABLED, true);
+			if ($enabled === self::META_ENABLED_YES) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static function isRecurringProduct(WC_Product $product): bool
+	{
+		if (self::isRecurringProductId($product->get_id())) {
+			return true;
+		}
+
+		$parentId = (int) $product->get_parent_id();
+
+		return self::isRecurringProductId($parentId);
+	}
+
+	public static function isRecurringProductId(int $productId): bool
+	{
+		if ($productId <= 0) {
+			return false;
+		}
+
+		$enabled = get_post_meta($productId, self::META_ENABLED, true);
+		$period = (string) get_post_meta($productId, self::META_PERIOD, true);
+
+		return $enabled === self::META_ENABLED_YES && self::isValidPeriod($period);
 	}
 
 	/**

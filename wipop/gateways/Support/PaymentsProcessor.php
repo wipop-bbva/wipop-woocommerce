@@ -6,7 +6,6 @@ namespace WipopWC\Gateways\Support;
 
 use Throwable;
 use WC_Order;
-use WC_Order_Item_Product;
 use WC_Payment_Token_CC;
 use WC_Payment_Tokens;
 use Wipop\Domain\Charge;
@@ -31,6 +30,7 @@ use function __;
 use function in_array;
 use function is_object;
 use function method_exists;
+use function parse_url;
 use function sanitize_text_field;
 use function sprintf;
 use function WC;
@@ -76,7 +76,7 @@ trait PaymentsProcessor
 			$customerId = ChargeRequestFactory::resolveWipopCustomerId($order, (int) $order->get_user_id());
 
 			$savePaymentMethod = $this->shouldSavePaymentMethod($order, $method, $selectedToken);
-			$requiresRecurringToken = $method === ChargeMethod::CARD && $this->orderRequiresRecurringToken($order);
+			$requiresRecurringToken = $method === ChargeMethod::CARD && RecurringPayments::orderContainsRecurringItems($order);
 			$useCof = false;
 
 			if ($savePaymentMethod || $requiresRecurringToken) {
@@ -104,6 +104,20 @@ trait PaymentsProcessor
 				$order->update_meta_data('_wipop_use_cof', $useCof ? 'yes' : 'no');
 				$order->save();
 			}
+
+			Logger::log('Wipop charge.create request', 'info', [
+				'wc_order_id' => $order->get_id(),
+				'method' => $method,
+				'amount' => (float) $order->get_total(),
+				'currency' => $order->get_currency(),
+				'capture' => $captureImmediately,
+				'manual_capture' => !$captureImmediately,
+				'use_cof' => $useCof,
+				'save_payment_method' => $savePaymentMethod,
+				'requires_recurring_token' => $requiresRecurringToken,
+				'selected_token_id' => $selectedToken instanceof WC_Payment_Token_CC ? $selectedToken->get_id() : null,
+				'redirect_host' => parse_url($this->get_return_url($order), PHP_URL_HOST),
+			]);
 
 			$charge = SdkCaller::call(
 				'charge.create',
@@ -193,6 +207,13 @@ trait PaymentsProcessor
 		try {
 			$client = ClientFactory::create();
 			$params = (new RefundParams())->amount((float) $amount);
+			Logger::log('Wipop charge.refund request', 'info', [
+				'wc_order_id' => $order->get_id(),
+				'transaction_id' => $transactionId,
+				'amount' => (float) $amount,
+				'currency' => $order->get_currency(),
+			]);
+
 			$charge = SdkCaller::call(
 				'charge.refund',
 				static fn () => $client->chargeOperation()->refund($transactionId, $params)
@@ -255,7 +276,7 @@ trait PaymentsProcessor
 		OrderMetaManager::sync($order, $charge);
 
 		if ($requiresManualCapture) {
-			ManualCaptureManager::markAuthorized($order);
+			ManualCaptureManager::markPendingAuthorization($order);
 		} else {
 			ManualCaptureManager::disable($order);
 		}
@@ -268,7 +289,7 @@ trait PaymentsProcessor
 			__('Pago iniciado con Wipop. Esperando confirmación.', 'wipop')
 		);
 
-		$statusToApply = $requiresManualCapture ? WCOrderStatus::ON_HOLD : WCOrderStatus::PENDING;
+		$statusToApply = WCOrderStatus::PENDING;
 		$order->update_status($statusToApply, $statusDescription);
 
 		// Avoid double stock reduction when WooCommerce has already reduced stock on order creation.
@@ -293,7 +314,7 @@ trait PaymentsProcessor
 		));
 
 		if ($requiresManualCapture) {
-			$order->add_order_note(__('Pago preautorizado con Wipop. Captura o anula la autorización desde las acciones del pedido.', 'wipop'));
+			$order->add_order_note(__('Preautorización iniciada con Wipop. Esperando confirmación antes de permitir captura o anulación.', 'wipop'));
 		}
 	}
 
@@ -384,26 +405,5 @@ trait PaymentsProcessor
 		$raw = wc_clean($_POST[$fieldName]);
 
 		return in_array($raw, ['1', 'true', 'yes', 'on'], true);
-	}
-
-	private function orderRequiresRecurringToken(WC_Order $order): bool
-	{
-		foreach ($order->get_items() as $item) {
-			if (!$item instanceof WC_Order_Item_Product) {
-				continue;
-			}
-
-			$enabled = (string) $item->get_meta(RecurringPayments::META_ENABLED, true);
-			if ($enabled !== RecurringPayments::META_ENABLED_YES) {
-				continue;
-			}
-
-			$period = (string) $item->get_meta(RecurringPayments::META_PERIOD, true);
-			if (in_array($period, [RecurringPayments::PERIOD_MONTHLY, RecurringPayments::PERIOD_YEARLY], true)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 }
