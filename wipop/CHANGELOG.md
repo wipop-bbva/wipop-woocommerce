@@ -1,3 +1,16 @@
+## [0.10.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.6...v0.10.0) (2026-05-04)
+
+### Features
+
+* **checkout-ui:** simplify Wipop gateway labels ([aaf66b3](https://github.com/wipop-bbva/wipop-woocommerce/commit/aaf66b3f4b0c252a38ac7f7de7b68d670db247a1))
+* **recurring:** require card tokens and block Bizum for recurring products ([b262de6](https://github.com/wipop-bbva/wipop-woocommerce/commit/b262de677f450e8195f3914ff25624dbf5225ff5))
+
+### Bug Fixes
+
+* **logging:** reduce payment log exposure ([699320f](https://github.com/wipop-bbva/wipop-woocommerce/commit/699320f64e285704cfa43937c52b8ddb21a6ea06))
+* **logging:** sanitize webhook and payment log contexts ([708a976](https://github.com/wipop-bbva/wipop-woocommerce/commit/708a976202f31eea8ce979c0a49152f209f83f00))
+* **manual-capture:** keep preauthorizations pending until webhook authorization ([fd77a01](https://github.com/wipop-bbva/wipop-woocommerce/commit/fd77a01647e4be05add2ae5ddd8547cc16ef4dd5))
+
 ## [0.9.6](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.5...v0.9.6) (2026-04-24)
 
 ### Bug Fixes
