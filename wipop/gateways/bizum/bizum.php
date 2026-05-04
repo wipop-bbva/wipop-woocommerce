@@ -7,7 +7,6 @@ namespace WipopWC\Gateways\Bizum;
 use WC_Order;
 use WC_Payment_Gateway;
 use Wipop\Domain\ChargeMethod;
-use WipopWC\Core\Logger;
 use WipopWC\Core\WooCommerce\RecurringPayments;
 use WipopWC\Gateways\Support\PaymentsProcessor;
 
@@ -128,15 +127,11 @@ class Gateway extends WC_Payment_Gateway
 			];
 		}
 
-		Logger::log('Processing Bizum payment for order ' . $order_id);
-
 		return $this->processGatewayPayment($order_id, ChargeMethod::BIZUM);
 	}
 
 	public function process_refund($order_id, $amount = null, $reason = '')
 	{
-		Logger::log('Processing Bizum refund for order ' . $order_id);
-
 		$numericAmount = is_numeric($amount) ? (float) $amount : null;
 
 		return $this->processGatewayRefund($order_id, $numericAmount, $reason);

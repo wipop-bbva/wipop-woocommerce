@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace WipopWC\Gateways\Googlepay;
 
 use WC_Payment_Gateway;
-use WipopWC\Core\Logger;
 
 use function is_admin;
 use function is_checkout;
@@ -102,8 +101,6 @@ class Gateway extends WC_Payment_Gateway
 	 */
 	public function process_payment($order_id)
 	{
-		Logger::log('Processing GPay payment for order ' . $order_id);
-
 		return ['result' => 'success'];
 	}
 }

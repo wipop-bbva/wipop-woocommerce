@@ -23,13 +23,11 @@ use function add_action;
 use function array_key_exists;
 use function esc_html;
 use function file_get_contents;
-use function hash;
 use function header;
 use function is_array;
 use function json_decode;
 use function sprintf;
 use function status_header;
-use function strlen;
 use function strtolower;
 use function strtoupper;
 use function trim;
@@ -65,12 +63,6 @@ class Webhook
 			$payload = self::decodePayload($body);
 			$settings = WebhookAuth::getSettings();
 			$isAuthenticated = self::authorizeRequest($settings);
-
-			Logger::log('Webhook payload received', 'info', [
-				'body_sha256' => hash('sha256', $body),
-				'body_length' => strlen($body),
-				'payload' => $payload,
-			]);
 
 			if (self::isVerificationEvent($payload)) {
 				self::handleVerificationPayload($payload);

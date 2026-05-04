@@ -6,7 +6,6 @@ namespace WipopWC\Gateways\Card;
 
 use WC_Payment_Gateway;
 use Wipop\Domain\ChargeMethod;
-use WipopWC\Core\Logger;
 use WipopWC\Gateways\Support\PaymentsProcessor;
 
 use function is_admin;
@@ -105,8 +104,6 @@ class Gateway extends WC_Payment_Gateway
 
 	public function process_payment($order_id)
 	{
-		Logger::log('Processing Card payment for order ' . $order_id);
-
 		return $this->processGatewayPayment($order_id, ChargeMethod::CARD);
 	}
 
@@ -122,7 +119,6 @@ class Gateway extends WC_Payment_Gateway
 
 	public function process_refund($order_id, $amount = null, $reason = '')
 	{
-		Logger::log('Processing Card refund for order ' . $order_id);
 		$numericAmount = is_numeric($amount) ? (float) $amount : null;
 
 		return $this->processGatewayRefund($order_id, $numericAmount, $reason);

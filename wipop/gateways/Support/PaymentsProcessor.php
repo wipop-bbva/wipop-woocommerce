@@ -116,8 +116,6 @@ trait PaymentsProcessor
 				'save_payment_method' => $savePaymentMethod,
 				'requires_recurring_token' => $requiresRecurringToken,
 				'selected_token_id' => $selectedToken instanceof WC_Payment_Token_CC ? $selectedToken->get_id() : null,
-				'source_id' => $selectedToken instanceof WC_Payment_Token_CC ? $selectedToken->get_token() : null,
-				'customer_id' => $customerId,
 				'redirect_host' => parse_url($this->get_return_url($order), PHP_URL_HOST),
 			]);
 
