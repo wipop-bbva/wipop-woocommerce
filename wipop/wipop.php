@@ -1,12 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
-use WipopWC\Admin\Admin;
-use WipopWC\Core\Loader;
-use WipopWC\Core\Logger;
-use WipopWC\Core\Webhook;
-
 /**
  * Plugin Name:       Wipop
  * Plugin URI:        https://wordpress.org/plugins/wipop
@@ -22,6 +14,13 @@ use WipopWC\Core\Webhook;
  * Domain Path:       /languages
  * Requires Plugins:  woocommerce
  */
+declare(strict_types=1);
+
+use WipopWC\Admin\Admin;
+use WipopWC\Core\Loader;
+use WipopWC\Core\Logger;
+use WipopWC\Core\Webhook;
+
 defined('ABSPATH') || exit;
 
 if (!defined('WIPOP_PLUGIN_FILE')) {
