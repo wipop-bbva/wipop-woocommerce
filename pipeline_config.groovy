@@ -4,7 +4,7 @@
 // ============================================
 
 // Slug del plugin en WordPress.org (debe coincidir con el aprobado)
-wordpress_plugin_slug = 'wipop'
+wordpress_plugin_slug = 'wipop-woocommerce'
 
 // Archivo principal del plugin (opcional, se auto-detecta)
 // wordpress_plugin_main_file = 'wipop/wipop.php'
