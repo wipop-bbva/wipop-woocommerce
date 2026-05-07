@@ -53,10 +53,18 @@ final class PaymentMethodHelper
 
 		$data = self::METHODS[$key];
 
+		// Translate payment method title based on method type
+		$translatedTitle = match ($key) {
+			'CARD' => __('Card', 'wipop'),
+			'BIZUM' => __('Bizum', 'wipop'),
+			'GOOGLE_PAY' => __('Google Pay', 'wipop'),
+			default => $data['title'],
+		};
+
 		self::applyPaymentData(
 			$order,
 			$data['id'],
-			__($data['title'], 'wipop')
+			$translatedTitle
 		);
 	}
 

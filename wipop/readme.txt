@@ -2,11 +2,11 @@
 Contributors: wipopbbva
 Tags: woocommerce, payment gateway, bbva, wipop, bizum, payments
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 8.1
 Stable tag: 0.10.0
-License: GPLv3 or later
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Plataforma de pagos de BBVA en España para pymes y autónomos. Acepta pagos con tarjeta, Bizum y Google Pay en tu tienda WooCommerce.
 
