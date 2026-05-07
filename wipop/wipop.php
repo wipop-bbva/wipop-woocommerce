@@ -8,14 +8,20 @@ use WipopWC\Core\Logger;
 use WipopWC\Core\Webhook;
 
 /**
- * Plugin Name: Wipop
- * Description: Plataforma de pagos de BBVA en España para pymes y autónomos.
- * Version: 0.10.0
- * Author: Wipöp by BBVA
- * Text Domain: wipop
- * Domain Path: /languages
+ * Plugin Name:       Wipop
+ * Plugin URI:        https://wordpress.org/plugins/wipop
+ * Description:       Plataforma de pagos de BBVA en España para pymes y autónomos.
+ * Version:           0.10.0
+ * Requires at least: 5.8
+ * Requires PHP:      7.4
+ * Author:            Wipöp by BBVA
+ * Author URI:        https://www.wipop.es/
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       wipop
+ * Domain Path:       /languages
+ * Requires Plugins:  woocommerce
  */
-
 defined('ABSPATH') || exit;
 
 if (!defined('WIPOP_PLUGIN_FILE')) {
