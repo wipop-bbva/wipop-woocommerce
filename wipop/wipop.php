@@ -14,6 +14,7 @@
  * Domain Path:       /languages
  * Requires Plugins:  woocommerce
  */
+
 declare(strict_types=1);
 
 use WipopWC\Admin\Admin;
