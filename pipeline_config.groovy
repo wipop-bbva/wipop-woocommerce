@@ -16,6 +16,7 @@ wordpress_plugin_slug = 'wipop-woocommerce'
 // ID de la credencial de Jenkins para acceso SVN de WordPress.org
 // Debe ser tipo "Username with password"
 wordpress_svn_credentials_id = 'jenkins-wordpress-svn-wipop'
+git_credentials_id = 'jenkins-github-wipop-bbva'
 
 // ============================================
 // GENERACIÓN DE ZIP
