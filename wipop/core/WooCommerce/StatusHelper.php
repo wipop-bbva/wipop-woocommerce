@@ -13,9 +13,13 @@ final class StatusHelper
 {
 	public static function format(?string $statusValue, ?string $detail = null): string
 	{
-		$status = $statusValue ?? __('desconocido', 'wipop');
+			$status = $statusValue ?? __('desconocido', 'wipop');
 
-		$message = sprintf(__('Estado de Wipop: %s.', 'wipop'), $status);
+			$message = sprintf(
+				// translators: %s: Wipop transaction status.
+				__('Estado de Wipop: %s.', 'wipop'),
+				$status
+			);
 
 		if (!empty($detail)) {
 			$message .= ' ' . $detail;

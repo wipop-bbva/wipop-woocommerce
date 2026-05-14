@@ -27,6 +27,8 @@ use function str_starts_with;
 use function strtolower;
 use function trim;
 
+defined('ABSPATH') || exit;
+
 /**
  * Factory that builds CreateChargeParams instances from WooCommerce orders.
  */
@@ -103,6 +105,7 @@ final class ChargeRequestFactory
 	private static function buildDescription(WC_Order $order): string
 	{
 		return sprintf(
+			// translators: 1: WooCommerce order number, 2: site name.
 			__('Pedido #%1$s en %2$s', 'wipop'),
 			$order->get_order_number(),
 			get_bloginfo('name')

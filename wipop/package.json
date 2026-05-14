@@ -44,6 +44,7 @@
 		"composer.json",
 		"composer.lock",
 		"README.md",
+		"readme.txt",
 		"CHANGELOG.md",
 		"block.json"
 	]

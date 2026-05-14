@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WipopWC\Core\WooCommerce;
 
+defined('ABSPATH') || exit;
+
 /**
  * Mirror of WooCommerce order statuses so we can reference them as constants.
  * WooCommerce exposes the same constants via Automattic\WooCommerce\Utilities\OrderInternalStatus.

@@ -11,11 +11,13 @@ use Wipop\Client\WipopClientConfiguration;
 use Wipop\Domain\Value\Terminal;
 use WipopWC\Core\Exception\ClientConfigurationException;
 
-use function __;
 use function array_key_exists;
+use function esc_html__;
 use function get_option;
 use function is_numeric;
 use function trim;
+
+defined('ABSPATH') || exit;
 
 class ClientFactory
 {
@@ -31,7 +33,7 @@ class ClientFactory
 
 		if ($merchantId === '' || $privateKey === '') {
 			throw new ClientConfigurationException(
-				__('Configura tu Merchant ID y Private Key para usar Wipop.', 'wipop')
+				esc_html__('Configura tu Merchant ID y Private Key para usar Wipop.', 'wipop')
 			);
 		}
 
@@ -45,8 +47,9 @@ class ClientFactory
 			return new WipopClient($configuration);
 		} catch (Throwable $throwable) {
 			throw new ClientConfigurationException(
-				__('No se pudo inicializar el cliente de Wipop. Revisa la instalación del plugin.', 'wipop'),
+				esc_html__('No se pudo inicializar el cliente de Wipop. Revisa la instalación del plugin.', 'wipop'),
 				0,
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Chained exceptions are not rendered output.
 				$throwable
 			);
 		}
@@ -64,7 +67,7 @@ class ClientFactory
 			|| $terminalId > self::getMaxTerminalId()
 		) {
 			throw new ClientConfigurationException(
-				__('Configura tu Terminal ID para utilizar Wipop.', 'wipop')
+				esc_html__('Configura tu Terminal ID para utilizar Wipop.', 'wipop')
 			);
 		}
 

@@ -6,6 +6,8 @@ namespace WipopWC\Core\WooCommerce;
 
 use function array_map;
 
+defined('ABSPATH') || exit;
+
 final class RecurringSchedule
 {
 	private function __construct(

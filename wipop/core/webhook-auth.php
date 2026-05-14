@@ -19,11 +19,13 @@ use function openssl_cipher_iv_length;
 use function openssl_decrypt;
 use function openssl_encrypt;
 use function random_bytes;
+use function sanitize_text_field;
 use function strlen;
 use function substr;
 use function trim;
 use function update_option;
 use function wp_salt;
+use function wp_unslash;
 
 defined('ABSPATH') || exit;
 
@@ -346,8 +348,12 @@ class WebhookAuth
 
 	private static function readAuthorizationHeader(): string
 	{
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Presence check only; value is unslashed and sanitized below.
 		if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
-			return trim((string) $_SERVER['HTTP_AUTHORIZATION']);
+			$header = (string) $_SERVER['HTTP_AUTHORIZATION'];
+			$sanitizedHeader = trim((string) sanitize_text_field(wp_unslash($header)));
+
+			return $sanitizedHeader !== '' ? $sanitizedHeader : trim($header);
 		}
 
 		return '';

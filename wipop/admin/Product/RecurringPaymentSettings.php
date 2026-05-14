@@ -56,14 +56,9 @@ class RecurringPaymentSettings
 
 	public static function saveRecurringFields(int $postId): void
 	{
-		$rawPeriod = $_POST[RecurringPayments::META_PERIOD] ?? '';
-		if (!is_string($rawPeriod)) {
-			$rawPeriod = '';
-		}
+		$period = trim(self::postedValue(RecurringPayments::META_PERIOD));
 
-		$period = trim((string) sanitize_text_field($rawPeriod));
-
-		$enabled = !empty($_POST[RecurringPayments::META_ENABLED]) && in_array(
+		$enabled = self::postedValue(RecurringPayments::META_ENABLED) !== '' && in_array(
 			$period,
 			[RecurringPayments::PERIOD_MONTHLY, RecurringPayments::PERIOD_YEARLY],
 			true
@@ -78,5 +73,22 @@ class RecurringPaymentSettings
 		} else {
 			delete_post_meta($postId, RecurringPayments::META_PERIOD);
 		}
+	}
+
+	private static function postedValue(string $key): string
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce validates product-edit nonce before this hook runs.
+		if (!isset($_POST[$key])) {
+			return '';
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce validates product-edit nonce before this hook runs.
+		$value = wp_unslash($_POST[$key]);
+
+		if (!is_scalar($value)) {
+			return '';
+		}
+
+		return sanitize_text_field((string) $value);
 	}
 }

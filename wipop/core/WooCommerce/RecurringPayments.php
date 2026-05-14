@@ -47,6 +47,8 @@ use function wp_schedule_single_event;
 use function wp_timezone;
 use function wp_unschedule_event;
 
+defined('ABSPATH') || exit;
+
 final class RecurringPayments
 {
 	public const META_ENABLED = '_wipop_recurring_enabled';
@@ -275,6 +277,7 @@ final class RecurringPayments
 		}
 
 		$order->add_order_note(sprintf(
+			// translators: %s: comma-separated recurring periods.
 			__('Wipop: programados cobros recurrentes (%s).', 'wipop'),
 			implode(', ', $labels)
 		));
@@ -781,6 +784,7 @@ final class RecurringPayments
 
 		$reference = $transactionId !== '' ? $transactionId : $gatewayOrderId;
 		$note = sprintf(
+			// translators: 1: recurring period label, 2: cycle number, 3: Wipop reference, 4: charged amount.
 			__('Wipop: cargo recurrente %1$s #%2$d enviado. Referencia: %3$s. Importe: %4$s. Esperando confirmación del pago.', 'wipop'),
 			self::formatPeriodLabel($period),
 			$sequence,
@@ -841,6 +845,7 @@ final class RecurringPayments
 		self::queueEvent($order->get_id(), $period, $periodSchedule->nextAttemptTimestamp());
 
 		$order->add_order_note(sprintf(
+			// translators: 1: recurring period label, 2: cycle number, 3: Wipop transaction ID, 4: charged amount.
 			__('Wipop: cargo recurrente %1$s #%2$d confirmado. Transacción: %3$s. Importe: %4$s.', 'wipop'),
 			self::formatPeriodLabel($period),
 			$sequence,
@@ -1061,6 +1066,7 @@ final class RecurringPayments
 			$order,
 			$period,
 			sprintf(
+				// translators: 1: recurring period label, 2: failure reason.
 				__('Wipop: detuvimos los cobros recurrentes (%1$s) error: %2$s.', 'wipop'),
 				self::formatPeriodLabel($period),
 				$message

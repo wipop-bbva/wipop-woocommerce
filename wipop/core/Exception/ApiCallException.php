@@ -6,6 +6,8 @@ namespace WipopWC\Core\Exception;
 
 use RuntimeException;
 
+defined('ABSPATH') || exit;
+
 class ApiCallException extends RuntimeException
 {
 }

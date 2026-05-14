@@ -11,6 +11,8 @@ use WipopWC\Core\Webhook;
  * Plugin Name: Wipop
  * Description: Plataforma de pagos de BBVA en España para pymes y autónomos.
  * Version: 0.10.0
+ * Requires at least: 6.0
+ * Requires PHP: 8.1
  * Author: Wipöp by BBVA
  * Text Domain: wipop
  * Domain Path: /languages
@@ -25,9 +27,9 @@ if (!defined('WIPOP_PLUGIN_FILE')) {
 /**
  * Load Wipop php library from file
  */
-$composerAutoload = WIPOP_PLUGIN_PATH . 'vendor/autoload.php';
-if (is_readable($composerAutoload)) {
-	require_once $composerAutoload;
+$wipop_composer_autoload = WIPOP_PLUGIN_PATH . 'vendor/autoload.php';
+if (is_readable($wipop_composer_autoload)) {
+	require_once $wipop_composer_autoload;
 }
 
 require_once WIPOP_PLUGIN_PATH . 'core/logger.php';
@@ -46,8 +48,6 @@ function wipop_missing_wc_notice(): void
  */
 function wipop_init(): void
 {
-	load_plugin_textdomain('wipop', false, dirname(plugin_basename(__FILE__)) . '/languages');
-
 	if (!class_exists('WooCommerce')) {
 		add_action('admin_notices', 'wipop_missing_wc_notice');
 

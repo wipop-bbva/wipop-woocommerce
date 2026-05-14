@@ -9,6 +9,8 @@ use WipopWC\Gateways\Bizum\Gateway;
 
 use function __;
 
+defined('ABSPATH') || exit;
+
 class BizumPaymentMethod extends AbstractBlockPaymentMethod
 {
 	protected $name = Gateway::ID;
