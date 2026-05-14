@@ -1,3 +1,10 @@
+## [0.10.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.0...v0.10.1) (2026-05-14)
+
+### Bug Fixes
+
+* **webhook:** keep authorization header fallback test-safe ([538b568](https://github.com/wipop-bbva/wipop-woocommerce/commit/538b568750578d85749a89668b52424042fadcb1))
+* **wordpress-org:** address plugin review PHP findings ([e6307c9](https://github.com/wipop-bbva/wipop-woocommerce/commit/e6307c9010f170c63d37c7605de5d8316ad4f3ea))
+
 ## [0.10.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.6...v0.10.0) (2026-05-04)
 
 ### Features
