@@ -15,6 +15,8 @@ use function get_transient;
 use function is_array;
 use function set_transient;
 
+defined('ABSPATH') || exit;
+
 class MerchantOperationsService
 {
 	private const TRANSIENT_PREFIX = 'wipop_gateways_';

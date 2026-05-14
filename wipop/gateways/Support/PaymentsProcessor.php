@@ -29,8 +29,8 @@ use WP_Error;
 use function __;
 use function in_array;
 use function is_object;
+use function is_scalar;
 use function method_exists;
-use function parse_url;
 use function sanitize_text_field;
 use function sprintf;
 use function WC;
@@ -39,6 +39,10 @@ use function wc_clean;
 use function wc_get_order;
 use function wc_maybe_reduce_stock_levels;
 use function wc_price;
+use function wp_parse_url;
+use function wp_unslash;
+
+defined('ABSPATH') || exit;
 
 trait PaymentsProcessor
 {
@@ -116,7 +120,7 @@ trait PaymentsProcessor
 				'save_payment_method' => $savePaymentMethod,
 				'requires_recurring_token' => $requiresRecurringToken,
 				'selected_token_id' => $selectedToken instanceof WC_Payment_Token_CC ? $selectedToken->get_id() : null,
-				'redirect_host' => parse_url($this->get_return_url($order), PHP_URL_HOST),
+				'redirect_host' => wp_parse_url($this->get_return_url($order), PHP_URL_HOST),
 			]);
 
 			$charge = SdkCaller::call(
@@ -255,15 +259,20 @@ trait PaymentsProcessor
 			'currency' => $order->get_currency(),
 		]);
 
-		$note = sprintf(
-			__('Reembolso Wipop completado por %1$s. Transacción: %2$s.', 'wipop'),
-			$formattedAmount,
-			$refundTransactionId ?? __('desconocida', 'wipop')
-		);
+			$note = sprintf(
+				// translators: 1: refund amount, 2: Wipop transaction ID.
+				__('Reembolso Wipop completado por %1$s. Transacción: %2$s.', 'wipop'),
+				$formattedAmount,
+				$refundTransactionId ?? __('desconocida', 'wipop')
+			);
 
-		$sanitizedReason = sanitize_text_field($reason);
+			$sanitizedReason = sanitize_text_field($reason);
 		if ($sanitizedReason !== '') {
-			$note .= ' ' . sprintf(__('Motivo: %s', 'wipop'), $sanitizedReason);
+			$note .= ' ' . sprintf(
+				// translators: %s: refund reason.
+				__('Motivo: %s', 'wipop'),
+				$sanitizedReason
+			);
 		}
 
 		$order->add_order_note($note);
@@ -307,11 +316,12 @@ trait PaymentsProcessor
 			}
 		}
 
-		$transactionId = $charge->id ?? '';
-		$order->add_order_note(sprintf(
-			__('Transacción Wipop creada. Transacción: %s', 'wipop'),
-			$transactionId !== '' ? $transactionId : __('sin ID', 'wipop')
-		));
+			$transactionId = $charge->id ?? '';
+			$order->add_order_note(sprintf(
+				// translators: %s: Wipop transaction ID.
+				__('Transacción Wipop creada. Transacción: %s', 'wipop'),
+				$transactionId !== '' ? $transactionId : __('sin ID', 'wipop')
+			));
 
 		if ($requiresManualCapture) {
 			$order->add_order_note(__('Preautorización iniciada con Wipop. Esperando confirmación antes de permitir captura o anulación.', 'wipop'));
@@ -351,11 +361,10 @@ trait PaymentsProcessor
 		$gatewayId = CardGateway::ID;
 
 		$fieldName = 'wc-' . $gatewayId . '-payment-token';
-		if (empty($_POST[$fieldName])) {
+		$raw = $this->readCheckoutPostField($fieldName);
+		if ($raw === '') {
 			return null;
 		}
-
-		$raw = wc_clean($_POST[$fieldName]);
 
 		$tokenId = (int) $raw;
 		if ($tokenId <= 0) {
@@ -398,12 +407,28 @@ trait PaymentsProcessor
 		}
 
 		$fieldName = 'wc-' . CardGateway::ID . '-new-payment-method';
-		if (empty($_POST[$fieldName])) {
+		$raw = $this->readCheckoutPostField($fieldName);
+		if ($raw === '') {
 			return false;
 		}
 
-		$raw = wc_clean($_POST[$fieldName]);
-
 		return in_array($raw, ['1', 'true', 'yes', 'on'], true);
+	}
+
+	private function readCheckoutPostField(string $fieldName): string
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce validates checkout submission before gateway processing.
+		if (!isset($_POST[$fieldName])) {
+			return '';
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce validates checkout submission before gateway processing.
+		$raw = wp_unslash($_POST[$fieldName]);
+
+		if (!is_scalar($raw)) {
+			return '';
+		}
+
+		return (string) wc_clean($raw);
 	}
 }

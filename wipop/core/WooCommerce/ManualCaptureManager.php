@@ -27,6 +27,8 @@ use function sprintf;
 use function strtoupper;
 use function wc_price;
 
+defined('ABSPATH') || exit;
+
 final class ManualCaptureManager
 {
 	public const META_ORDER_CAPTURE_ENABLED = '_wipop_order_capture';
@@ -153,13 +155,14 @@ final class ManualCaptureManager
 		$captureTransactionId = $charge->id ?? $transactionId;
 		$order->payment_complete($captureTransactionId);
 
-		$formattedAmount = wc_price($order->get_total(), ['currency' => $order->get_currency()]);
+			$formattedAmount = wc_price($order->get_total(), ['currency' => $order->get_currency()]);
 
-		$order->add_order_note(sprintf(
-			__('Wipop: Capturada preautorización de %1$s. Transacción: %2$s.', 'wipop'),
-			$formattedAmount,
-			$captureTransactionId
-		));
+			$order->add_order_note(sprintf(
+				// translators: 1: captured amount, 2: Wipop transaction ID.
+				__('Wipop: Capturada preautorización de %1$s. Transacción: %2$s.', 'wipop'),
+				$formattedAmount,
+				$captureTransactionId
+			));
 	}
 
 	public static function handleReversalAction(WC_Order $order): void
@@ -235,10 +238,11 @@ final class ManualCaptureManager
 			__('Preautorización anulada manualmente en Wipop.', 'wipop')
 		);
 
-		$order->add_order_note(sprintf(
-			__('Wipop: Anulaste la preautorización. Transacción: %s.', 'wipop'),
-			$charge->id ?? $transactionId
-		));
+			$order->add_order_note(sprintf(
+				// translators: %s: Wipop transaction ID.
+				__('Wipop: Anulaste la preautorización. Transacción: %s.', 'wipop'),
+				$charge->id ?? $transactionId
+			));
 	}
 
 	public static function markPendingAuthorization(WC_Order $order): void

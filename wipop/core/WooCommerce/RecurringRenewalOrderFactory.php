@@ -16,6 +16,8 @@ use function wc_create_order;
 use function wc_get_orders;
 use function wc_get_product_variation_attributes;
 
+defined('ABSPATH') || exit;
+
 final class RecurringRenewalOrderFactory
 {
 	public static function findOrCreate(
@@ -111,11 +113,12 @@ final class RecurringRenewalOrderFactory
 		$newOrder->update_meta_data(RecurringPayments::ORDER_META_SEQUENCE, $sequence);
 		$newOrder->save();
 
-		$newOrder->add_order_note(sprintf(
-			__('Wipop: pedido recurrente creado desde el pedido %1$s (ciclo nº%2$d).', 'wipop'),
-			$parentOrder->get_id(),
-			$sequence
-		));
+			$newOrder->add_order_note(sprintf(
+				// translators: 1: parent order ID, 2: recurring cycle number.
+				__('Wipop: pedido recurrente creado desde el pedido %1$s (ciclo nº%2$d).', 'wipop'),
+				$parentOrder->get_id(),
+				$sequence
+			));
 
 		return $newOrder;
 	}
@@ -127,6 +130,7 @@ final class RecurringRenewalOrderFactory
 			'orderby' => 'date',
 			'order' => 'DESC',
 			'return' => 'objects',
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Internal one-row renewal lookup; replacing it would add unnecessary storage.
 			'meta_query' => [
 				[
 					'key' => OrderMetaManager::META_RECURRING_PARENT_ORDER_ID,
