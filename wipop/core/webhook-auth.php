@@ -351,7 +351,7 @@ class WebhookAuth
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Presence check only; value is unslashed and sanitized below.
 		if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
 			$header = (string) $_SERVER['HTTP_AUTHORIZATION'];
-			$sanitizedHeader = trim(sanitize_text_field(wp_unslash($header)));
+			$sanitizedHeader = trim((string) sanitize_text_field(wp_unslash($header)));
 
 			return $sanitizedHeader !== '' ? $sanitizedHeader : trim($header);
 		}
