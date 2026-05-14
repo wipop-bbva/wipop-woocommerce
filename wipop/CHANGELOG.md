@@ -1,3 +1,42 @@
+## [0.10.0](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.6...v0.10.0) (2026-05-04)
+
+### Features
+
+* **checkout-ui:** simplify Wipop gateway labels ([aaf66b3](https://github.com/wipop-bbva/wipop-woocommerce/commit/aaf66b3f4b0c252a38ac7f7de7b68d670db247a1))
+* **recurring:** require card tokens and block Bizum for recurring products ([b262de6](https://github.com/wipop-bbva/wipop-woocommerce/commit/b262de677f450e8195f3914ff25624dbf5225ff5))
+
+### Bug Fixes
+
+* **logging:** reduce payment log exposure ([699320f](https://github.com/wipop-bbva/wipop-woocommerce/commit/699320f64e285704cfa43937c52b8ddb21a6ea06))
+* **logging:** sanitize webhook and payment log contexts ([708a976](https://github.com/wipop-bbva/wipop-woocommerce/commit/708a976202f31eea8ce979c0a49152f209f83f00))
+* **manual-capture:** keep preauthorizations pending until webhook authorization ([fd77a01](https://github.com/wipop-bbva/wipop-woocommerce/commit/fd77a01647e4be05add2ae5ddd8547cc16ef4dd5))
+
+## [0.9.6](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.5...v0.9.6) (2026-04-24)
+
+### Bug Fixes
+
+* **logging:** add PSR Logger depence in production ([825a60e](https://github.com/wipop-bbva/wipop-woocommerce/commit/825a60e63b8f46da5a2386d1df6311fc832dc50b))
+
+## [0.9.5](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.4...v0.9.5) (2026-04-24)
+
+### Bug Fixes
+
+* **release:** update versioning and metadata for plugin release ([bdcf77f](https://github.com/wipop-bbva/wipop-woocommerce/commit/bdcf77f9a64cd9f3ea66c6194a28cecf15bea98f))
+
+## [0.9.4](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.3...v0.9.4) (2026-04-24)
+
+### Bug Fixes
+
+* **admin:** enhance password field behavior and unlock on focus/keydown ([06c8a4c](https://github.com/wipop-bbva/wipop-woocommerce/commit/06c8a4cbe82c0966b9a50e8031b446a3d7a33fa3))
+* **admin:** skip validation for missing fields in fields_validator method ([c4b2c2c](https://github.com/wipop-bbva/wipop-woocommerce/commit/c4b2c2c6f2e769e3711819394dc5f4d7a6bb40b6))
+* **docs:** update Terminal ID range in README and LEEME files ([a84a810](https://github.com/wipop-bbva/wipop-woocommerce/commit/a84a81074d343086e433efc28f619c70b5031037))
+
+## [0.9.3](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.2...v0.9.3) (2026-04-23)
+
+### Bug Fixes
+
+* **release:** clear vendor directory before installing PHP dependencies ([4ca02dc](https://github.com/wipop-bbva/wipop-woocommerce/commit/4ca02dc5821057941b4b76d3a893224b19afdeca))
+
 ## [0.9.2](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.9.1...v0.9.2) (2026-04-21)
 
 ### Bug Fixes

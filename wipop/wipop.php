@@ -10,7 +10,7 @@ use WipopWC\Core\Webhook;
 /*
  * Plugin Name: Wipop
  * Description: Plataforma de pagos de BBVA en España para pymes y autónomos.
- * Version: 0.9.4
+ * Version: 0.10.0
  * Requires at least: 6.0
  * Requires PHP: 8.1
  * Author: Wipöp by BBVA
