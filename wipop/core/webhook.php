@@ -22,10 +22,12 @@ use function __;
 use function add_action;
 use function array_key_exists;
 use function esc_html;
+use function esc_html__;
 use function file_get_contents;
 use function header;
 use function is_array;
 use function json_decode;
+use function sanitize_text_field;
 use function sprintf;
 use function status_header;
 use function strtolower;
@@ -34,6 +36,7 @@ use function trim;
 use function wc_get_order;
 use function wc_get_orders;
 use function wc_price;
+use function wp_unslash;
 
 defined('ABSPATH') || exit;
 
@@ -83,7 +86,7 @@ class Webhook
 
 			if (!$order instanceof WC_Order) {
 				throw new WebhookException(
-					__('Could not find the order in the ecommerce.', 'wipop'),
+					esc_html__('Could not find the order in the ecommerce.', 'wipop'),
 					404
 				);
 			}
@@ -121,7 +124,7 @@ class Webhook
 		$authorizationStatus = WebhookAuth::authorizationStatus($settings);
 
 		if ($authorizationStatus === WebhookAuth::AUTH_INVALID_BASIC) {
-			throw new WebhookException(__('Invalid webhook authentication.', 'wipop'), 401);
+			throw new WebhookException(esc_html__('Invalid webhook authentication.', 'wipop'), 401);
 		}
 
 		if ($authorizationStatus === WebhookAuth::AUTH_VALID_BASIC) {
@@ -129,7 +132,7 @@ class Webhook
 		}
 
 		if (WebhookAuth::isAuthorizationRequired($state)) {
-			throw new WebhookException(__('Webhook authentication is required.', 'wipop'), 401);
+			throw new WebhookException(esc_html__('Webhook authentication is required.', 'wipop'), 401);
 		}
 
 		return false;
@@ -137,10 +140,12 @@ class Webhook
 
 	private static function ensurePostRequest(): void
 	{
-		$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+		$method = isset($_SERVER['REQUEST_METHOD'])
+			? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD']))
+			: 'GET';
 
 		if (strtoupper($method) !== 'POST') {
-			throw new WebhookException(__('Method not allowed', 'wipop'), 405);
+			throw new WebhookException(esc_html__('Method not allowed', 'wipop'), 405);
 		}
 	}
 
@@ -153,15 +158,16 @@ class Webhook
 			$data = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
 		} catch (JsonException $exception) {
 			throw new WebhookException(
-				__('Could not decode the body payload', 'wipop'),
+				esc_html__('Could not decode the body payload', 'wipop'),
 				400,
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Chained exceptions are not rendered output.
 				$exception
 			);
 		}
 
 		if (!is_array($data)) {
 			throw new WebhookException(
-				__('Invalid body.', 'wipop'),
+				esc_html__('Invalid body.', 'wipop'),
 				400
 			);
 		}
@@ -183,10 +189,10 @@ class Webhook
 	private static function handleVerificationPayload(array $payload): void
 	{
 		$eventId = trim((string) ($payload['id'] ?? ''));
-		$verificationCode = trim((string) ($payload['verification_code'] ?? ''));
+			$verificationCode = trim((string) ($payload['verification_code'] ?? ''));
 
 		if ($eventId === '' || $verificationCode === '') {
-			throw new WebhookException(__('Invalid verification payload.', 'wipop'), 400);
+			throw new WebhookException(esc_html__('Invalid verification payload.', 'wipop'), 400);
 		}
 
 		$updated = WebhookAuth::markVerificationEvent($eventId, $verificationCode);
@@ -206,8 +212,9 @@ class Webhook
 			$transaction = self::hydrator()->hydrate(Transaction::class, $data);
 		} catch (Throwable $exception) {
 			throw new WebhookException(
-				__('Payload does not match the expected model.', 'wipop'),
+				esc_html__('Payload does not match the expected model.', 'wipop'),
 				400,
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Chained exceptions are not rendered output.
 				$exception
 			);
 		}
@@ -260,6 +267,7 @@ class Webhook
 				'orderby' => 'date',
 				'order' => 'DESC',
 				'return' => 'objects',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Webhook fallback lookup is constrained to one order by internal Wipop metadata.
 				'meta_query' => [
 					[
 						'key' => $candidate['key'],
@@ -432,13 +440,14 @@ class Webhook
 		$amount = $transaction->amount ?? 0.0;
 		$currency = $transaction->currency ?? $order->get_currency();
 
-		$formattedAmount = wc_price($amount, ['currency' => $currency]);
+			$formattedAmount = wc_price($amount, ['currency' => $currency]);
 
-		$note = sprintf(
-			__('Wipop: Reembolso de %1$s. Transacción: %2$s.', 'wipop'),
-			$formattedAmount,
-			$transaction->id ?? __('desconocida', 'wipop')
-		);
+			$note = sprintf(
+				// translators: 1: refund amount, 2: Wipop transaction ID.
+				__('Wipop: Reembolso de %1$s. Transacción: %2$s.', 'wipop'),
+				$formattedAmount,
+				$transaction->id ?? __('desconocida', 'wipop')
+			);
 
 		if (!empty($transaction->errorMessage)) {
 			$note .= ' ' . $transaction->errorMessage;

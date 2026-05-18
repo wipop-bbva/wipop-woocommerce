@@ -19,6 +19,8 @@ use function strtoupper;
 use function substr;
 use function uniqid;
 
+defined('ABSPATH') || exit;
+
 /**
  * Helper responsible for generating Wipop-compliant order IDs.
  */

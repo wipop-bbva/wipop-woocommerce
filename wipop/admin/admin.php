@@ -263,15 +263,15 @@ class Admin
 				$constraints = $this->numberFieldConstraints($field);
 				$numberValue = is_numeric($value) ? (int) $value : '';
 				printf(
-					'<input type="number" class="%1$s" name="%2$s[%3$s]" value="%4$s" placeholder="%5$s" min="%6$u" max="%7$u" step="%8$u" />',
+					'<input type="number" class="%1$s" name="%2$s[%3$s]" value="%4$s" placeholder="%5$s" min="%6$s" max="%7$s" step="%8$s" />',
 					esc_attr($field['class']),
 					esc_attr(self::OPTION_NAME),
 					esc_attr($key),
 					esc_attr((string) $numberValue),
 					esc_attr($field['placeholder']),
-					$constraints['min'],
-					$constraints['max'],
-					$constraints['step']
+					esc_attr((string) $constraints['min']),
+					esc_attr((string) $constraints['max']),
+					esc_attr((string) $constraints['step'])
 				);
 				break;
 		}
@@ -284,21 +284,21 @@ class Admin
 		$settings = WebhookAuth::ensureCredentialsStored();
 		$settingsErrorsHtml = $this->settingsErrorsHtml();
 		?>
-	<div class="wrap admin-page-wipop-settings">
-		<h1><?php esc_html_e('Configuración de pagos con Wipop', 'wipop'); ?></h1>
-		<?php
-		if (!empty($_GET[self::WEBHOOK_REGENERATED_QUERY_ARG])) {
-			$this->renderSuccessNotice(__('Credenciales de webhook regeneradas correctamente.', 'wipop'));
-		}
+		<div class="wrap admin-page-wipop-settings">
+			<h1><?php esc_html_e('Configuración de pagos con Wipop', 'wipop'); ?></h1>
+			<?php
+			if ($this->isAdminQueryFlagSet(self::WEBHOOK_REGENERATED_QUERY_ARG)) {
+				$this->renderSuccessNotice(__('Credenciales de webhook regeneradas correctamente.', 'wipop'));
+			}
 
-		if (!empty($_GET['settings-updated']) && $settingsErrorsHtml === '') {
-			$this->renderSuccessNotice(__('Ajustes guardados correctamente.', 'wipop'));
-		}
-		?>
-			<?php echo $settingsErrorsHtml; ?>
-			<form method="post" action="options.php" autocomplete="off" data-lpignore="true">
-			<?php settings_fields(self::GROUP_SLUG); ?>
-			<?php do_settings_sections(self::PAGE_SLUG); ?>
+			if ($this->isAdminQueryFlagSet('settings-updated') && $settingsErrorsHtml === '') {
+				$this->renderSuccessNotice(__('Ajustes guardados correctamente.', 'wipop'));
+			}
+			?>
+				<?php echo wp_kses_post($settingsErrorsHtml); ?>
+				<form method="post" action="options.php" autocomplete="off" data-lpignore="true">
+				<?php settings_fields(self::GROUP_SLUG); ?>
+				<?php do_settings_sections(self::PAGE_SLUG); ?>
 			<div class="wipop-button-group">
 				<button type="submit" class="button button-primary" id="wipop-admin-save-button">
 					<?php esc_html_e('Guardar', 'wipop'); ?>
@@ -325,7 +325,8 @@ class Admin
 
 	public function enqueue_assets(): void
 	{
-		if (!is_admin() || !isset($_GET['page']) || $_GET['page'] !== self::PAGE_SLUG) {
+		$screen = get_current_screen();
+		if (!is_admin() || !$screen || $screen->id !== 'woocommerce_page_' . self::PAGE_SLUG) {
 			return;
 		}
 
@@ -339,14 +340,14 @@ class Admin
 
 		$js_path = plugin_dir_path(__FILE__) . '../assets/js/admin-settings-menu.js';
 		wp_enqueue_script(
-			'admin-settings-menu',
+			'wipop-admin-settings-menu',
 			plugin_dir_url(__FILE__) . '../assets/js/admin-settings-menu.js',
 			['jquery'],
 			filemtime($js_path),
 			true
 		);
 
-		wp_localize_script('admin-settings-menu', 'wipopAdminVerify', [
+		wp_localize_script('wipop-admin-settings-menu', 'wipopAdminVerify', [
 			'ajaxUrl' => admin_url('admin-post.php'),
 			'nonce' => wp_create_nonce('wipop_verify_credentials'),
 			'successMessage' => __('Tus credenciales son válidas.', 'wipop'),
@@ -356,6 +357,12 @@ class Admin
 			'manualCopyPrompt' => __('Copia el valor manualmente (Ctrl/Cmd + C)', 'wipop'),
 			'regenerateConfirmMessage' => __('Al regenerar credenciales tendrás que actualizar el portal Wipop. ¿Quieres continuar?', 'wipop'),
 		]);
+	}
+
+	private function isAdminQueryFlagSet(string $key): bool
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin notice flag.
+		return isset($_GET[$key]) && sanitize_text_field(wp_unslash($_GET[$key])) !== '';
 	}
 
 	/**
@@ -511,6 +518,7 @@ class Admin
 			self::OPTION_NAME,
 			$key,
 			sprintf(
+				// translators: %s: settings field label.
 				__('%s must have at least 5 characters.', 'wipop'),
 				$field['title']
 			),
@@ -542,6 +550,7 @@ class Admin
 			self::OPTION_NAME,
 			$key,
 			sprintf(
+				// translators: 1: settings field label, 2: minimum value, 3: maximum value.
 				__('%1$s must be a number between %2$d and %3$d.', 'wipop'),
 				$field['title'],
 				$min,
@@ -627,6 +636,7 @@ class Admin
 				'type' => 'number',
 				'class' => 'wipop-terminal-id',
 				'placeholder' => sprintf(
+					// translators: 1: minimum terminal ID, 2: maximum terminal ID.
 					__('Introduce un número entre %1$d y %2$d', 'wipop'),
 					$terminalMin,
 					$terminalMax

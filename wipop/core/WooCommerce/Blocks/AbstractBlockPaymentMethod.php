@@ -13,6 +13,8 @@ use function plugins_url;
 use function wp_register_script;
 use function wp_script_is;
 
+defined('ABSPATH') || exit;
+
 abstract class AbstractBlockPaymentMethod extends AbstractPaymentMethodType
 {
 	protected string $settings_option = '';

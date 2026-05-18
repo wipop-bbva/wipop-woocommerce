@@ -167,7 +167,9 @@ class Loader
 			return;
 		}
 
-		if (!isset($_GET['tab']) || $_GET['tab'] !== 'checkout') {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen routing.
+		$settingsTab = isset($_GET['tab']) ? sanitize_key(wp_unslash($_GET['tab'])) : '';
+		if ($settingsTab !== 'checkout') {
 			return;
 		}
 		wp_enqueue_script(
@@ -192,6 +194,7 @@ class Loader
 			'i18n' => [
 				'activate' => __('Activar', 'wipop'),
 				'deactivate' => __('Desactivar', 'wipop'),
+				// translators: %s: payment gateway name.
 				'confirm_deactivate' => __('¿Estás seguro de que quieres desactivar %s?', 'wipop'),
 				'default_label' => __('este método de pago', 'wipop'),
 				'confirm' => __('Confirmar', 'wipop'),
@@ -244,7 +247,10 @@ class Loader
 	{
 		check_admin_referer('wipop_toggle_button');
 
-		$action = ($_GET['wipop_gateway_action'] ?? '') === 'on' ? 'yes' : 'no';
+		$gatewayAction = isset($_GET['wipop_gateway_action'])
+			? sanitize_key(wp_unslash($_GET['wipop_gateway_action']))
+			: '';
+		$action = $gatewayAction === 'on' ? 'yes' : 'no';
 
 		$settings = get_option($option_key, []);
 		$settings['enabled'] = $action;

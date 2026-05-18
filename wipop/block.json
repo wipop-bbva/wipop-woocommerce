@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "extension/wipop",
-	"version": "0.10.0",
+	"version": "0.10.1",
 	"title": "Wipop",
 	"category": "widgets",
 	"textdomain": "wipop",

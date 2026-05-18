@@ -9,7 +9,11 @@ use Wipop\Exception\WipopException;
 use WipopWC\Core\Exception\ApiCallException;
 use WipopWC\Core\Logger;
 
+use function esc_html;
+use function esc_html__;
 use function sprintf;
+
+defined('ABSPATH') || exit;
 
 class SdkCaller
 {
@@ -34,8 +38,9 @@ class SdkCaller
 			);
 
 			throw new ApiCallException(
-				self::buildUserMessage($exception),
+				esc_html(self::buildUserMessage($exception)),
 				0,
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Chained exceptions are not rendered output.
 				$exception
 			);
 		} catch (Throwable $throwable) {
@@ -46,8 +51,9 @@ class SdkCaller
 			);
 
 			throw new ApiCallException(
-				__('Ha ocurrido un error inesperado al comunicarse con Wipop.', 'wipop'),
+				esc_html__('Ha ocurrido un error inesperado al comunicarse con Wipop.', 'wipop'),
 				0,
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Chained exceptions are not rendered output.
 				$throwable
 			);
 		}
@@ -56,6 +62,7 @@ class SdkCaller
 	private static function buildUserMessage(WipopException $exception): string
 	{
 		return sprintf(
+			// translators: %s: Wipop API error message.
 			__('No se pudo completar la operación con Wipop: %s', 'wipop'),
 			$exception->getMessage()
 		);

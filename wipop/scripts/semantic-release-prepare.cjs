@@ -10,6 +10,7 @@ async function syncReleaseVersion(cwd, version) {
 		{ path: 'package.json', type: 'json' },
 		{ path: 'block.json', type: 'json' },
 		{ path: 'wipop.php', type: 'plugin-header' },
+		{ path: 'readme.txt', type: 'readme-stable-tag' },
 	];
 
 	for (const file of versionFiles) {
@@ -20,7 +21,12 @@ async function syncReleaseVersion(cwd, version) {
 			continue;
 		}
 
-		await updatePluginHeaderVersion(absolutePath, version);
+		if (file.type === 'plugin-header') {
+			await updatePluginHeaderVersion(absolutePath, version);
+			continue;
+		}
+
+		await updateReadmeStableTag(absolutePath, version);
 	}
 }
 
@@ -39,6 +45,17 @@ async function updatePluginHeaderVersion(filePath, version) {
 
 	if (next === raw) {
 		throw new Error(`Unable to update plugin version header in ${filePath}`);
+	}
+
+	await fs.writeFile(filePath, next);
+}
+
+async function updateReadmeStableTag(filePath, version) {
+	const raw = await fs.readFile(filePath, 'utf8');
+	const next = raw.replace(/^(Stable tag:\s).+$/m, `$1${version}`);
+
+	if (next === raw) {
+		throw new Error(`Unable to update readme stable tag in ${filePath}`);
 	}
 
 	await fs.writeFile(filePath, next);
@@ -77,6 +94,16 @@ async function buildReleaseZip(cwd, logger) {
 			'tests/*',
 			'-x',
 			'scripts/*',
+			'-x',
+			'phpcs.xml',
+			'-x',
+			'phpstan-bootstrap.php',
+			'-x',
+			'phpstan.neon.dist',
+			'-x',
+			'phpunit.xml',
+			'-x',
+			'grumphp.yml',
 			'-x',
 			'.*',
 		],

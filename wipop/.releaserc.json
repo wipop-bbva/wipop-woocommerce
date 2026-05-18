@@ -10,7 +10,7 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "package.json", "block.json", "wipop.php"]
+        "assets": ["CHANGELOG.md", "package.json", "block.json", "wipop.php", "readme.txt"]
       }
     ],
     [

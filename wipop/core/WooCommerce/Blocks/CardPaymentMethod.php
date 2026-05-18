@@ -8,6 +8,8 @@ use WipopWC\Gateways\Card\Gateway;
 
 use function __;
 
+defined('ABSPATH') || exit;
+
 class CardPaymentMethod extends AbstractBlockPaymentMethod
 {
 	protected $name = Gateway::ID;

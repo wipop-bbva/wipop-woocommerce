@@ -1,40 +1,18 @@
 === Wipop ===
-Contributors: openpayjenkinslatam
-Tags: payments, ecommerce, bbva, spain, woocommerce
-Requires at least: 5.0
-Tested up to: 6.5
-Requires PHP: 7.4
-Stable tag: 0.10.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Contributors: wipop
+Tags: woocommerce, payments, payment-gateway, credit-card, bizum
+Requires at least: 6.0
+Requires PHP: 8.1
+Stable tag: 0.10.1
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Plataforma de pagos de BBVA en España para pymes y autónomos.
+Wipop payment gateway for WooCommerce, with card and Bizum payments.
 
 == Description ==
 
-Wipöp es la solución de pagos de BBVA diseñada específicamente para pymes y autónomos en España. Permite integrar una pasarela de pagos segura y eficiente en tu sitio de WordPress/WooCommerce.
+Wipop connects WooCommerce stores to the Wipop payment platform by BBVA.
 
-== Installation ==
+The plugin includes card and Bizum payment gateways, shared merchant settings, webhook synchronization, refunds from the WooCommerce order screen, card tokenization, optional preauthorizations, and custom recurring payment support.
 
-1. Sube la carpeta del plugin al directorio `/wp-content/plugins/`.
-2. Activa el plugin a través del menú 'Plugins' en WordPress.
-
-== Frequently Asked Questions ==
-
-= ¿Es seguro usar Wipop? =
-Sí, el plugin utiliza los estándares de seguridad de BBVA.
-
-== Screenshots ==
-
-1. Configuración principal del plugin Wipop en el administrador.
-2. Apariencia de la pasarela de pago en el checkout.
-
-== Upgrade Notice ==
-
-= 0.10.0 =
-Versión inicial del plugin. Por favor, asegúrate de configurar tus credenciales de BBVA.
-
-== Changelog ==
-
-= 0.10.0 =
-* Lanzamiento inicial e integración con BBVA España.
+Configure the plugin from WooCommerce > Wipop with your merchant credentials, terminal, environment, and capture mode. Then enable the available payment methods from WooCommerce > Payments.
