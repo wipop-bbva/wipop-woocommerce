@@ -1,3 +1,10 @@
+## [0.10.2](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.1...v0.10.2) (2026-06-04)
+
+### Bug Fixes
+
+* **i18n:** use literal Wipop payment method titles ([2075f4e](https://github.com/wipop-bbva/wipop-woocommerce/commit/2075f4e2652d1f0ac122f451027eeddc5a32e2b7))
+* Se agrega verificacion y uso de slug ([b35e4c9](https://github.com/wipop-bbva/wipop-woocommerce/commit/b35e4c917caefe66dde45d483164749a97a7de16))
+
 ## [0.10.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.0...v0.10.1) (2026-05-14)
 
 ### Bug Fixes
