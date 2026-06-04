@@ -14,6 +14,8 @@ use WipopWC\Core\Webhook;
  * Requires at least: 6.0
  * Requires PHP: 8.1
  * Author: Wipöp by BBVA
+ * License: GPLv3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: wipop
  * Domain Path: /languages
  */
@@ -24,6 +26,17 @@ if (!defined('WIPOP_PLUGIN_FILE')) {
 	define('WIPOP_PLUGIN_FILE', __FILE__);
 	define('WIPOP_PLUGIN_PATH', plugin_dir_path(__FILE__));
 }
+
+function wipop_load_textdomain(): void
+{
+	load_plugin_textdomain(
+		'wipop',
+		false,
+		dirname(plugin_basename(WIPOP_PLUGIN_FILE)) . '/languages'
+	);
+}
+add_action('init', 'wipop_load_textdomain', 0);
+
 /**
  * Load Wipop php library from file
  */

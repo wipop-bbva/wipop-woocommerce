@@ -2,6 +2,7 @@
 Contributors: wipop
 Tags: woocommerce, payments, payment-gateway, credit-card, bizum
 Requires at least: 6.0
+Tested up to: 7.0
 Requires PHP: 8.1
 Stable tag: 0.10.1
 License: GPLv3 or later
