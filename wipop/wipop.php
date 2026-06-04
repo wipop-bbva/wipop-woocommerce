@@ -24,6 +24,17 @@ if (!defined('WIPOP_PLUGIN_FILE')) {
 	define('WIPOP_PLUGIN_FILE', __FILE__);
 	define('WIPOP_PLUGIN_PATH', plugin_dir_path(__FILE__));
 }
+
+function wipop_load_textdomain(): void
+{
+	load_plugin_textdomain(
+		'wipop',
+		false,
+		dirname(plugin_basename(WIPOP_PLUGIN_FILE)) . '/languages'
+	);
+}
+add_action('init', 'wipop_load_textdomain', 0);
+
 /**
  * Load Wipop php library from file
  */
