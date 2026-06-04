@@ -14,6 +14,8 @@ use WipopWC\Core\Webhook;
  * Requires at least: 6.0
  * Requires PHP: 8.1
  * Author: Wipöp by BBVA
+ * License: GPLv3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: wipop
  * Domain Path: /languages
  */
