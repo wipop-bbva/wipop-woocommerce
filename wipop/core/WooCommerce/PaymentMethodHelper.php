@@ -19,21 +19,12 @@ defined('ABSPATH') || exit;
 final class PaymentMethodHelper
 {
 	/**
-	 * @var array<string, array{id: string, title: string}>
+	 * @var array<string, string>
 	 */
 	private const METHODS = [
-		'CARD' => [
-			'id' => CardGateway::ID,
-			'title' => 'Card',
-		],
-		'BIZUM' => [
-			'id' => BizumGateway::ID,
-			'title' => 'Bizum',
-		],
-		'GOOGLE_PAY' => [
-			'id' => GooglePayGateway::ID,
-			'title' => 'Google Pay',
-		],
+		'CARD' => CardGateway::ID,
+		'BIZUM' => BizumGateway::ID,
+		'GOOGLE_PAY' => GooglePayGateway::ID,
 	];
 
 	/**
@@ -51,12 +42,16 @@ final class PaymentMethodHelper
 			return;
 		}
 
-		$data = self::METHODS[$key];
+		$title = match ($key) {
+			'CARD' => __('Card', 'wipop'),
+			'BIZUM' => __('Bizum', 'wipop'),
+			'GOOGLE_PAY' => __('Google Pay', 'wipop'),
+		};
 
 		self::applyPaymentData(
 			$order,
-			$data['id'],
-			__($data['title'], 'wipop')
+			self::METHODS[$key],
+			$title
 		);
 	}
 
