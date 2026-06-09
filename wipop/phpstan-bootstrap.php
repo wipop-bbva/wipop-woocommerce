@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+if (!defined('ABSPATH') && PHP_SAPI !== 'cli') {
+	exit;
+}
+
 $wipop_autoload = __DIR__ . '/vendor/autoload.php';
 if (is_readable($wipop_autoload)) {
 	require_once $wipop_autoload;
