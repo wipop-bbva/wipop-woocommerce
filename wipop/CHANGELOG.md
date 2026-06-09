@@ -1,3 +1,10 @@
+## [0.10.3](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.2...v0.10.3) (2026-06-09)
+
+### Bug Fixes
+
+* **i18n:** rely on WordPress.org translation loading ([08e6bef](https://github.com/wipop-bbva/wipop-woocommerce/commit/08e6bef8f724757d6adaa13c7fdb625b0c9e9f17))
+* **wordpress-org:** guard phpstan bootstrap from direct access ([1819175](https://github.com/wipop-bbva/wipop-woocommerce/commit/181917507d1ead6e32d4b0901d3fcdb97ac41e23))
+
 ## [0.10.2](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.1...v0.10.2) (2026-06-04)
 
 ### Bug Fixes
