@@ -1,3 +1,10 @@
+## [0.10.4](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.3...v0.10.4) (2026-06-26)
+
+### Bug Fixes
+
+* **ci:** require locked npm install ([9280f4d](https://github.com/wipop-bbva/wipop-woocommerce/commit/9280f4d6a2e57c26cc3db36650e4d09035b0a4cc))
+* **woocommerce:** handle cancelled reversals ([e0c3993](https://github.com/wipop-bbva/wipop-woocommerce/commit/e0c3993c343bb00822e6de1c535ae14bb15fd0d2))
+
 ## [0.10.3](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.2...v0.10.3) (2026-06-09)
 
 ### Bug Fixes
