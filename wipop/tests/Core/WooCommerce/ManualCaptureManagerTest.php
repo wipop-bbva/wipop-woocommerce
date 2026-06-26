@@ -51,6 +51,22 @@ final class ManualCaptureManagerTest extends TestCase
 		$this->assertFalse(ManualCaptureManager::isAwaitingCapture($order));
 	}
 
+	public function testCancelledWebhookStatusMarksManualCaptureAsReversed(): void
+	{
+		$order = $this->createOrder();
+
+		ManualCaptureManager::markAuthorized($order);
+
+		$transaction = new Transaction();
+		$transaction->transactionType = 'CHARGE';
+		$transaction->status = TransactionStatus::CANCELLED;
+
+		ManualCaptureManager::trySyncFromWebhook($order, $transaction);
+
+		$this->assertSame(ManualCaptureManager::STATUS_REVERSED, $order->get_meta(ManualCaptureManager::META_ORDER_CAPTURE_STATUS));
+		$this->assertFalse(ManualCaptureManager::isAwaitingCapture($order));
+	}
+
 	public function testDelayedAuthorizationWebhookDoesNotReopenTerminalManualCaptureStatus(): void
 	{
 		$transaction = new Transaction();
