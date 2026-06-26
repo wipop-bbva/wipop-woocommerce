@@ -112,6 +112,7 @@ tsconfig.tsbuildinfo
 
 # Node Package Dependencies
 package-lock.json
+!wipop/package-lock.json
 
 # wp-env config
 .wp-env.override.json
