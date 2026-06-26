@@ -416,6 +416,10 @@ class Webhook
 				$order->update_status(WCOrderStatus::FAILED, $statusDescription);
 
 				return;
+			case TransactionStatus::CANCELLED:
+				$order->update_status(WCOrderStatus::CANCELLED, $statusDescription);
+
+				return;
 			case TransactionStatus::IN_PROGRESS:
 				$order->update_status(WCOrderStatus::ON_HOLD, $statusDescription);
 
