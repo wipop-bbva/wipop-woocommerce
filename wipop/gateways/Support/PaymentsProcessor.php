@@ -253,20 +253,22 @@ trait PaymentsProcessor
 			);
 		}
 
-		$refundTransactionId = $charge->refund->id ?? $charge->id ?? null;
+		$refundTransactionId = $charge->refund !== null
+			? OrderMetaManager::syncRefund($order, $charge->refund)
+			: null;
 
 		$formattedAmount = wc_price($amount, [
 			'currency' => $order->get_currency(),
 		]);
 
-			$note = sprintf(
-				// translators: 1: refund amount, 2: Wipop transaction ID.
-				__('Reembolso Wipop completado por %1$s. Transacción: %2$s.', 'wipop'),
-				$formattedAmount,
-				$refundTransactionId ?? __('desconocida', 'wipop')
-			);
+		$note = sprintf(
+			// translators: 1: refund amount, 2: Wipop transaction ID.
+			__('Reembolso Wipop completado por %1$s. Transacción: %2$s.', 'wipop'),
+			$formattedAmount,
+			$refundTransactionId ?? __('desconocida', 'wipop')
+		);
 
-			$sanitizedReason = sanitize_text_field($reason);
+		$sanitizedReason = sanitize_text_field($reason);
 		if ($sanitizedReason !== '') {
 			$note .= ' ' . sprintf(
 				// translators: %s: refund reason.
