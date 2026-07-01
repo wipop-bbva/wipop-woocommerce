@@ -1,3 +1,9 @@
+## [0.10.5](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.4...v0.10.5) (2026-07-01)
+
+### Bug Fixes
+
+* **woocommerce:** correlate refund webhooks ([1c1b93f](https://github.com/wipop-bbva/wipop-woocommerce/commit/1c1b93fecfe2eef11c27c21901962d1b4df70f56))
+
 ## [0.10.4](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.3...v0.10.4) (2026-06-26)
 
 ### Bug Fixes
