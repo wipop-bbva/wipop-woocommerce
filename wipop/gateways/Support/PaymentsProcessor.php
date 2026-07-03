@@ -424,7 +424,7 @@ trait PaymentsProcessor
 			return '';
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce validates checkout submission before gateway processing.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- WooCommerce validates checkout submission; value is unslashed, scalar-checked, and cleaned before use.
 		$raw = wp_unslash($_POST[$fieldName]);
 
 		if (!is_scalar($raw)) {
