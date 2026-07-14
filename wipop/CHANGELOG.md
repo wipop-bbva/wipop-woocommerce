@@ -1,3 +1,12 @@
+## [0.10.6](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.5...v0.10.6) (2026-07-14)
+
+### Bug Fixes
+
+* **bizum:** disable unsupported refunds ([ca33627](https://github.com/wipop-bbva/wipop-woocommerce/commit/ca336277fa2a510aa3d6df1f5384ead93c7a5e2b))
+* **woocommerce:** avoid refund lookup collisions ([2e56b91](https://github.com/wipop-bbva/wipop-woocommerce/commit/2e56b9104bce5011fc86fca23a54e29b9df8fc3a))
+* **wordpress-org:** require capability for gateway toggles ([f09c079](https://github.com/wipop-bbva/wipop-woocommerce/commit/f09c0798da42bdb88f344663b3d6e9587b31b1b2))
+* **wordpress-org:** satisfy plugin check input sanitization ([12b0881](https://github.com/wipop-bbva/wipop-woocommerce/commit/12b08816a021eefad8939804fd96f9e08e650505))
+
 ## [0.10.5](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.4...v0.10.5) (2026-07-01)
 
 ### Bug Fixes
