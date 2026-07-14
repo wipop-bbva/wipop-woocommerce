@@ -37,6 +37,32 @@ final class WebhookRefundTest extends TestCase
 			'key' => OrderMetaManager::META_TRANSACTION_ID,
 			'value' => 'trOriginalCharge',
 		], $candidates);
+		$this->assertNotContains([
+			'key' => OrderMetaManager::META_GATEWAY_ORDER_ID,
+			'value' => '2947refund',
+		], $candidates);
+	}
+
+	public function testRefundWebhookLookupUsesRefundTransactionWithoutRefundOrderId(): void
+	{
+		$candidates = $this->invokeWebhookMethod('lookupCandidates', $this->refundTransaction(), []);
+
+		$this->assertContains([
+			'key' => OrderMetaManager::META_TRANSACTION_ID,
+			'value' => 'trRefundWebhook',
+		], $candidates);
+		$this->assertContains([
+			'key' => OrderMetaManager::META_TRANSACTION_ID_LOOKUP,
+			'value' => 'trRefundWebhook',
+		], $candidates);
+		$this->assertNotContains([
+			'key' => OrderMetaManager::META_GATEWAY_ORDER_ID,
+			'value' => '2947refund',
+		], $candidates);
+		$this->assertNotContains([
+			'key' => OrderMetaManager::META_GATEWAY_ORDER_ID_LOOKUP,
+			'value' => '2947refund',
+		], $candidates);
 	}
 
 	public function testRefundWebhookStoresRefundLookupWithoutOverwritingPrimaryChargeMeta(): void
@@ -50,10 +76,10 @@ final class WebhookRefundTest extends TestCase
 		$this->assertSame('trOriginalCharge', $order->get_meta(OrderMetaManager::META_TRANSACTION_ID));
 		$this->assertSame('0184ORIGINAL', $order->get_meta(OrderMetaManager::META_GATEWAY_ORDER_ID));
 		$this->assertContains('trRefundWebhook', $order->meta[OrderMetaManager::META_TRANSACTION_ID_LOOKUP] ?? []);
-		$this->assertContains('2947refund', $order->meta[OrderMetaManager::META_GATEWAY_ORDER_ID_LOOKUP] ?? []);
-		$this->assertSame('trRefundWebhook', $order->get_meta('_wipop_refund_transaction_id'));
-		$this->assertSame('2947refund', $order->get_meta('_wipop_refund_gateway_order_id'));
-		$this->assertSame(TransactionStatus::COMPLETED->value, $order->get_meta('_wipop_refund_status'));
+		$this->assertNotContains('2947refund', $order->meta[OrderMetaManager::META_GATEWAY_ORDER_ID_LOOKUP] ?? []);
+		$this->assertSame('trRefundWebhook', $order->get_meta(OrderMetaManager::META_REFUND_TRANSACTION_ID));
+		$this->assertSame('2947refund', $order->get_meta(OrderMetaManager::META_REFUND_GATEWAY_ORDER_ID));
+		$this->assertSame(TransactionStatus::COMPLETED->value, $order->get_meta(OrderMetaManager::META_REFUND_STATUS));
 		$this->assertTrue($order->saved);
 	}
 

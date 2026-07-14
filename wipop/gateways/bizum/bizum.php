@@ -9,6 +9,7 @@ use WC_Payment_Gateway;
 use Wipop\Domain\ChargeMethod;
 use WipopWC\Core\WooCommerce\RecurringPayments;
 use WipopWC\Gateways\Support\PaymentsProcessor;
+use WP_Error;
 
 use function is_admin;
 use function is_checkout;
@@ -33,8 +34,6 @@ class Gateway extends WC_Payment_Gateway
 			'gateways/bizum/assets/img/cellphone-svgrepo-com.svg',
 			WIPOP_PLUGIN_FILE
 		);
-
-		$this->supports = array_unique(array_merge($this->supports, ['refunds']));
 
 		$this->init_form_fields();
 		$this->init_settings();
@@ -132,8 +131,9 @@ class Gateway extends WC_Payment_Gateway
 
 	public function process_refund($order_id, $amount = null, $reason = '')
 	{
-		$numericAmount = is_numeric($amount) ? (float) $amount : null;
-
-		return $this->processGatewayRefund($order_id, $numericAmount, $reason);
+		return new WP_Error(
+			'wipop_bizum_refunds_unsupported',
+			__('Bizum no soporta reembolsos desde este módulo.', 'wipop')
+		);
 	}
 }

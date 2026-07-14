@@ -282,15 +282,22 @@ class Webhook
 	private static function lookupCandidates(Transaction $transaction, array $payload): array
 	{
 		$candidates = [];
-		self::appendLookupCandidates($candidates, $transaction->orderId, $transaction->id);
 
-		if (self::isRefundTransaction($transaction) && isset($payload['charge']) && is_array($payload['charge'])) {
-			self::appendLookupCandidates(
-				$candidates,
-				(string) ($payload['charge']['order_id'] ?? ''),
-				(string) ($payload['charge']['id'] ?? '')
-			);
+		if (self::isRefundTransaction($transaction)) {
+			self::appendLookupCandidates($candidates, null, $transaction->id);
+
+			if (isset($payload['charge']) && is_array($payload['charge'])) {
+				self::appendLookupCandidates(
+					$candidates,
+					(string) ($payload['charge']['order_id'] ?? ''),
+					(string) ($payload['charge']['id'] ?? '')
+				);
+			}
+
+			return $candidates;
 		}
+
+		self::appendLookupCandidates($candidates, $transaction->orderId, $transaction->id);
 
 		return $candidates;
 	}
@@ -360,7 +367,7 @@ class Webhook
 	private static function syncOrderMeta(WC_Order $order, Transaction $transaction, array $payload): void
 	{
 		if (self::isRefundTransaction($transaction)) {
-			self::syncRefundMeta($order, $transaction);
+			OrderMetaManager::syncRefund($order, $transaction);
 
 			return;
 		}
@@ -408,25 +415,6 @@ class Webhook
 		if ($useCof === true && $card !== null && !empty($card->id)) {
 			TokenManager::tryStoreCardToken($order, $card);
 		}
-	}
-
-	private static function syncRefundMeta(WC_Order $order, Transaction $transaction): void
-	{
-		if (!empty($transaction->id)) {
-			OrderMetaManager::addTransactionIdLookup($order, $transaction->id);
-			$order->update_meta_data('_wipop_refund_transaction_id', $transaction->id);
-		}
-
-		if (!empty($transaction->orderId)) {
-			OrderMetaManager::addGatewayOrderIdLookup($order, $transaction->orderId);
-			$order->update_meta_data('_wipop_refund_gateway_order_id', $transaction->orderId);
-		}
-
-		if ($transaction->status !== null) {
-			$order->update_meta_data('_wipop_refund_status', $transaction->status->value);
-		}
-
-		$order->save();
 	}
 
 	/**
