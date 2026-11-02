@@ -12,6 +12,8 @@ Incluye pasarelas listas para producción de tarjeta y Bizum. Configura las cred
   - Reembolsos totales o parciales desde la pantalla del pedido en WooCommerce.
 - **Pagos Bizum**
   - Botón específico en el checkout que crea un cargo Bizum.
+- **Compatibilidad del checkout**
+  - Compatible con el checkout clásico y el checkout por bloques de WooCommerce para pagos con tarjeta y Bizum.
 - **Google Pay**
   - Soporte pendiente.
 - **Sincronización del comercio y herramientas de administración**
@@ -51,9 +53,36 @@ Incluye pasarelas listas para producción de tarjeta y Bizum. Configura las cred
 1. Entra en `WooCommerce > Wipop` y completa Merchant ID, Terminal, claves públicas/privadas y el entorno deseado.
 2. Elige el modo de **Preautorizaciones** (`Cobrar en el momento de la compra` o `Reservar el importe para cobrarlo después`) para los cobros con tarjeta.
 3. Pulsa **Verificar datos** para validar las credenciales y obtener los métodos de pago permitidos.
-4. Ve a `WooCommerce > Pagos` y activa las pasarelas que quieres mostrar (Tarjeta, Bizum, Google Pay).
+4. Ve a `WooCommerce > Pagos` y activa las pasarelas que quieres mostrar (Tarjeta y Bizum).
 5. Realiza un pedido en Sandbox para comprobar el flujo. Asegúrate de que los metadatos de Wipöp se guardan y de que el webhook actualiza el estado.
 6. Opcional: marca un producto como recurrente (Editar producto → pestaña Pago recurrente) para que, tras el primer cobro, el plugin programe los MIT automáticos según la periodicidad elegida.
+
+## Pruebas en Sandbox
+
+Utiliza estas tarjetas solo en Sandbox, con credenciales del comercio de pruebas.
+[Descargar tarjetas de prueba en PDF](docs/test-cards-es.pdf).
+
+| Operación | Resultado esperado | Número de tarjeta | Importe | Caducidad |
+| --- | --- | --- | --- | --- |
+| Compra | Autorizada | `5410080000000021` | Cualquiera | Cualquiera |
+| Compra | Denegada | `5424180805648190` | Cualquiera | Cualquiera |
+| Devolución | Autorizada | `5410080000000021` | 5 EUR | Cualquiera |
+| Devolución | Denegada | `5410080000000021` | 15 EUR | Cualquiera |
+| Preautorización | Autorizada | `4548814479727229` | Cualquiera | Cualquiera |
+| Preautorización | Denegada | `5424180805648190` | Cualquiera | Cualquiera |
+| Captura de preautorización | Autorizada | `4548814479727229` | 10 EUR | Cualquiera |
+| Captura de preautorización | Denegada | `4548814479727229` | 15 EUR | Cualquiera |
+| Anulación de preautorización | Autorizada | `4548814479727229` | 10 EUR | -- |
+| Anulación de preautorización | Denegada | `4548814479727229` | 15 EUR | -- |
+| Solicitud de token | Autorizada | `5410080000000021` | Cualquiera | Cualquiera |
+| Solicitud de token | Denegada | `5424180805648190` | Cualquiera | Cualquiera |
+| Pago en un clic | Autorizada | `5410080000000021` | Cualquiera | Cualquiera |
+| Pago en un clic | Denegada | `5424180805648190` | Cualquiera | Cualquiera |
+| Pago recurrente | Autorizada | `5410080000000021` | Cualquiera | Cualquiera |
+| Pago recurrente | Denegada | `5424180805648190` | Cualquiera | Cualquiera |
+
+Cuando la caducidad indique `Cualquiera`, utiliza una fecha futura válida.
+Puedes usar cualquier CVV.
 
 ## Configuración
 
