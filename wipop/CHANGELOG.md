@@ -1,3 +1,9 @@
+## [0.10.7](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.6...v0.10.7) (2026-11-23)
+
+### Bug Fixes
+
+* **deps:** update wipop-php-client to 0.10.4 ([82034d2](https://github.com/wipop-bbva/wipop-woocommerce/commit/82034d2177694bfc664e744c05112ec161686099))
+
 ## [0.10.6](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.5...v0.10.6) (2026-07-14)
 
 ### Bug Fixes
