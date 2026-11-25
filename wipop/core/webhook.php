@@ -82,7 +82,7 @@ class Webhook
 				'status' => $transaction->status?->value,
 			]);
 
-			$order = self::locateOrder($transaction);
+			$order = self::locateOrder($transaction, $payload);
 
 			if (!$order instanceof WC_Order) {
 				throw new WebhookException(
@@ -231,31 +231,12 @@ class Webhook
 		return self::$hydrator;
 	}
 
-	private static function locateOrder(Transaction $transaction): ?WC_Order
+	/**
+	 * @param array<string, mixed> $payload
+	 */
+	private static function locateOrder(Transaction $transaction, array $payload): ?WC_Order
 	{
-		$candidates = [];
-
-		if (!empty($transaction->orderId)) {
-			$candidates[] = [
-				'key' => OrderMetaManager::META_GATEWAY_ORDER_ID,
-				'value' => $transaction->orderId,
-			];
-			$candidates[] = [
-				'key' => OrderMetaManager::META_GATEWAY_ORDER_ID_LOOKUP,
-				'value' => $transaction->orderId,
-			];
-		}
-
-		if (!empty($transaction->id)) {
-			$candidates[] = [
-				'key' => OrderMetaManager::META_TRANSACTION_ID,
-				'value' => $transaction->id,
-			];
-			$candidates[] = [
-				'key' => OrderMetaManager::META_TRANSACTION_ID_LOOKUP,
-				'value' => $transaction->id,
-			];
-		}
+		$candidates = self::lookupCandidates($transaction, $payload);
 
 		if (empty($candidates)) {
 			return null;
@@ -295,6 +276,66 @@ class Webhook
 
 	/**
 	 * @param array<string, mixed> $payload
+	 *
+	 * @return array<int, array{key: string, value: string}>
+	 */
+	private static function lookupCandidates(Transaction $transaction, array $payload): array
+	{
+		$candidates = [];
+
+		if (self::isRefundTransaction($transaction)) {
+			self::appendLookupCandidates($candidates, null, $transaction->id);
+
+			if (isset($payload['charge']) && is_array($payload['charge'])) {
+				self::appendLookupCandidates(
+					$candidates,
+					(string) ($payload['charge']['order_id'] ?? ''),
+					(string) ($payload['charge']['id'] ?? '')
+				);
+			}
+
+			return $candidates;
+		}
+
+		self::appendLookupCandidates($candidates, $transaction->orderId, $transaction->id);
+
+		return $candidates;
+	}
+
+	/**
+	 * @param array<int, array{key: string, value: string}> $candidates
+	 */
+	private static function appendLookupCandidates(array &$candidates, ?string $orderId, ?string $transactionId): void
+	{
+		$orderId = trim((string) $orderId);
+		if ($orderId !== '') {
+			$candidates[] = [
+				'key' => OrderMetaManager::META_GATEWAY_ORDER_ID,
+				'value' => $orderId,
+			];
+			$candidates[] = [
+				'key' => OrderMetaManager::META_GATEWAY_ORDER_ID_LOOKUP,
+				'value' => $orderId,
+			];
+		}
+
+		$transactionId = trim((string) $transactionId);
+		if ($transactionId === '') {
+			return;
+		}
+
+		$candidates[] = [
+			'key' => OrderMetaManager::META_TRANSACTION_ID,
+			'value' => $transactionId,
+		];
+		$candidates[] = [
+			'key' => OrderMetaManager::META_TRANSACTION_ID_LOOKUP,
+			'value' => $transactionId,
+		];
+	}
+
+	/**
+	 * @param array<string, mixed> $payload
 	 */
 	private static function applyTransactionToOrder(WC_Order $order, Transaction $transaction, array $payload): void
 	{
@@ -325,6 +366,12 @@ class Webhook
 	 */
 	private static function syncOrderMeta(WC_Order $order, Transaction $transaction, array $payload): void
 	{
+		if (self::isRefundTransaction($transaction)) {
+			OrderMetaManager::syncRefund($order, $transaction);
+
+			return;
+		}
+
 		OrderMetaManager::sync($order, $transaction);
 
 		$useCof = self::resolveUseCofFromPayload($payload);
@@ -388,9 +435,7 @@ class Webhook
 
 	private static function syncOrderStatus(WC_Order $order, Transaction $transaction): void
 	{
-		$transactionType = strtoupper($transaction->transactionType ?? '');
-
-		if ($transactionType === self::TRANSACTION_TYPE_REFUND) {
+		if (self::isRefundTransaction($transaction)) {
 			$order->update_status(WCOrderStatus::REFUNDED);
 			self::addRefundNote($order, $transaction);
 
@@ -414,6 +459,10 @@ class Webhook
 			case TransactionStatus::FAILED:
 			case TransactionStatus::ERROR:
 				$order->update_status(WCOrderStatus::FAILED, $statusDescription);
+
+				return;
+			case TransactionStatus::CANCELLED:
+				$order->update_status(WCOrderStatus::CANCELLED, $statusDescription);
 
 				return;
 			case TransactionStatus::IN_PROGRESS:
@@ -454,6 +503,11 @@ class Webhook
 		}
 
 		$order->add_order_note($note);
+	}
+
+	private static function isRefundTransaction(Transaction $transaction): bool
+	{
+		return strtoupper($transaction->transactionType ?? '') === self::TRANSACTION_TYPE_REFUND;
 	}
 
 	private static function respond(int $statusCode, string $message): void

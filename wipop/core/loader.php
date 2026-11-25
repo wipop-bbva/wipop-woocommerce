@@ -247,6 +247,10 @@ class Loader
 	{
 		check_admin_referer('wipop_toggle_button');
 
+		if (!current_user_can('manage_woocommerce')) {
+			wp_die(esc_html__('No tienes permisos suficientes.', 'wipop'));
+		}
+
 		$gatewayAction = isset($_GET['wipop_gateway_action'])
 			? sanitize_key(wp_unslash($_GET['wipop_gateway_action']))
 			: '';

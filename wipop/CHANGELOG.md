@@ -1,3 +1,45 @@
+## [0.10.7](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.6...v0.10.7) (2026-11-23)
+
+### Bug Fixes
+
+* **deps:** update wipop-php-client to 0.10.4 ([82034d2](https://github.com/wipop-bbva/wipop-woocommerce/commit/82034d2177694bfc664e744c05112ec161686099))
+
+## [0.10.6](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.5...v0.10.6) (2026-07-14)
+
+### Bug Fixes
+
+* **bizum:** disable unsupported refunds ([ca33627](https://github.com/wipop-bbva/wipop-woocommerce/commit/ca336277fa2a510aa3d6df1f5384ead93c7a5e2b))
+* **woocommerce:** avoid refund lookup collisions ([2e56b91](https://github.com/wipop-bbva/wipop-woocommerce/commit/2e56b9104bce5011fc86fca23a54e29b9df8fc3a))
+* **wordpress-org:** require capability for gateway toggles ([f09c079](https://github.com/wipop-bbva/wipop-woocommerce/commit/f09c0798da42bdb88f344663b3d6e9587b31b1b2))
+* **wordpress-org:** satisfy plugin check input sanitization ([12b0881](https://github.com/wipop-bbva/wipop-woocommerce/commit/12b08816a021eefad8939804fd96f9e08e650505))
+
+## [0.10.5](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.4...v0.10.5) (2026-07-01)
+
+### Bug Fixes
+
+* **woocommerce:** correlate refund webhooks ([1c1b93f](https://github.com/wipop-bbva/wipop-woocommerce/commit/1c1b93fecfe2eef11c27c21901962d1b4df70f56))
+
+## [0.10.4](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.3...v0.10.4) (2026-06-26)
+
+### Bug Fixes
+
+* **ci:** require locked npm install ([9280f4d](https://github.com/wipop-bbva/wipop-woocommerce/commit/9280f4d6a2e57c26cc3db36650e4d09035b0a4cc))
+* **woocommerce:** handle cancelled reversals ([e0c3993](https://github.com/wipop-bbva/wipop-woocommerce/commit/e0c3993c343bb00822e6de1c535ae14bb15fd0d2))
+
+## [0.10.3](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.2...v0.10.3) (2026-06-09)
+
+### Bug Fixes
+
+* **i18n:** rely on WordPress.org translation loading ([08e6bef](https://github.com/wipop-bbva/wipop-woocommerce/commit/08e6bef8f724757d6adaa13c7fdb625b0c9e9f17))
+* **wordpress-org:** guard phpstan bootstrap from direct access ([1819175](https://github.com/wipop-bbva/wipop-woocommerce/commit/181917507d1ead6e32d4b0901d3fcdb97ac41e23))
+
+## [0.10.2](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.1...v0.10.2) (2026-06-04)
+
+### Bug Fixes
+
+* **i18n:** use literal Wipop payment method titles ([2075f4e](https://github.com/wipop-bbva/wipop-woocommerce/commit/2075f4e2652d1f0ac122f451027eeddc5a32e2b7))
+* Se agrega verificacion y uso de slug ([b35e4c9](https://github.com/wipop-bbva/wipop-woocommerce/commit/b35e4c917caefe66dde45d483164749a97a7de16))
+
 ## [0.10.1](https://github.com/wipop-bbva/wipop-woocommerce/compare/v0.10.0...v0.10.1) (2026-05-14)
 
 ### Bug Fixes

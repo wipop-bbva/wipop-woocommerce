@@ -216,7 +216,7 @@ final class ManualCaptureManager
 
 		self::applyChargeMeta($order, $charge);
 
-		if ($charge->status !== TransactionStatus::COMPLETED) {
+		if (!self::isReversalSuccess($charge->status)) {
 			self::restoreTransactionId($order, $transactionId);
 			$order->save();
 			self::addAdminError(__('No hemos podido cancelar la preautorización en Wipop.', 'wipop'));
@@ -303,9 +303,15 @@ final class ManualCaptureManager
 		}
 
 		if ($type === self::TRANSACTION_TYPE_REVERSAL) {
-			if ($transaction->status === TransactionStatus::COMPLETED) {
+			if (self::isReversalSuccess($transaction->status)) {
 				self::setStatus($order, self::STATUS_REVERSED);
 			}
+
+			return;
+		}
+
+		if ($transaction->status === TransactionStatus::CANCELLED) {
+			self::setStatus($order, self::STATUS_REVERSED);
 
 			return;
 		}
@@ -327,6 +333,11 @@ final class ManualCaptureManager
 		if (in_array($transaction->status, [TransactionStatus::FAILED, TransactionStatus::ERROR], true)) {
 			self::setStatus($order, self::STATUS_FAILED);
 		}
+	}
+
+	private static function isReversalSuccess(?TransactionStatus $status): bool
+	{
+		return in_array($status, [TransactionStatus::COMPLETED, TransactionStatus::CANCELLED], true);
 	}
 
 	private static function applyChargeMeta(WC_Order $order, Charge $charge): void

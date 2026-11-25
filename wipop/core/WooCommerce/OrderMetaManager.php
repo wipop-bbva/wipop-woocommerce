@@ -21,6 +21,9 @@ final class OrderMetaManager
 	public const META_TRANSACTION_ID_LOOKUP = '_wipop_transaction_id_lookup';
 	public const META_GATEWAY_ORDER_ID_LOOKUP = '_wipop_gateway_order_id_lookup';
 	public const META_RECURRING_PARENT_ORDER_ID = '_wipop_recurring_parent_order_id';
+	public const META_REFUND_TRANSACTION_ID = '_wipop_refund_transaction_id';
+	public const META_REFUND_GATEWAY_ORDER_ID = '_wipop_refund_gateway_order_id';
+	public const META_REFUND_STATUS = '_wipop_refund_status';
 
 	public static function sync(WC_Order $order, Transaction $transaction): void
 	{
@@ -72,6 +75,35 @@ final class OrderMetaManager
 		}
 
 		PaymentMethodHelper::syncOrderPaymentMethod($order, $transaction->method ?? null);
+	}
+
+	public static function syncRefund(WC_Order $order, Transaction $refund): ?string
+	{
+		$updated = false;
+
+		$refundTransactionId = trim((string) ($refund->id ?? ''));
+		if ($refundTransactionId !== '') {
+			self::addTransactionIdLookup($order, $refundTransactionId);
+			$order->update_meta_data(self::META_REFUND_TRANSACTION_ID, $refundTransactionId);
+			$updated = true;
+		}
+
+		$refundGatewayOrderId = trim((string) ($refund->orderId ?? ''));
+		if ($refundGatewayOrderId !== '') {
+			$order->update_meta_data(self::META_REFUND_GATEWAY_ORDER_ID, $refundGatewayOrderId);
+			$updated = true;
+		}
+
+		if ($refund->status !== null) {
+			$order->update_meta_data(self::META_REFUND_STATUS, $refund->status->value);
+			$updated = true;
+		}
+
+		if ($updated) {
+			$order->save();
+		}
+
+		return $refundTransactionId !== '' ? $refundTransactionId : null;
 	}
 
 	public static function addGatewayOrderIdLookup(WC_Order $order, string $orderId): void

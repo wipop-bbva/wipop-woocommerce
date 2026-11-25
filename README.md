@@ -12,6 +12,8 @@ It includes production-ready gateways for card and Bizum. Configure shared crede
   - Full and partial refunds from the WooCommerce order screen.
 - **Bizum payments**
   - Dedicated button at checkout that creates a Bizum charge.
+- **Checkout compatibility**
+  - Supports the classic WooCommerce checkout and the Checkout block for card and Bizum payments.
 - **Google Pay**
   - Initial support pending.
 - **Merchant synchronization and admin tools**
@@ -53,9 +55,35 @@ It includes production-ready gateways for card and Bizum. Configure shared crede
 1. Go to `WooCommerce > Wipop` and fill in Merchant ID, Terminal, public/private keys and the target environment.
 2. Choose the **Preauthorizations** mode (`Charge at checkout` or `Reserve the amount to charge it later`) for card payments.
 3. Click **Verify data** to validate credentials and fetch allowed payment methods.
-4. Go to `WooCommerce > Payments` and enable the gateways you want to show (Card, Bizum, Google Pay).
+4. Go to `WooCommerce > Payments` and enable the gateways you want to show (Card and Bizum).
 5. Place a test order in Sandbox to verify the flow. Make sure Wipöp metadata is stored and the webhook updates the status.
 6. Optional: mark a product as recurring (Edit product → **Recurring payment** tab) so that after the first charge, the plugin schedules automatic MIT charges according to the selected frequency.
+
+## Sandbox testing
+
+Use these cards only in Sandbox, with test merchant credentials.
+[Download the test cards as a PDF](docs/test-cards-en.pdf).
+
+| Operation | Expected result | Card number | Amount | Expiry date |
+| --- | --- | --- | --- | --- |
+| Purchase | Approved | `5410080000000021` | Any | Any |
+| Purchase | Declined | `5424180805648190` | Any | Any |
+| Refund | Approved | `5410080000000021` | 5 EUR | Any |
+| Refund | Declined | `5410080000000021` | 15 EUR | Any |
+| Preauthorization | Approved | `4548814479727229` | Any | Any |
+| Preauthorization | Declined | `5424180805648190` | Any | Any |
+| Capture of preauthorization | Approved | `4548814479727229` | 10 EUR | Any |
+| Capture of preauthorization | Declined | `4548814479727229` | 15 EUR | Any |
+| Void of preauthorization | Approved | `4548814479727229` | 10 EUR | -- |
+| Void of preauthorization | Declined | `4548814479727229` | 15 EUR | -- |
+| Token request | Approved | `5410080000000021` | Any | Any |
+| Token request | Declined | `5424180805648190` | Any | Any |
+| One-click payment | Approved | `5410080000000021` | Any | Any |
+| One-click payment | Declined | `5424180805648190` | Any | Any |
+| Recurring payment | Approved | `5410080000000021` | Any | Any |
+| Recurring payment | Declined | `5424180805648190` | Any | Any |
+
+Where the expiry date is `Any`, use any valid future date. You can use any CVV.
 
 ## Configuration
 

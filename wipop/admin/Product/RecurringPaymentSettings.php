@@ -82,7 +82,7 @@ class RecurringPaymentSettings
 			return '';
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce validates product-edit nonce before this hook runs.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- WooCommerce validates product-edit nonce; value is unslashed, scalar-checked, and sanitized before use.
 		$value = wp_unslash($_POST[$key]);
 
 		if (!is_scalar($value)) {
